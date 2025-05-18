@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * Provides the module implementation for vvjb.
+ *
+ * Contains template preprocessing and theme definitions for Views.
+ *
+ * Filename:     vvjb.module
+ * Website:      https://www.flashwebcenter.com
+ * Description:  Basic JS carousel Views plugin.
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\vvjb\Plugin\views\style\ViewsVanillaJavascriptBasicCarousel;
+
+/**
+ * Implements hook_help().
+ */
+function vvjb_help($route_name, RouteMatchInterface $route_match): ?string {
+  if ($route_name === 'help.page.vvjb') {
+    return _vvjb_helper_render_readme();
+  }
+  return NULL;
+}
+
+/**
+ * Helper function to render README.md.
+ */
+function _vvjb_helper_render_readme(): string {
+  $readme_path = __DIR__ . '/README.md';
+  $text = file_get_contents($readme_path);
+
+  if ($text === FALSE) {
+    return t('README.md file not found.');
+  }
+
+  if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
+    return '<pre>' . htmlspecialchars($text) . '</pre>';
+  }
+
+  $filter_manager = \Drupal::service('plugin.manager.filter');
+  $settings = \Drupal::config('markdown.settings')->getRawData();
+  $filter = $filter_manager->createInstance('markdown', ['settings' => $settings]);
+  return $filter->process($text, 'en')->getProcessedText();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function vvjb_theme($existing, $type, $theme, $path) {
+  return [
+    'views_view_vvjb' => [
+      'variables' => [
+        'view' => NULL,
+        'rows' => [],
+        'options' => [],
+      ],
+      'template' => 'views-view-vvjb',
+      'path' => $path . '/templates',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for views_view_vvjb.
+ */
+function template_preprocess_views_view_vvjb(array &$variables) {
+  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+  $handler = $variables['view']->style_plugin;
+  $list_attributes = [];
+
+  foreach ([
+    'orientation', 'items_small', 'items_big', 'gap', 'item_width',
+    'looping', 'slide_time', 'navigation', 'breakpoints', 'unique_id'
+  ] as $key) {
+    if (isset($handler->options[$key])) {
+      $value = is_bool($handler->options[$key]) ? ($handler->options[$key] ? '1' : '0') : $handler->options[$key];
+      $list_attributes['data-' . str_replace('_', '-', $key)] = $value;
+    }
+  }
+
+  $variables['list_attributes'] = new Attribute($list_attributes);
+  $variables['settings'] = $handler->options;
+  template_preprocess_views_view_unformatted($variables);
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function vvjb_preprocess_views_view(&$variables) {
+  if ($variables['view']->style_plugin instanceof ViewsVanillaJavascriptBasicCarousel) {
+    $variables['attributes']['class'][] = 'vvjb-carousel';
+  }
+}

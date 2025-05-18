@@ -1,0 +1,87 @@
+{#
+  Template for Views Vanilla JavaScript Basic Carousel (VVJB).
+  Fully adapted from paragraph_bundle_carousel with Views plugin support.
+#}
+
+{# Setup variables from plugin options #}
+{% set unique_id = options.unique_id %}
+{% set vvjb_id = 'vvjb-' ~ unique_id %}
+{% set wrapper_id = 'vvjb-wrapper-' ~ unique_id %}
+{% set items_id = 'vvjb-items-' ~ unique_id %}
+{% set total_slides = rows|length %}
+{% set item_gap_value = options.gap %}
+{% set items_gap_style = item_gap_value > 0 ? 'gap:' ~ item_gap_value ~ 'px;' : '' %}
+{% set item_style = options.item_width > 0 ? 'width:' ~ options.item_width ~ 'px;' : '' %}
+
+{# Class management #}
+{% set container_classes = [
+  'vvjb',
+  'vvjb-instance-' ~ unique_id,
+  'vvjb-orientation-' ~ options.orientation,
+  'vvjb-nav-' ~ options.navigation,
+] %}
+
+<div {{ attributes.addClass(container_classes).setAttribute('id', vvjb_id) }} role="region" aria-label="Carousel" tabindex="0">
+  <div class="vvjb-inner">
+    <div class="vvjb-carousel-outer">
+      <div class="vvjb-carousel-wrapper">
+        <div id="{{ items_id }}"
+             class="vvjb-items {{ options.slide_time == 0 ? 'zero' : 'not-zero' }}"
+             role="group"
+             aria-roledescription="carousel"
+             aria-labelledby="vvjb-index-{{ unique_id }}"
+             data-slide-time="{{ options.slide_time }}"
+             data-small-screen="{{ options.items_small }}"
+             data-big-screen="{{ options.items_big }}"
+             data-breakpoints="{{ options.breakpoints }}"
+             data-total-slides="{{ total_slides }}"
+             data-carousel-loop="{{ options.looping ? '1' : '0' }}"
+             data-navigation="{{ options.navigation }}"
+             data-orientation="{{ options.orientation }}"
+             data-gap="{{ item_gap_value }}"
+             style="{{ items_gap_style }}">
+
+
+          {% for row in rows %}
+            {% set item_id = 'vvjb-item-' ~ unique_id ~ '-' ~ loop.index %}
+            <div id="{{ item_id }}"
+                 class="vvjb-item item-{{ unique_id }}-{{ loop.index }}"
+                 role="group"
+                 aria-labelledby="label-{{ item_id }}"
+                 {% if item_style %}style="{{ item_style }}"{% endif %}>
+
+              <div id="label-{{ item_id }}" class="visually-hidden">
+                {{ 'Slide @index of @count'|t({'@index': loop.index, '@count': total_slides}) }}
+              </div>
+              {{ row.content }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="vvjb-carousel-announcer visually-hidden" aria-live="polite"></div>
+
+      {% if options.navigation in ['dots', 'both'] %}
+        <div class="vvjb-carousel-dots" aria-label="{{ 'Slide navigation'|t }}">
+          {# JS will populate dots here #}
+        </div>
+      {% endif %}
+
+      {% if options.navigation in ['arrows', 'both'] %}
+        <div class="vvjb-carousel-options" aria-label="{{ 'Carousel Controls'|t }}">
+          <button id="prev-{{ unique_id }}" type="button" class="vvjb-button vvjb-prev" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Previous Slide'|t }}">
+            <span class="visually-hidden">{{ 'Previous Slide'|t }}</span>
+            {{ include('@vvjb/svg/svg-prev.svg') }}
+          </button>
+
+          <button id="next-{{ unique_id }}" type="button" class="vvjb-button vvjb-next" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Next Slide'|t }}">
+            <span class="visually-hidden">{{ 'Next Slide'|t }}</span>
+            {{ include('@vvjb/svg/svg-next.svg') }}
+          </button>
+        </div>
+      {% endif %}
+
+
+    </div>
+  </div>
+</div>

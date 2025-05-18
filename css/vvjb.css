@@ -1,0 +1,221 @@
+/**
+ * @file
+ * Views Vanilla JavaScript Basic Carousel.
+ *
+ * Filename:     vvjb.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+
+/* Base Carousel Styles */
+.vvjb-carousel .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+.vvjb-carousel,
+.vvjb-carousel * {
+  box-sizing: border-box;
+}
+
+.vvjb .vvjb-carousel-outer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+.vvjb.vvjb-nav-dots .vvjb-carousel-outer,
+.vvjb.vvjb-nav-none .vvjb-carousel-outer {
+  padding: 0;
+}
+
+.vvjb .vvjb-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.vvjb .vvjb-carousel-wrapper.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.vvjb .vvjb-items {
+  display: flex;
+  will-change: transform;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(0);
+}
+
+.vvjb .vvjb-item {
+  flex: 0 0 auto;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  scroll-snap-align: start;
+}
+
+.vvjb .vvjb-item.active-slide {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vvjb .vvjb-item.non-active-slide {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Horizontal and Hybrid Layout */
+.vvjb.vvjb-orientation-hybrid .vvjb-items,
+.vvjb.vvjb-orientation-horizontal .vvjb-items {
+  flex-direction: row;
+}
+
+.vvjb.vvjb-orientation-hybrid.vvjb-nav-arrows .vvjb-carousel-outer,
+.vvjb.vvjb-orientation-hybrid.vvjb-nav-both .vvjb-carousel-outer,
+.vvjb.vvjb-orientation-horizontal.vvjb-nav-arrows .vvjb-carousel-outer,
+.vvjb.vvjb-orientation-horizontal.vvjb-nav-both .vvjb-carousel-outer {
+  padding: 0 50px;
+}
+
+.vvjb.vvjb-orientation-hybrid .vvjb-carousel-options,
+.vvjb.vvjb-orientation-horizontal .vvjb-carousel-options {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+}
+
+.vvjb.vvjb-orientation-hybrid .vvjb-carousel-options .vvjb-button,
+.vvjb.vvjb-orientation-horizontal .vvjb-carousel-options .vvjb-button {
+  pointer-events: all;
+}
+
+/* Vertical Layout */
+.vvjb.vvjb-orientation-vertical .vvjb-items {
+  flex-direction: column;
+  transform: translateY(0);
+}
+
+.vvjb.vvjb-orientation-vertical.vvjb-nav-arrows .vvjb-carousel-outer,
+.vvjb.vvjb-orientation-vertical.vvjb-nav-both .vvjb-carousel-outer {
+  padding: 50px 0;
+}
+
+.vvjb.vvjb-orientation-vertical .vvjb-item {
+  width: 100%;
+}
+
+.vvjb.vvjb-orientation-vertical .vvjb-carousel-options {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+}
+
+.vvjb.vvjb-orientation-vertical .vvjb-carousel-options .vvjb-button {
+  pointer-events: all;
+}
+
+.vvjb.vvjb-orientation-vertical button svg {
+  transform: rotate(-90deg);
+}
+
+/* Carousel Button Styles */
+.vvjb .vvjb-carousel-options .vvjb-button {
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.vvjb .vvjb-carousel-options button svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Reduced motion accessibility */
+.vvjb .reduced-motion .vvjb-item {
+  transition: none !important;
+}
+
+/* Optional: Hide scrollbars */
+.vvjb .vvjb-carousel-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.vvjb .vvjb-carousel-options .vvjb-button[style*='visibility:hidden'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vvjb .vvjb-carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+  gap: 1rem;
+  padding: 0;
+}
+
+.vvjb .vvjb-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  padding: 0;
+  margin: 0;
+}
+
+.vvjb .vvjb-carousel-dot.vvjb-active {
+  background-color: #333;
+  transform: scale(1.2);
+}
+
+.vvjb .vvjb-carousel-dot:focus {
+  outline: 2px solid #666;
+  outline-offset: 2px;
+}
+

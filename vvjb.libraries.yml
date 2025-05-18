@@ -1,0 +1,36 @@
+vvjb:
+  css:
+    theme:
+      css/vvjb.css: { }
+  js:
+    js/vvjb.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/drupalSettings
+    - core/once
+
+vvjb__576:
+  css:
+    theme:
+      css/vvjb-576.css: { weight: 202 }
+
+vvjb__768:
+  css:
+    theme:
+      css/vvjb-768.css: { weight: 202 }
+
+vvjb__992:
+  css:
+    theme:
+      css/vvjb-992.css: { weight: 202 }
+
+vvjb__1200:
+  css:
+    theme:
+      css/vvjb-1200.css: { weight: 202 }
+
+vvjb__1400:
+  css:
+    theme:
+      css/vvjb-1400.css: { weight: 202 }

@@ -1,0 +1,41 @@
+/**
+ * @file
+ * Views Vanilla JavaScript Basic Carousel.
+ *
+ * Filename:     vvjb-1400.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+@media (max-width:87.5rem) {
+  .vvjb.vvjb-orientation-hybrid.vvjb-nav-arrows .vvjb-carousel-outer,
+  .vvjb.vvjb-orientation-hybrid.vvjb-nav-both .vvjb-carousel-outer {
+    padding: 50px 0;
+  }
+
+  .vvjb.vvjb-orientation-hybrid .vvjb-items {
+    flex-direction: column;
+    transform: translateY(0);
+  }
+
+  .vvjb.vvjb-orientation-hybrid .vvjb-item {
+    width: 100%;
+  }
+
+  .vvjb.vvjb-orientation-hybrid .vvjb-carousel-options {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+  }
+
+  .vvjb.vvjb-orientation-hybrid button svg {
+    transform: rotate(-90deg);
+  }
+
+}
+
