@@ -51,6 +51,28 @@ new display style that you can select when creating or editing views.
 - **Navigation Style:** Use arrows, dots, both, or no navigation.
 - **Autoplay Time:** Set the interval between automatic slide transitions.
 
+## Token Support in Views Text Areas
+
+In Views headers, footers, or empty text areas—when using *Global: Text area* or
+*Global: Unfiltered text*—there is an option called **"Use replacement tokens
+from the first row."**
+
+The default Twig-style tokens (e.g., `{{ title }}` or `{{ field_image }}`)
+**will not work** with the VVJB style. Instead, use the custom tokens provided
+by VVJB:
+
+**Examples:**
+
+- `{{ title }}` → `[vvjb:title]`  
+- `{{ field_image }}` → `[vvjb:field_image]`
+
+To strip any HTML from the output, you can append `:plain` to the token:
+
+- `[vvjb:title:plain]`
+
+These tokens pull data from the **first row** of the View result and are
+designed to work seamlessly with the VVJB rendering system.
+
 ## Accessibility
 
 - Uses `aria-live` regions to announce slide changes.

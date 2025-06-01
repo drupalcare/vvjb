@@ -31,6 +31,14 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
   /**
    * {@inheritdoc}
    */
+  protected $usesRowClass = TRUE;
+
+  /**
+   * Set default options.
+   *
+   * @return array
+   *   The default options.
+   */
   protected function defineOptions(): array {
     $options = parent::defineOptions();
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
@@ -47,7 +55,12 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Builds the options form.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
    */
   public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
     parent::buildOptionsForm($form, $form_state);
@@ -136,12 +149,87 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
       ],
       '#default_value' => $this->options['navigation'],
     ];
+
+    $form['vvjb_token_info'] = [
+      '#type' => 'details',
+      '#title' => $this->t('VVJB Tokens'),
+      '#open' => TRUE,
+    ];
+
+    $form['vvjb_token_info']['description'] = [
+      '#markup' => $this->t('<p>When using <em>Global: Text area</em> or <em>Global: Unfiltered text</em> in the Views header, footer, or empty text areas, the default Twig-style tokens (e.g., <code>{{ title }}</code>) will not work with the VVJB style plugin.</p>
+        <p>Instead, use the custom VVJB token format to access field values from the <strong>first row</strong> of the View result:</p>
+        <ul>
+          <li><code>[vvjb:field_name]</code> – The rendered output of the field (e.g., linked title, image, formatted text).</li>
+          <li><code>[vvjb:field_name:plain]</code> – A plain-text version of the field, with all HTML stripped.</li>
+        </ul>
+        <p>Examples:</p>
+        <ul>
+          <li><code>{{ title }}</code> ➜ <code>[vvjb:title]</code></li>
+          <li><code>{{ field_image }}</code> ➜ <code>[vvjb:field_image]</code></li>
+          <li><code>{{ body }}</code> ➜ <code>[vvjb:body:plain]</code></li>
+        </ul>
+        <p>These tokens offer safe and flexible field output for dynamic headings, summaries, and fallback messages in VVJB-enabled Views.</p>'),
+    ];
+
   }
 
+  /**
+   * Generates a unique numeric ID for the view display.
+   *
+   * @return int
+   *   A unique ID.
+   *
+   * @throws \Exception
+   *   If an appropriate source of randomness cannot be found.
+   */
   protected function generateUniqueId(): int {
     return random_int(10000000, 99999999);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function preRender($result) {
+    parent::preRender($result);
+
+    if (empty($result)) {
+      return;
+    }
+
+    $this->view->row_index = 0;
+    $this->view->style_plugin = $this;
+
+    $first_row = $result[0];
+    $replacements = [];
+
+    // Generate [vvjb:field_name] tokens for all fields.
+    foreach ($this->view->field as $field_id => $field_handler) {
+      $replacements["[vvjb:$field_id]"] = $field_handler->render($first_row);
+    }
+
+    // Replace in header/footer/empty regions.
+    $sections = ['header', 'footer', 'empty'];
+
+    foreach ($sections as $section) {
+      $options = $this->view->display_handler->getOption($section);
+      if (!empty($options) && is_array($options)) {
+        foreach ($options as &$item) {
+          if (isset($item['content']) && is_string($item['content'])) {
+            $item['content'] = strtr($item['content'], $replacements);
+          }
+        }
+        $this->view->display_handler->setOption($section, $options);
+      }
+    }
+  }
+
+  /**
+   * Renders the view with the accordion style.
+   *
+   * @return array
+   *   A render array for the accordion.
+   */
   public function render(): array {
     $rows = [];
     foreach ($this->view->result as $row) {
@@ -153,7 +241,7 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
       'vvjb/vvjb__' . $this->options['breakpoints'],
     ];
 
-    return [
+    $build = [
       '#theme' => $this->themeFunctions(),
       '#view' => $this->view,
       '#options' => $this->options,
@@ -163,6 +251,9 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
         'library' => $libraries,
       ],
     ];
+
+    $build['#context']['tokens']['view'] = $this->view;
+    return $build;
   }
 
 }
