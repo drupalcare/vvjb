@@ -76,7 +76,7 @@ function template_preprocess_views_view_vvjb(array &$variables) {
 
   foreach ([
     'orientation', 'items_small', 'items_big', 'gap', 'item_width',
-    'looping', 'slide_time', 'navigation', 'breakpoints', 'unique_id'
+    'looping', 'slide_time', 'navigation', 'breakpoints', 'unique_id',
   ] as $key) {
     if (isset($handler->options[$key])) {
       $value = is_bool($handler->options[$key]) ? ($handler->options[$key] ? '1' : '0') : $handler->options[$key];

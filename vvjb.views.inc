@@ -57,4 +57,3 @@ function vvjb_views_data_alter(array &$data): void {
     ],
   ];
 }
-

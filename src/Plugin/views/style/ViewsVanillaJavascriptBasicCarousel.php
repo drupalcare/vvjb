@@ -3,7 +3,6 @@
 namespace Drupal\vvjb\Plugin\views\style;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Drupal\views\Plugin\views\style\StylePluginBase;
 
 /**
@@ -69,11 +68,11 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
       '#type' => 'select',
       '#title' => $this->t('Responsive Breakpoint'),
       '#options' => [
-        '576' => '576 px',
-        '768' => '768 px',
-        '992' => '992 px',
-        '1200' => '1200 px',
-        '1400' => '1400 px',
+        '576' => $this->t('576 px'),
+        '768' => $this->t('768 px'),
+        '992' => $this->t('992 px'),
+        '1200' => $this->t('1200 px'),
+        '1400' => $this->t('1400 px'),
       ],
       '#default_value' => $this->options['breakpoints'],
       '#description' => $this->t('Switch orientation or layout mode below this screen width.'),
@@ -257,4 +256,3 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
   }
 
 }
-
