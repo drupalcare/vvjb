@@ -94,7 +94,7 @@ function template_preprocess_views_view_vvjb(array &$variables) {
  */
 function vvjb_preprocess_views_view(&$variables) {
   if ($variables['view']->style_plugin instanceof ViewsVanillaJavascriptBasicCarousel) {
-    $variables['attributes']['class'][] = 'vvjb-carousel';
+    $variables['attributes']['class'][] = 'vvj-basic-carousel';
   }
 }
 
