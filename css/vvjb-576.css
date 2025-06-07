@@ -8,21 +8,21 @@
  */
 
 @media (max-width:36rem) {
-  .vvjb.vvjb-orientation-hybrid.vvjb-nav-arrows .vvjb-carousel-outer,
-  .vvjb.vvjb-orientation-hybrid.vvjb-nav-both .vvjb-carousel-outer {
+  .vvjb.br-576.vvjb-orientation-hybrid.vvjb-nav-arrows .vvjb-carousel-outer,
+  .vvjb.br-576.vvjb-orientation-hybrid.vvjb-nav-both .vvjb-carousel-outer {
     padding: 50px 0;
   }
 
-  .vvjb.vvjb-orientation-hybrid .vvjb-items {
+  .vvjb.br-576.vvjb-orientation-hybrid .vvjb-items {
     flex-direction: column;
     transform: translateY(0);
   }
 
-  .vvjb.vvjb-orientation-hybrid .vvjb-item {
+  .vvjb.br-576.vvjb-orientation-hybrid .vvjb-item {
     width: 100%;
   }
 
-  .vvjb.vvjb-orientation-hybrid .vvjb-carousel-options {
+  .vvjb.br-576.vvjb-orientation-hybrid .vvjb-carousel-options {
     top: 0;
     bottom: 0;
     left: 50%;
@@ -34,7 +34,7 @@
     padding: 0;
   }
 
-  .vvjb.vvjb-orientation-hybrid button svg {
+  .vvjb.br-576.vvjb-orientation-hybrid button svg {
     transform: rotate(-90deg);
   }
 

@@ -11,7 +11,7 @@
 {% set total_slides = rows|length %}
 {% set item_gap_value = options.gap %}
 {% set items_gap_style = item_gap_value > 0 ? 'gap:' ~ item_gap_value ~ 'px;' : '' %}
-{% set item_style = options.item_width > 0 ? 'width:' ~ options.item_width ~ 'px;' : '' %}
+{% set item_style = options.item_width > 0 ? 'max-width:' ~ options.item_width ~ 'px;' : '' %}
 
 {# Class management #}
 {% set container_classes = [
@@ -19,6 +19,7 @@
   'vvjb-instance-' ~ unique_id,
   'vvjb-orientation-' ~ options.orientation,
   'vvjb-nav-' ~ options.navigation,
+  'br-' ~ options.breakpoints
 ] %}
 
 <div {{ attributes.addClass(container_classes).setAttribute('id', vvjb_id) }} role="region" aria-label="Carousel" tabindex="0">

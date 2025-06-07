@@ -115,7 +115,7 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
 
     $form['item_width'] = [
       '#type' => 'number',
-      '#title' => $this->t('Custom item width (px, optional)'),
+      '#title' => $this->t('Custom item max width (px, optional)'),
       '#default_value' => $this->options['item_width'],
       '#min' => 0,
       '#step' => 1,
