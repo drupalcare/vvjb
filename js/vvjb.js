@@ -106,18 +106,28 @@
   function getItemsVisible(state) {
     const isVertical = state.config.orientation === 'vertical';
     const isHybrid = state.config.rawOrientation === 'hybrid';
-    const max = window.innerWidth <= state.config.breakpoints ?
-      state.config.itemsSmall :
-      state.config.itemsBig;
-    // For vertical and hybrid modes, always use configured maximum
-    if (isVertical || isHybrid) {
+    const isSmallScreen = window.innerWidth <= state.config.breakpoints;
+
+    const max = isSmallScreen
+      ? state.config.itemsSmall
+      : state.config.itemsBig;
+
+    // Vertical mode: always return max
+    if (isVertical) {
       return max;
     }
-    // For horizontal mode: fit as many items as can fit within container
+
+    // Hybrid mode: act like vertical on small screens
+    if (isHybrid && isSmallScreen) {
+      return max;
+    }
+
+    // Horizontal (or hybrid on large screens): dynamic fitting logic
     const containerSize = state.container.offsetWidth;
     const gap = state.config.gap || 0;
     let total = 0;
     let count = 0;
+
     for (let i = 0; i < state.items.length; i++) {
       const itemSize = state.items[i].offsetWidth;
       if (i > 0) total += gap;
@@ -126,6 +136,7 @@
       count++;
       if (count >= max) break;
     }
+
     return Math.max(1, count);
   }
 
