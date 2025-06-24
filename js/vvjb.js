@@ -123,7 +123,7 @@
     }
 
     // Horizontal (or hybrid on large screens): dynamic fitting logic
-    const containerSize = state.container.offsetWidth;
+    const containerSize = state.wrapper.offsetWidth;
     const gap = state.config.gap || 0;
     let total = 0;
     let count = 0;
