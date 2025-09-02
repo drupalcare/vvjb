@@ -27,13 +27,18 @@
 
 .vvjb .vvjb-carousel-outer {
   position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vvjb.vvjb-orientation-vertical .vvjb-carousel-outer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
   flex-direction: column;
 }
+
 .vvjb.vvjb-nav-dots .vvjb-carousel-outer,
 .vvjb.vvjb-nav-none .vvjb-carousel-outer {
   padding: 0;

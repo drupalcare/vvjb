@@ -38,4 +38,11 @@
     transform: rotate(-90deg);
   }
 
+  .vvjb.br-576.vvjb-orientation-hybrid .vvjb-carousel-outer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
 }
