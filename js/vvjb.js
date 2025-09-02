@@ -227,16 +227,16 @@
       item.classList.toggle('active-slide', i >= start && i < end);
       item.classList.toggle('non-active-slide', i < start || i >= end);
     });
-    // Update dots active state
-    if (state.config.navigation === 'dots' || state.config.navigation ===
-      'both') {
-      const dots = state.container.querySelectorAll('.vvjb-carousel-dots');
+
+    if (state.config.navigation === 'dots' || state.config.navigation === 'both') {
+      const dots = state.container.querySelectorAll('.vvjb-carousel-dot');
       dots.forEach((dot, index) => {
         const isActive = index === state.pageIndex;
         dot.classList.toggle('active-slide', isActive);
         dot.setAttribute('aria-current', isActive ? 'true' : 'false');
       });
     }
+
     updateNavVisibility(state);
     announceVisible(state, start, end);
     scrollToPage(state);

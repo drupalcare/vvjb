@@ -156,7 +156,7 @@
   transform: rotate(-90deg);
 }
 
-/* Carousel Button Styles */
+/* Carousel Arrow Button Styles */
 .vvjb .vvjb-carousel-options .vvjb-button {
   width: 48px;
   height: 48px;
@@ -172,19 +172,9 @@
   transition: all 0.3s ease;
 }
 
-.vvjb .vvjb-carousel-options button svg {
+.vvjb .vvjb-carousel-options .vvjb-button svg {
   width: 32px;
   height: 32px;
-}
-
-/* Reduced motion accessibility */
-.vvjb .reduced-motion .vvjb-item {
-  transition: none !important;
-}
-
-/* Optional: Hide scrollbars */
-.vvjb .vvjb-carousel-wrapper::-webkit-scrollbar {
-  display: none;
 }
 
 .vvjb .vvjb-carousel-options .vvjb-button[style*='visibility:hidden'] {
@@ -192,35 +182,109 @@
   pointer-events: none;
 }
 
+/* Carousel Dots Navigation Styles */
 .vvjb .vvjb-carousel-dots {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  gap: 12px;
   margin-top: 1rem;
-  gap: 1rem;
   padding: 0;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .vvjb .vvjb-carousel-dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background-color: #ccc;
-  border: none;
+  border: 2px solid currentColor;
+  background-color: transparent;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
   padding: 0;
   margin: 0;
+  opacity: 0.5;
+  transition: all 0.3s ease;
 }
 
-.vvjb .vvjb-carousel-dot.vvjb-active {
-  background-color: #333;
+/* Active dot state - matches JavaScript class name */
+.vvjb .vvjb-carousel-dot.active-slide {
+  background-color: currentColor;
+  opacity: 1;
   transform: scale(1.2);
 }
 
-.vvjb .vvjb-carousel-dot:focus {
-  outline: 2px solid #666;
-  outline-offset: 2px;
+/* Hover and focus states */
+.vvjb .vvjb-carousel-dot:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.vvjb .vvjb-carousel-dot:focus-visible {
+  opacity: 1;
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* Pressed/active interaction state */
+.vvjb .vvjb-carousel-dot:active {
+  transform: scale(0.9);
+}
+
+/* Alternative square dot style */
+.square-dots .vvjb .vvjb-carousel-dots .vvjb-carousel-dot {
+  border-radius: 2px;
+  width: 10px;
+  height: 10px;
+}
+
+/* Alternative bar/line indicator style */
+.bar-dots .vvjb .vvjb-carousel-dots .vvjb-carousel-dot {
+  border-radius: 2px;
+  width: 24px;
+  height: 4px;
+}
+
+.bar-dots .vvjb .vvjb-carousel-dots .vvjb-carousel-dot.active-slide {
+  transform: scaleX(1.5);
+}
+
+/* Accessibility and Motion Support */
+.vvjb .reduced-motion .vvjb-item {
+  transition: none !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .vvjb .vvjb-carousel-dot {
+    border-width: 3px;
+    opacity: 0.7;
+  }
+
+  .vvjb .vvjb-carousel-dot.active-slide {
+    opacity: 1;
+    background-color: currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .vvjb .vvjb-carousel-dot {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+
+  .vvjb .vvjb-carousel-dot.active-slide {
+    transform: none;
+  }
+
+  .vvjb .vvjb-carousel-dot:hover,
+  .vvjb .vvjb-carousel-dot:active {
+    transform: none;
+  }
+}
+
+/* Optional: Hide scrollbars */
+.vvjb .vvjb-carousel-wrapper::-webkit-scrollbar {
+  display: none;
 }
