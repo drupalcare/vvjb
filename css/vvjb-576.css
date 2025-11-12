@@ -7,7 +7,7 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
-@media (max-width:36rem) {
+@media (max-width:35.99875rem) {
   .vvjb.br-576.vvjb-orientation-hybrid.vvjb-nav-arrows .vvjb-carousel-outer,
   .vvjb.br-576.vvjb-orientation-hybrid.vvjb-nav-both .vvjb-carousel-outer {
     padding: 50px 0;
@@ -43,6 +43,14 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  }
+
+  .vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
+    transform: translateY(-20px);
+  }
+
+  .vvjb .vvjb-carousel-options .vvjb-next.vvjb-hidden {
+    transform: translateY(20px);
   }
 
 }

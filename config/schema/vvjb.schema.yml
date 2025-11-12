@@ -1,0 +1,34 @@
+views.style.views_vvjb:
+  type: views_style
+  label: 'Views Vanilla JavaScript Basic Carousel'
+  mapping:
+    unique_id:
+      type: integer
+      label: 'Unique identifier for carousel instance'
+    orientation:
+      type: string
+      label: 'Carousel orientation'
+    items_small:
+      type: integer
+      label: 'Items per screen on small devices'
+    items_big:
+      type: integer
+      label: 'Items per screen on large devices'
+    gap:
+      type: integer
+      label: 'Gap between items in pixels'
+    item_width:
+      type: integer
+      label: 'Custom item max width in pixels'
+    looping:
+      type: boolean
+      label: 'Enable looping'
+    slide_time:
+      type: integer
+      label: 'Autoplay interval in milliseconds'
+    navigation:
+      type: string
+      label: 'Navigation type'
+    breakpoints:
+      type: string
+      label: 'Responsive breakpoint'

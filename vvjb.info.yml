@@ -1,4 +1,4 @@
-name: 'Views Vanilla Javascript Basic Carousel'
+name: 'Views Vanilla Javascript Basic Carousel - VVJB'
 type: module
 description: 'Provides a Vanilla Javascript Basic Carousel format for Views.'
 core_version_requirement: ^10 || ^11

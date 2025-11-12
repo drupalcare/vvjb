@@ -12,6 +12,7 @@
 {% set item_gap_value = options.gap %}
 {% set items_gap_style = item_gap_value > 0 ? 'gap:' ~ item_gap_value ~ 'px;' : '' %}
 {% set item_style = options.item_width > 0 ? 'max-width:' ~ options.item_width ~ 'px;' : '' %}
+{% set has_bottom_controls = (options.navigation in ['dots', 'both'] or options.show_progress_bar or options.show_play_pause or options.show_page_counter) ? 'vvjb-bottom' : '' %}
 
 {# Class management #}
 {% set container_classes = [
@@ -19,11 +20,19 @@
   'vvjb-instance-' ~ unique_id,
   'vvjb-orientation-' ~ options.orientation,
   'vvjb-nav-' ~ options.navigation,
-  'br-' ~ options.breakpoints
+  'br-' ~ options.breakpoints,
+  has_bottom_controls
 ] %}
 
 <div {{ attributes.addClass(container_classes).setAttribute('id', vvjb_id) }} role="region" aria-label="Carousel" tabindex="0">
-  <div class="vvjb-inner">
+  <div class="vvjb-inner"
+       data-show-play-pause="{{ options.show_play_pause ? 'true' : 'false' }}"
+       data-show-progress-bar="{{ options.show_progress_bar ? 'true' : 'false' }}"
+       data-show-page-counter="{{ options.show_page_counter ? 'true' : 'false' }}"
+       data-enable-keyboard-nav="{{ options.enable_keyboard_nav ? 'true' : 'false' }}"
+       data-enable-touch-swipe="{{ options.enable_touch_swipe ? 'true' : 'false' }}"
+       data-enable-pause-on-hover="{{ options.enable_pause_on_hover ? 'true' : 'false' }}"
+       data-pause-on-reduced-motion="{{ options.pause_on_reduced_motion ? 'true' : 'false' }}">
     <div class="vvjb-carousel-outer">
       <div class="vvjb-carousel-wrapper">
         <div id="{{ items_id }}"
@@ -62,27 +71,51 @@
 
       <div class="vvjb-carousel-announcer visually-hidden" aria-live="polite"></div>
 
-      {% if options.navigation in ['dots', 'both'] %}
-        <div class="vvjb-carousel-dots" aria-label="{{ 'Slide navigation'|t }}">
-          {# JS will populate dots here #}
+      {% if options.navigation in ['arrows', 'both', 'dots'] or options.show_progress_bar or options.show_play_pause or options.show_page_counter %}
+        <div class="vvjb-carousel-controls">
+
+          {% if options.navigation in ['arrows', 'both'] %}
+            <div class="vvjb-carousel-options" aria-label="{{ 'Carousel Controls'|t }}">
+              <button id="prev-{{ unique_id }}" type="button" class="vvjb-button vvjb-prev" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Previous Slide'|t }}">
+                <span class="visually-hidden">{{ 'Previous Slide'|t }}</span>
+                {{ include('@vvjb/svg/svg-prev.svg') }}
+              </button>
+
+              <button id="next-{{ unique_id }}" type="button" class="vvjb-button vvjb-next" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Next Slide'|t }}">
+                <span class="visually-hidden">{{ 'Next Slide'|t }}</span>
+                {{ include('@vvjb/svg/svg-next.svg') }}
+              </button>
+            </div>
+          {% endif %}
+
+          {% if options.show_progress_bar %}
+            <div class="vvjb-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="{{ 'Carousel progress'|t }}"></div>
+          {% endif %}
+
+          {% if options.show_page_counter %}
+            <div class="vvjb-page-counter" aria-live="polite">
+              <span class="vvjb-current-page">1</span>
+              <span class="vvjb-counter-separator"> {{ 'of'|t }} </span>
+              <span class="vvjb-total-pages">{{ total_slides }}</span>
+            </div>
+          {% endif %}
+
+          {% if options.show_play_pause %}
+            <div class="vvjb-play-pause-wrapper">
+              <button type="button" class="vvjb-play-pause-button" aria-label="{{ 'Pause carousel'|t }}">
+                {{ include('@vvjb/svg/svg-pause.svg') }}
+              </button>
+            </div>
+          {% endif %}
+
+          {% if options.navigation in ['dots', 'both'] %}
+            <div class="vvjb-carousel-dots" aria-label="{{ 'Slide navigation'|t }}">
+              {# JS will populate dots here #}
+            </div>
+          {% endif %}
+
         </div>
       {% endif %}
-
-      {% if options.navigation in ['arrows', 'both'] %}
-        <div class="vvjb-carousel-options" aria-label="{{ 'Carousel Controls'|t }}">
-          <button id="prev-{{ unique_id }}" type="button" class="vvjb-button vvjb-prev" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Previous Slide'|t }}">
-            <span class="visually-hidden">{{ 'Previous Slide'|t }}</span>
-            {{ include('@vvjb/svg/svg-prev.svg') }}
-          </button>
-
-          <button id="next-{{ unique_id }}" type="button" class="vvjb-button vvjb-next" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Next Slide'|t }}">
-            <span class="visually-hidden">{{ 'Next Slide'|t }}</span>
-            {{ include('@vvjb/svg/svg-next.svg') }}
-          </button>
-        </div>
-      {% endif %}
-
-
     </div>
   </div>
 </div>
