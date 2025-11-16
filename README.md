@@ -73,6 +73,77 @@ To strip any HTML from the output, you can append `:plain` to the token:
 These tokens pull data from the **first row** of the View result and are
 designed to work seamlessly with the VVJB rendering system.
 
+## Deep Linking
+
+Enable deep linking in your carousel's Format Settings to create shareable URLs for specific slides.
+
+**Setup:**
+1. Enable **Deep Linking** in Format Settings
+2. Set **URL Identifier** (e.g., "products")
+3. Ensure navigation is set to **Dots** or **Both**
+4. Carousel slide links become: `#carousel-products-3`
+
+**Note:** Deep linking requires navigation dots to be enabled.
+
+## JavaScript API
+
+Control carousels from your own JavaScript code:
+
+### Available Methods
+
+**Navigate to specific slide:**
+```javascript
+Drupal.vvjb.goToSlide('products', 3);  // Go to slide page 3
+```
+
+**Get current state:**
+```javascript
+const current = Drupal.vvjb.getCurrentSlide('products');  // Returns current slide number
+const total = Drupal.vvjb.getTotalSlides('products');     // Returns total slides
+```
+
+**Navigation controls:**
+```javascript
+Drupal.vvjb.nextSlide('products');  // Go to next slide
+Drupal.vvjb.prevSlide('products');  // Go to previous slide
+```
+
+**Playback control:**
+```javascript
+Drupal.vvjb.pause('products');   // Pause auto-rotation
+Drupal.vvjb.resume('products');  // Resume auto-rotation
+```
+
+**Access carousel instance:**
+```javascript
+const instance = Drupal.vvjb.getInstance('#vvjb-12345');
+```
+
+### Complete Example: Custom Navigation
+
+```javascript
+// Wait for Drupal behaviors to attach
+Drupal.behaviors.myCustomNav = {
+  attach: function(context, settings) {
+    // Find your custom buttons
+    const myNextBtn = once('my-next', '.my-custom-next', context)[0];
+    const myPrevBtn = once('my-prev', '.my-custom-prev', context)[0];
+    
+    if (myNextBtn) {
+      myNextBtn.addEventListener('click', function() {
+        Drupal.vvjb.nextSlide('products');
+      });
+    }
+    
+    if (myPrevBtn) {
+      myPrevBtn.addEventListener('click', function() {
+        Drupal.vvjb.prevSlide('products');
+      });
+    }
+  }
+};
+```
+
 ## Accessibility
 
 - Uses `aria-live` regions to announce slide changes.

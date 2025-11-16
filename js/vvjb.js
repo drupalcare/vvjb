@@ -110,6 +110,11 @@
         createDots(state);
         bindDots(state);
 
+        // Initialize deep linking if enabled.
+        if (state.config.deeplinkEnabled && state.config.deeplinkId) {
+          initializeDeepLinking(state);
+        }
+
         // Remove hidden attribute to make carousel visible.
         state.container.removeAttribute('hidden');
 
@@ -180,6 +185,10 @@
     const currentPageSpan = container.querySelector('.vvjb-current-page');
     const totalPagesSpan = container.querySelector('.vvjb-total-pages');
 
+    // Deep linking configuration.
+    const deeplinkEnabled = dataset.deeplinkEnabled === 'true';
+    const deeplinkId = dataset.deeplinkId || '';
+
     // Build configuration object.
     const config = {
       rawOrientation: dataset.orientation || 'horizontal',
@@ -192,6 +201,8 @@
       gap,
       looping: dataset.carouselLoop === '1',
       navigation: dataset.navigation || 'both',
+      deeplinkEnabled,
+      deeplinkId,
     };
 
     // Build feature flags object.
@@ -898,6 +909,7 @@
       : state.pageIndex + 1;
 
     updateLayout(state);
+    updateDeepLinkHash(state);
   }
 
   /**
@@ -915,6 +927,7 @@
       : (state.config.looping ? maxPage : 0);
 
     updateLayout(state);
+    updateDeepLinkHash(state);
   }
 
   /**
@@ -926,6 +939,7 @@
   function goToFirstPage(state) {
     state.pageIndex = 0;
     updateLayout(state);
+    updateDeepLinkHash(state);
   }
 
   /**
@@ -939,6 +953,7 @@
     const maxPage = Math.ceil(state.config.totalSlides / itemsVisible) - 1;
     state.pageIndex = maxPage;
     updateLayout(state);
+    updateDeepLinkHash(state);
   }
 
   /**
@@ -1035,18 +1050,32 @@
     const fragment = document.createDocumentFragment();
     const itemsVisible = getItemsVisible(state);
     const totalPages = Math.ceil(state.config.totalSlides / itemsVisible);
+    
+    // Check if deep linking is enabled.
+    const useDeepLinks = state.config.deeplinkEnabled && state.config.deeplinkId;
 
     for (let i = 0; i < totalPages; i++) {
-      const dot = document.createElement('button');
-      dot.className = 'vvjb-carousel-dot';
-      dot.type = 'button';
+      let dotElement;
+      
+      if (useDeepLinks) {
+        // Create anchor link for deep linking.
+        dotElement = document.createElement('a');
+        dotElement.href = `#carousel-${state.config.deeplinkId}-${i + 1}`;
+        dotElement.className = 'vvjb-carousel-dot';
+        dotElement.setAttribute('role', 'button');
+      } else {
+        // Create button (original behavior).
+        dotElement = document.createElement('button');
+        dotElement.className = 'vvjb-carousel-dot';
+        dotElement.type = 'button';
+      }
 
       // Security: Use textContent for ARIA label.
       const label = Drupal.t('Go to slide group @num', {'@num': i + 1});
-      dot.setAttribute('aria-label', label);
-      dot.dataset.slideGroup = i;
+      dotElement.setAttribute('aria-label', label);
+      dotElement.dataset.slideGroup = i;
 
-      fragment.appendChild(dot);
+      fragment.appendChild(dotElement);
     }
 
     // Clear and append all at once for performance.
@@ -1082,6 +1111,7 @@
 
         state.pageIndex = groupIndex;
         updateLayout(state);
+        updateDeepLinkHash(state);
       });
     });
   }
@@ -1293,6 +1323,221 @@
     if (state.resizeHandler) {
       window.removeEventListener('resize', state.resizeHandler);
     }
+
+    // Remove hash change listener.
+    if (state.eventHandlers && state.eventHandlers.hashChange) {
+      window.removeEventListener('hashchange', state.eventHandlers.hashChange);
+    }
   }
+
+  /**
+   * Initialize deep linking functionality.
+   *
+   * @param {Object} state
+   *   The carousel state object.
+   */
+  function initializeDeepLinking(state) {
+    const deeplinkId = state.config.deeplinkId;
+    
+    // Check URL hash on page load.
+    const hash = window.location.hash;
+    if (hash && hash.startsWith(`#carousel-${deeplinkId}-`)) {
+      const slideNumber = parseInt(hash.split('-').pop(), 10);
+      if (!isNaN(slideNumber) && slideNumber > 0) {
+        const itemsVisible = getItemsVisible(state);
+        const totalPages = Math.ceil(state.config.totalSlides / itemsVisible);
+        const pageIndex = slideNumber - 1;
+        if (pageIndex >= 0 && pageIndex < totalPages) {
+          state.pageIndex = pageIndex;
+          updateLayout(state);
+        } else {
+          // Invalid slide number - log warning and clear hash
+          if (typeof console !== 'undefined' && console.warn) {
+            console.warn(`VVJB: Invalid slide number ${slideNumber} in URL. Valid range: 1-${totalPages}. Defaulting to page 1.`);
+          }
+          // Clear invalid hash
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+        }
+      } else {
+        // Invalid hash format
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn(`VVJB: Invalid hash format "${hash}". Expected format: #carousel-${deeplinkId}-[number]`);
+        }
+      }
+    } else if (hash && hash.startsWith('#carousel-')) {
+      // Hash is for a different carousel - silently ignore (multiple carousels on page)
+      // No warning needed as this is normal behavior
+    }
+
+    // Listen for hash changes.
+    const hashChangeHandler = function() {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith(`#carousel-${deeplinkId}-`)) {
+        const slideNumber = parseInt(hash.split('-').pop(), 10);
+        if (!isNaN(slideNumber) && slideNumber > 0) {
+          const itemsVisible = getItemsVisible(state);
+          const totalPages = Math.ceil(state.config.totalSlides / itemsVisible);
+          const pageIndex = slideNumber - 1;
+          if (pageIndex >= 0 && pageIndex < totalPages) {
+            state.pageIndex = pageIndex;
+            updateLayout(state);
+          } else {
+            // Invalid slide number during navigation
+            if (typeof console !== 'undefined' && console.warn) {
+              console.warn(`VVJB: Invalid slide number ${slideNumber}. Valid range: 1-${totalPages}.`);
+            }
+          }
+        }
+      }
+    };
+
+    window.addEventListener('hashchange', hashChangeHandler);
+    
+    // Store handler for cleanup.
+    if (!state.eventHandlers) {
+      state.eventHandlers = {};
+    }
+    state.eventHandlers.hashChange = hashChangeHandler;
+  }
+
+  /**
+   * Update URL hash when navigating (without adding to history).
+   *
+   * @param {Object} state
+   *   The carousel state object.
+   */
+  function updateDeepLinkHash(state) {
+    if (state.config.deeplinkEnabled && state.config.deeplinkId) {
+      const newHash = `#carousel-${state.config.deeplinkId}-${state.pageIndex + 1}`;
+      if (window.location.hash !== newHash) {
+        history.replaceState(null, '', newHash);
+      }
+    }
+  }
+
+  /**
+   * Public API for external carousel control.
+   */
+  Drupal.vvjb = Drupal.vvjb || {};
+
+  /**
+   * Helper to get container by identifier.
+   */
+  function getContainerByIdentifier(identifier) {
+    let container = document.querySelector(`[data-deeplink-id="${identifier}"]`);
+    if (!container) {
+      container = document.querySelector(identifier);
+    }
+    return container;
+  }
+
+  /**
+   * Helper to get state from identifier.
+   */
+  function getStateFromIdentifier(identifier) {
+    const container = getContainerByIdentifier(identifier);
+    if (!container) return null;
+    
+    const inner = container.closest('.vvjb-inner');
+    return inner ? inner.vvjbState : null;
+  }
+
+  /**
+   * Navigate to specific slide page.
+   */
+  Drupal.vvjb.goToSlide = function(identifier, slideNumber) {
+    const state = getStateFromIdentifier(identifier);
+    if (!state) {
+      console.warn(`VVJB: Carousel "${identifier}" not found`);
+      return false;
+    }
+    
+    const itemsVisible = getItemsVisible(state);
+    const totalPages = Math.ceil(state.config.totalSlides / itemsVisible);
+    const pageIndex = slideNumber - 1;
+    
+    if (pageIndex < 0 || pageIndex >= totalPages) {
+      console.warn(`VVJB: Invalid slide ${slideNumber}. Must be between 1 and ${totalPages}`);
+      return false;
+    }
+    
+    state.pageIndex = pageIndex;
+    updateLayout(state);
+    updateDeepLinkHash(state);
+    return true;
+  };
+
+  /**
+   * Get current slide page number.
+   */
+  Drupal.vvjb.getCurrentSlide = function(identifier) {
+    const state = getStateFromIdentifier(identifier);
+    return state ? state.pageIndex + 1 : null;
+  };
+
+  /**
+   * Get total number of slide pages.
+   */
+  Drupal.vvjb.getTotalSlides = function(identifier) {
+    const state = getStateFromIdentifier(identifier);
+    if (!state) return null;
+    const itemsVisible = getItemsVisible(state);
+    return Math.ceil(state.config.totalSlides / itemsVisible);
+  };
+
+  /**
+   * Navigate to next slide.
+   */
+  Drupal.vvjb.nextSlide = function(identifier) {
+    const state = getStateFromIdentifier(identifier);
+    if (!state) return false;
+    nextSlide(state);
+    return true;
+  };
+
+  /**
+   * Navigate to previous slide.
+   */
+  Drupal.vvjb.prevSlide = function(identifier) {
+    const state = getStateFromIdentifier(identifier);
+    if (!state) return false;
+    prevSlide(state);
+    return true;
+  };
+
+  /**
+   * Pause carousel.
+   */
+  Drupal.vvjb.pause = function(identifier) {
+    const state = getStateFromIdentifier(identifier);
+    if (!state || state.isPaused) return false;
+    togglePlayPause(state);
+    return true;
+  };
+
+  /**
+   * Resume carousel.
+   */
+  Drupal.vvjb.resume = function(identifier) {
+    const state = getStateFromIdentifier(identifier);
+    if (!state || !state.isPaused) return false;
+    togglePlayPause(state);
+    return true;
+  };
+
+  /**
+   * Get carousel instance.
+   */
+  Drupal.vvjb.getInstance = function(containerOrSelector) {
+    const container = typeof containerOrSelector === 'string' 
+      ? document.querySelector(containerOrSelector)
+      : containerOrSelector;
+    
+    if (!container) return null;
+    const inner = container.closest('.vvjb-inner');
+    return inner ? inner.vvjbState : null;
+  };
 
 })(Drupal, drupalSettings, once);

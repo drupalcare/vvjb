@@ -102,6 +102,10 @@ function template_preprocess_views_view_vvjb(array &$variables): void {
     }
   }
 
+  // Add deep linking configuration.
+  $variables['deeplink_enabled'] = $handler->options['enable_deeplink'] ?? FALSE;
+  $variables['deeplink_identifier'] = $handler->options['deeplink_identifier'] ?? '';
+
   $variables['list_attributes'] = new Attribute($list_attributes);
   $variables['settings'] = $handler->options;
   template_preprocess_views_view_unformatted($variables);

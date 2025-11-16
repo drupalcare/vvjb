@@ -72,6 +72,13 @@ final class VvjbConstants {
   public const VIEWS_TYPE_STRING = 'string';
   public const VIEWS_TYPE_BOOLEAN = 'boolean';
 
+  /**
+   * Deep linking configuration constants.
+   */
+  public const DEEPLINK_IDENTIFIER_MAX_LENGTH = 20;
+  public const DEEPLINK_IDENTIFIER_PATTERN = '/^[a-z][a-z0-9-]*[a-z0-9]$/';
+  public const DEEPLINK_RESERVED_WORDS = ['carousel', 'slide', 'vvjb'];
+
   private function __construct() {
   }
 

@@ -266,6 +266,7 @@
 }
 
 .vvjb .vvjb-carousel-dot {
+  all: unset;
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -306,6 +307,7 @@
 
 }
 
+.vvjb-carousel-dots > a,
 .vvjb-carousel-dots > button {
   padding: 0 !important;
   margin: 0.75rem 0 !important;
