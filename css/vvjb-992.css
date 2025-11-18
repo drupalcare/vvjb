@@ -24,8 +24,8 @@
   .vvjb.br-992.vvjb-orientation-hybrid .vvjb-carousel-options {
     top: 0;
     bottom: 0;
-    left: 50%;
-    right: auto;
+    inset-inline-start: 50%;
+    inset-inline-end: auto;
     transform: translateX(-50%);
     flex-direction: column;
     justify-content: space-between;
@@ -44,6 +44,7 @@
     flex-direction: column;
   }
 
+  /* Hybrid mode switches to vertical on small screens - RTL has no effect */
   .vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
     transform: translateY(-20px);
   }

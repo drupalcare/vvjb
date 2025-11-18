@@ -133,8 +133,8 @@
 .vvjb.vvjb-orientation-horizontal .vvjb-carousel-options {
   position: absolute;
   top: 50%;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
@@ -201,7 +201,7 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  margin-top: 1rem;
+  margin-block-start: 1rem;
 }
 
 /* Carousel Arrow Button Styles */
@@ -602,12 +602,12 @@
 
   .vvjb .vvjb-play-pause-wrapper {
     bottom: 0.5rem;
-    right: 0.5rem;
+    inset-inline-end: 0.5rem;
   }
 
   .vvjb .vvjb-page-counter {
     bottom: 0.5rem;
-    left: 0.5rem;
+    inset-inline-start: 0.5rem;
   }
 
 }
@@ -656,4 +656,8 @@
   opacity: 0;
   visibility: hidden;
   height: 0;
+}
+
+[dir="rtl"] .vvjb-carousel-options {
+  flex-direction: row-reverse;
 }

@@ -32,6 +32,22 @@
   }
 
   /**
+   * Detect if carousel is in RTL mode.
+   *
+   * @param {HTMLElement} element
+   *   The element to check for RTL.
+   *
+   * @return {boolean}
+   *   True if RTL mode is detected.
+   */
+  function isRTL(element) {
+    return element.closest('[dir="rtl"]') !== null ||
+           document.documentElement.dir === 'rtl' ||
+           document.body.dir === 'rtl' ||
+           getComputedStyle(element).direction === 'rtl';
+  }
+
+  /**
    * SVG icon definitions for UI elements.
    */
   const SVG_ICONS = {
@@ -189,6 +205,9 @@
     const deeplinkEnabled = dataset.deeplinkEnabled === 'true';
     const deeplinkId = dataset.deeplinkId || '';
 
+    // Detect RTL mode - ADD THIS LINE
+    const rtlMode = isRTL(container);
+
     // Build configuration object.
     const config = {
       rawOrientation: dataset.orientation || 'horizontal',
@@ -236,6 +255,7 @@
       progressIntervalId: null,
       pageStartTime: null,
       observers: [],
+      isRTL: rtlMode,
     };
   }
 
@@ -507,7 +527,7 @@
     if (state.isPaused) {
       stopAutoSlide(state);
       stopProgressBar(state);
-      
+
       // Reset progress bar after fade animation completes.
       if (state.progressBar) {
         setTimeout(() => {
@@ -759,12 +779,13 @@
   function scrollToPage(state) {
     const offset = getGroupOffset(state);
     const centering = state.centerOffset || 0;
-    const transform = centering - offset;
 
     if (state.config.orientation === 'vertical') {
       state.itemsContainer.style.transform = `translateY(${-offset}px)`;
     }
     else {
+      // Reverse transform direction in RTL for horizontal carousels
+      const transform = state.isRTL ? -(centering - offset) : (centering - offset);
       state.itemsContainer.style.transform = `translateX(${transform}px)`;
     }
   }
@@ -1006,16 +1027,27 @@
       const deltaX = e.changedTouches[0].clientX - startX;
       const deltaY = e.changedTouches[0].clientY - startY;
 
-      // Horizontal swipe detection.
+      // Horizontal swipe detection
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        if (deltaX < -50) {
-          nextSlide(state);
+        // Reverse swipe direction in RTL mode
+        if (state.isRTL) {
+          if (deltaX < -50) {
+            prevSlide(state);  // Swipe left = previous in RTL
+          }
+          else if (deltaX > 50) {
+            nextSlide(state);  // Swipe right = next in RTL
+          }
         }
-        else if (deltaX > 50) {
-          prevSlide(state);
+        else {
+          if (deltaX < -50) {
+            nextSlide(state);  // Swipe left = next in LTR
+          }
+          else if (deltaX > 50) {
+            prevSlide(state);  // Swipe right = previous in LTR
+          }
         }
       }
-      // Vertical swipe detection for vertical orientation.
+      // Vertical swipe detection for vertical orientation
       else if (state.config.orientation === 'vertical') {
         if (deltaY < -50) {
           nextSlide(state);
@@ -1050,13 +1082,13 @@
     const fragment = document.createDocumentFragment();
     const itemsVisible = getItemsVisible(state);
     const totalPages = Math.ceil(state.config.totalSlides / itemsVisible);
-    
+
     // Check if deep linking is enabled.
     const useDeepLinks = state.config.deeplinkEnabled && state.config.deeplinkId;
 
     for (let i = 0; i < totalPages; i++) {
       let dotElement;
-      
+
       if (useDeepLinks) {
         // Create anchor link for deep linking.
         dotElement = document.createElement('a');
@@ -1244,18 +1276,46 @@
       const orientation = state.config.orientation;
       let handled = false;
 
-      // Arrow key navigation (orientation-aware).
-      if ((orientation === 'horizontal' && e.key === 'ArrowRight') ||
-          (orientation === 'vertical' && e.key === 'ArrowDown')) {
-        e.preventDefault();
-        nextSlide(state);
-        handled = true;
+      // Arrow key navigation (orientation-aware and RTL-aware)
+      if (orientation === 'horizontal') {
+        // Reverse left/right arrows in RTL mode
+        if (state.isRTL) {
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            prevSlide(state);  // Right arrow = previous in RTL
+            handled = true;
+          }
+          else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            nextSlide(state);  // Left arrow = next in RTL
+            handled = true;
+          }
+        }
+        else {
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextSlide(state);  // Right arrow = next in LTR
+            handled = true;
+          }
+          else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevSlide(state);  // Left arrow = previous in LTR
+            handled = true;
+          }
+        }
       }
-      else if ((orientation === 'horizontal' && e.key === 'ArrowLeft') ||
-               (orientation === 'vertical' && e.key === 'ArrowUp')) {
-        e.preventDefault();
-        prevSlide(state);
-        handled = true;
+      else if (orientation === 'vertical') {
+        // Vertical orientation - no RTL changes needed
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          nextSlide(state);
+          handled = true;
+        }
+        else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          prevSlide(state);
+          handled = true;
+        }
       }
       // Space key: toggle play/pause.
       else if (e.key === ' ' || e.key === 'Spacebar') {
