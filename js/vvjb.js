@@ -146,6 +146,40 @@
   }
 
   /**
+   * Parse integer with defensive validation allowing zero as valid.
+   *
+   * @param {string} value
+   *   The string value to parse.
+   * @param {number} defaultValue
+   *   The default value if parsing fails.
+   *
+   * @return {number}
+   *   The parsed integer, allowing 0 as valid.
+   */
+  function parseIntAllowZero(value, defaultValue) {
+    const parsed = parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed >= 0 ? parsed : defaultValue;
+  }
+
+  /**
+   * Parse integer with defensive validation and minimum value enforcement.
+   *
+   * @param {string} value
+   *   The string value to parse.
+   * @param {number} defaultValue
+   *   The default value if parsing fails.
+   * @param {number} minValue
+   *   The minimum allowed value.
+   *
+   * @return {number}
+   *   The parsed and validated integer.
+   */
+  function parseIntSafe(value, defaultValue, minValue = 0) {
+    const parsed = parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed >= minValue ? parsed : defaultValue;
+  }
+
+  /**
    * Create carousel state object with all configuration and references.
    *
    * @param {HTMLElement} container
@@ -178,12 +212,27 @@
     const dataset = itemsContainer.dataset;
 
     // Performance: Parse integers once and store.
-    const breakpoints = parseInt(dataset.breakpoints, 10) || 992;
-    const itemsSmall = parseInt(dataset.smallScreen, 10) || 1;
-    const itemsBig = parseInt(dataset.bigScreen, 10) || 3;
-    const totalSlides = parseInt(dataset.totalSlides, 10) || items.length;
-    const slideTime = parseInt(dataset.slideTime, 10) || 5000;
-    const gap = parseInt(dataset.gap, 10) || 0;
+    // DEFENSIVE PARSING - Respecting semantic meaning of each field:
+
+    // Breakpoints: SELECT field with preset values (576, 768, 992, 1200, 1400)
+    // Never 0, must be one of the valid presets
+    const breakpointParsed = parseInt(dataset.breakpoints, 10);
+    const validBreakpoints = [576, 768, 992, 1200, 1400];
+    const breakpoints = validBreakpoints.includes(breakpointParsed) ? breakpointParsed : 992;
+
+    // Items: MIN = 1 (cannot be 0, must show at least 1 item)
+    const itemsSmall = parseIntSafe(dataset.smallScreen, 1, 1);
+    const itemsBig = parseIntSafe(dataset.bigScreen, 3, 1);
+
+    // Total slides: Derived from actual items, fallback to items.length
+    const totalSlides = parseIntSafe(dataset.totalSlides, items.length, 1);
+
+    // Slide time: 0 = DISABLE autoplay (valid semantic meaning)
+    // Range: 0-15000, where 0 means "no autoplay"
+    const slideTime = parseIntAllowZero(dataset.slideTime, 5000);
+
+    // Gap: 0 = NO gap between items (valid semantic meaning)
+    const gap = parseIntAllowZero(dataset.gap, 0);
 
     // Read feature flags from vvjb-inner data attributes.
     const innerDataset = container.dataset;
@@ -1137,7 +1186,7 @@
         const groupIndex = parseInt(dot.dataset.slideGroup, 10);
 
         // Security: Validate group index.
-        if (isNaN(groupIndex) || groupIndex < 0) {
+        if (!Number.isFinite(groupIndex) || groupIndex < 0) {
           return;
         }
 
@@ -1162,7 +1211,7 @@
     }
 
     // Security: Validate interval range.
-    if (isNaN(interval) || interval < 1000 || interval > 15000) {
+    if (!Number.isFinite(interval) || interval < 1000 || interval > 15000) {
       interval = 5000;
     }
 
@@ -1398,12 +1447,12 @@
    */
   function initializeDeepLinking(state) {
     const deeplinkId = state.config.deeplinkId;
-    
+
     // Check URL hash on page load.
     const hash = window.location.hash;
     if (hash && hash.startsWith(`#carousel-${deeplinkId}-`)) {
       const slideNumber = parseInt(hash.split('-').pop(), 10);
-      if (!isNaN(slideNumber) && slideNumber > 0) {
+      if (Number.isFinite(slideNumber) && slideNumber > 0) {
         const itemsVisible = getItemsVisible(state);
         const totalPages = Math.ceil(state.config.totalSlides / itemsVisible);
         const pageIndex = slideNumber - 1;
@@ -1436,7 +1485,7 @@
       const hash = window.location.hash;
       if (hash && hash.startsWith(`#carousel-${deeplinkId}-`)) {
         const slideNumber = parseInt(hash.split('-').pop(), 10);
-        if (!isNaN(slideNumber) && slideNumber > 0) {
+        if (Number.isFinite(slideNumber) && slideNumber > 0) {
           const itemsVisible = getItemsVisible(state);
           const totalPages = Math.ceil(state.config.totalSlides / itemsVisible);
           const pageIndex = slideNumber - 1;
