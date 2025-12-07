@@ -208,8 +208,8 @@
 .vvjb .vvjb-play-pause-button,
 .vvjb .vvjb-carousel-options .vvjb-button {
   all: unset;
-  width: 34px;
-  height: 34px;
+  width: 28px;
+  height: 28px;
   background: rgba(0, 0, 0, 0.6);
   border: 2px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
@@ -393,8 +393,6 @@
 /* Circular Progress Indicator */
 .vvjb .vvjb-progress-bar {
   grid-area: 1 / 1;
-  align-self: end;
-  justify-self: end;
   width: var(--vvjb-progress-size, 32px);
   height: var(--vvjb-progress-size, 32px);
   border-radius: 50%;
