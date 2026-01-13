@@ -830,11 +830,14 @@
     const centering = state.centerOffset || 0;
 
     if (state.config.orientation === 'vertical') {
-      state.itemsContainer.style.transform = `translateY(${-offset}px)`;
+      // Round to prevent sub-pixel blur in Chrome.
+      const transform = Math.round(-offset);
+      state.itemsContainer.style.transform = `translateY(${transform}px)`;
     }
     else {
-      // Reverse transform direction in RTL for horizontal carousels
-      const transform = state.isRTL ? -(centering - offset) : (centering - offset);
+      // Reverse transform direction in RTL for horizontal carousels.
+      // Round to prevent sub-pixel blur in Chrome.
+      const transform = Math.round(state.isRTL ? -(centering - offset) : (centering - offset));
       state.itemsContainer.style.transform = `translateX(${transform}px)`;
     }
   }

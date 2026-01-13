@@ -96,12 +96,20 @@
   will-change: transform;
   transition: transform 0.5s ease-in-out;
   transform: translateX(0);
+  /* Prevent sub-pixel blur in Chrome during transforms. */
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .vvjb .vvjb-item {
   flex: 0 0 auto;
   transition: transform 0.5s ease, opacity 0.5s ease;
   scroll-snap-align: start;
+  /* Prevent sub-pixel blur in Chrome during transforms. */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 
 .vvjb .vvjb-item.active-slide {
