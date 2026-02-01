@@ -16,8 +16,8 @@
 
 {# Deep linking configuration #}
 {% set deeplink_config = {
-  enabled: deeplink_enabled|default(false),
-  identifier: deeplink_identifier|default(''),
+  enabled: options.enable_deeplink|default(false),
+  identifier: options.deeplink_identifier|default(''),
   has_navigation_dots: options.navigation in ['dots', 'both']
 } %}
 
@@ -99,18 +99,7 @@
             </div>
           {% endif %}
 
-          {% if options.show_progress_bar %}
-            <div class="vvjb-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="{{ 'Carousel progress'|t }}"></div>
-          {% endif %}
-
-          {% if options.show_page_counter %}
-            <div class="vvjb-page-counter" aria-live="polite">
-              <span class="vvjb-current-page">1</span>
-              <span class="vvjb-counter-separator"> {{ 'of'|t }} </span>
-              <span class="vvjb-total-pages">{{ total_slides }}</span>
-            </div>
-          {% endif %}
-
+          {# Autoplay controls group: Play/Pause + Progress #}
           {% if options.show_play_pause %}
             <div class="vvjb-play-pause-wrapper">
               <button type="button" class="vvjb-play-pause-button" aria-label="{{ 'Pause carousel'|t }}">
@@ -119,11 +108,29 @@
             </div>
           {% endif %}
 
+          {% if options.show_progress_bar %}
+            <div class="vvjb-progress-wrapper">
+              <div class="vvjb-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="{{ 'Carousel progress'|t }}"></div>
+            </div>
+          {% endif %}
+
+          {# Navigation group: Dots + Page Counter #}
           {% if options.navigation in ['dots', 'both'] %}
-            <div class="vvjb-carousel-dots"
+            <div class="vvjb-carousel-dots{{ options.scrollable_dots_width > 0 ? ' vvjb-scrollable-dots' : '' }}"
                  aria-label="{{ 'Slide navigation'|t }}"
-                 {% if deeplink_config.enabled and deeplink_config.identifier %}data-deeplink-enabled="true"{% endif %}>
+                 {% if deeplink_config.enabled and deeplink_config.identifier %}data-deeplink-enabled="true"{% endif %}
+                 {% if options.scrollable_dots_width > 0 %}
+                 data-scrollable-dots-width="{{ options.scrollable_dots_width }}"
+                 {% endif %}>
               {# JS will populate dots here with appropriate links when deep linking is enabled #}
+            </div>
+          {% endif %}
+
+          {% if options.show_page_counter %}
+            <div class="vvjb-page-counter" aria-live="polite">
+              <span class="vvjb-current-page">1</span>
+              <span class="vvjb-counter-separator"> {{ 'of'|t }} </span>
+              <span class="vvjb-total-pages">{{ total_slides }}</span>
             </div>
           {% endif %}
 

@@ -67,6 +67,7 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
     $options['pause_on_reduced_motion'] = ['default' => TRUE];
     $options['enable_deeplink'] = ['default' => FALSE];
     $options['deeplink_identifier'] = ['default' => ''];
+    $options['scrollable_dots_width'] = ['default' => VvjbConstants::DEFAULT_SCROLLABLE_DOTS_WIDTH];
     return $options;
   }
 
@@ -297,6 +298,26 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
       '#default_value' => $this->options['navigation'],
       '#description' => $this->t('Choose the navigation controls to display.'),
     ];
+
+    $form['navigation_section']['scrollable_dots_width'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Scrollable dots width (px)'),
+      '#default_value' => $this->options['scrollable_dots_width'],
+      '#min' => 0,
+      '#max' => VvjbConstants::MAX_SCROLLABLE_DOTS_WIDTH,
+      '#step' => 1,
+      '#field_suffix' => 'px',
+      '#description' => $this->t('Set a maximum width for the dots navigation to make it scrollable. Set to 0 to disable. Range: @min-@max px.', [
+        '@min' => VvjbConstants::MIN_SCROLLABLE_DOTS_WIDTH,
+        '@max' => VvjbConstants::MAX_SCROLLABLE_DOTS_WIDTH,
+      ]),
+      '#states' => [
+        'visible' => [
+          [':input[name="style_options[navigation_section][navigation]"]' => ['value' => VvjbConstants::NAV_DOTS]],
+          [':input[name="style_options[navigation_section][navigation]"]' => ['value' => VvjbConstants::NAV_BOTH]],
+        ],
+      ],
+    ];
   }
 
   /**
@@ -509,6 +530,18 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
         );
       }
     }
+
+    // Validate scrollable_dots_width when set.
+    $scrollable_dots_width = $values['navigation_section']['scrollable_dots_width'] ?? 0;
+    if ($scrollable_dots_width > 0 && ($scrollable_dots_width < VvjbConstants::MIN_SCROLLABLE_DOTS_WIDTH || $scrollable_dots_width > VvjbConstants::MAX_SCROLLABLE_DOTS_WIDTH)) {
+      $form_state->setError(
+        $form['navigation_section']['scrollable_dots_width'],
+        $this->t('Scrollable dots width must be between @min and @max pixels, or 0 to disable.', [
+          '@min' => VvjbConstants::MIN_SCROLLABLE_DOTS_WIDTH,
+          '@max' => VvjbConstants::MAX_SCROLLABLE_DOTS_WIDTH,
+        ])
+      );
+    }
   }
 
   /**
@@ -556,6 +589,7 @@ class ViewsVanillaJavascriptBasicCarousel extends StylePluginBase {
 
     if (isset($values['navigation_section'])) {
       $flattened['navigation'] = $values['navigation_section']['navigation'] ?? VvjbConstants::DEFAULT_NAVIGATION;
+      $flattened['scrollable_dots_width'] = $values['navigation_section']['scrollable_dots_width'] ?? VvjbConstants::DEFAULT_SCROLLABLE_DOTS_WIDTH;
     }
 
     if (isset($values['responsive_section'])) {

@@ -393,41 +393,91 @@
 
 }
 
+/* Scrollable Dots Navigation Styles */
+.vvjb .vvjb-carousel-dots.vvjb-scrollable-dots {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-width: 100%;
+  padding: 4px;
+  margin: 0;
+  gap: 0 16px;
+  justify-content: flex-start;
+  position: relative;
+  background: transparent;
+}
+
+.vvjb .vvjb-carousel-dots.vvjb-scrollable-dots::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+/* Ensure dots don't shrink in scrollable container */
+.vvjb .vvjb-scrollable-dots .vvjb-carousel-dot {
+  flex-shrink: 0;
+}
+
+/* Reduced motion support for scrollable dots */
+@media (prefers-reduced-motion:reduce) {
+  .vvjb .vvjb-carousel-dots.vvjb-scrollable-dots {
+    scroll-behavior: auto;
+  }
+}
+
 /* Hide scrollbars */
 .vvjb .vvjb-carousel-wrapper::-webkit-scrollbar {
   display: none;
 }
 
+/* Progress Bar Wrapper - centers the circular progress indicator */
+.vvjb .vvjb-progress-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+  position: relative;
+  line-height: 1;
+}
+
 /* Circular Progress Indicator */
 .vvjb .vvjb-progress-bar {
-  grid-area: 1 / 1;
-  width: var(--vvjb-progress-size, 32px);
-  height: var(--vvjb-progress-size, 32px);
+  opacity: 1;
+  overflow: hidden;
+  --progress: 0%;
+  --size: 30px;
+  --bar-width: 6px;
+  width: var(--size);
+  height: var(--size);
   border-radius: 50%;
-  background: conic-gradient(var(--vvjb-progress-color, #3b82f6) var(--progress, 0%), var(--vvjb-progress-track, rgba(255, 255, 255, 0.3)) 0%);
+  background: conic-gradient(#007bff var(--progress), #e6e6e6 0%);
   display: grid;
   place-items: center;
   position: relative;
-  opacity: 1;
-  visibility: visible;
-  transition: background 0.05s linear, opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-  z-index: 10;
+  transition: background 0.3s linear, transform 0.3s ease, opacity 0.3s ease-in-out;
 }
 
 /* Inner circle with percentage text */
 .vvjb .vvjb-progress-bar::after {
+ font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace!important;
   content: attr(aria-valuenow) "%";
-  width: calc(100% - var(--vvjb-progress-thickness, 6px));
-  height: calc(100% - var(--vvjb-progress-thickness, 6px));
-  border-radius: inherit;
-  background: var(--vvjb-progress-inner-bg, #fff);
+  width: calc(100% - var(--bar-width));
+  height: calc(100% - var(--bar-width));
+  border-radius: 50%;
+  background: #fff;
   display: grid;
   place-items: center;
-  font-size: var(--vvjb-progress-font-size, 0.625rem);
-  font-weight: bold;
-  color: var(--vvjb-progress-text-color, #3b82f6);
+  justify-content: center;
+  font-size: 0.625rem;
+  line-height: 1;
+  color: #007bff;
   position: absolute;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
 }
 
 /* Completion state - Scale up and change color */
@@ -437,7 +487,8 @@
 }
 
 .vvjb .vvjb-progress-bar[aria-valuenow="100"]::after {
-  color: var(--vvjb-progress-complete-text, #22c55e);
+  content: "100%";
+  color: #fff;
 }
 
 /* Reduced motion support */
@@ -581,7 +632,7 @@
   display: none;
 }
 
-.vvjb-inner[data-show-progress-bar="false"] .vvjb-progress-bar {
+.vvjb-inner[data-show-progress-bar="false"] .vvjb-progress-wrapper {
   display: none;
 }
 
@@ -646,12 +697,9 @@
 
 }
 
-/* Hide when paused */
-.vvjb-inneris-paused .vvjb-progress-bar::after,
+/* Hide progress bar when paused */
 .vvjb-inner.is-paused .vvjb-progress-bar {
   opacity: 0;
-  visibility: hidden;
-  height: 0;
 }
 
 [dir="rtl"] .vvjb-carousel-options {

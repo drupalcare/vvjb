@@ -18,6 +18,13 @@ final class VvjbConstants {
   public const NAV_BOTH = 'both';
   public const NAV_NONE = 'none';
 
+  /**
+   * Scrollable dots configuration constants.
+   */
+  public const DEFAULT_SCROLLABLE_DOTS_WIDTH = 0;
+  public const MIN_SCROLLABLE_DOTS_WIDTH = 120;
+  public const MAX_SCROLLABLE_DOTS_WIDTH = 700;
+
   public const BREAKPOINT_576 = '576';
   public const BREAKPOINT_768 = '768';
   public const BREAKPOINT_992 = '992';
@@ -66,6 +73,7 @@ final class VvjbConstants {
     'enable_touch_swipe' => 'enable-touch-swipe',
     'enable_pause_on_hover' => 'enable-pause-on-hover',
     'pause_on_reduced_motion' => 'pause-on-reduced-motion',
+    'scrollable_dots_width' => 'scrollable-dots-width',
   ];
 
   public const VIEWS_TYPE_INTEGER = 'integer';

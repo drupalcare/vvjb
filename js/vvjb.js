@@ -254,7 +254,11 @@
     const deeplinkEnabled = dataset.deeplinkEnabled === 'true';
     const deeplinkId = dataset.deeplinkId || '';
 
-    // Detect RTL mode - ADD THIS LINE
+    // Scrollable dots configuration.
+    const dotsContainer = container.querySelector('.vvjb-carousel-dots');
+    const scrollableDotsWidth = parseIntSafe(dotsContainer?.dataset.scrollableDotsWidth, 0, 0);
+
+    // Detect RTL mode for directional adjustments.
     const rtlMode = isRTL(container);
 
     // Build configuration object.
@@ -271,6 +275,7 @@
       navigation: dataset.navigation || 'both',
       deeplinkEnabled,
       deeplinkId,
+      scrollableDotsWidth,
     };
 
     // Build feature flags object.
@@ -884,12 +889,18 @@
 
     // Update dots if navigation uses them.
     if (state.config.navigation === 'dots' || state.config.navigation === 'both') {
+      const dotsContainer = state.container.querySelector('.vvjb-carousel-dots');
       const dots = state.container.querySelectorAll('.vvjb-carousel-dot');
       dots.forEach((dot, index) => {
         const isActive = index === state.pageIndex;
         dot.classList.toggle('active-slide', isActive);
         dot.setAttribute('aria-current', isActive ? 'true' : 'false');
       });
+
+      // Center active dot in scrollable container.
+      if (state.config.scrollableDotsWidth > 0 && dotsContainer) {
+        centerActiveDot(state, dotsContainer);
+      }
     }
 
     updateNavVisibility(state);
@@ -1165,6 +1176,11 @@
     // Clear and append all at once for performance.
     dotsContainer.innerHTML = '';
     dotsContainer.appendChild(fragment);
+
+    // Apply scrollable dots width if set.
+    if (state.config.scrollableDotsWidth > 0) {
+      applyScrollableDotsWidth(state, dotsContainer);
+    }
   }
 
   /**
@@ -1198,6 +1214,136 @@
         updateDeepLinkHash(state);
       });
     });
+
+    // Initialize scrollable dots if width is set.
+    if (state.config.scrollableDotsWidth > 0) {
+      initScrollableDots(state, dotsContainer);
+    }
+  }
+
+  /**
+   * Initialize scrollable dots container.
+   *
+   * Sets up scroll listeners for overflow indicators.
+   *
+   * @param {Object} state
+   *   The carousel state object.
+   * @param {HTMLElement} dotsContainer
+   *   The dots container element.
+   */
+  function initScrollableDots(state, dotsContainer) {
+    if (!dotsContainer || state.config.scrollableDotsWidth <= 0) {
+      return;
+    }
+
+    // Apply max-width from configuration.
+    applyScrollableDotsWidth(state, dotsContainer);
+
+    // Add scroll listener for overflow indicators.
+    dotsContainer.addEventListener('scroll', () => {
+      updateDotsOverflowIndicators(dotsContainer);
+    }, { passive: true });
+
+    // Initial overflow indicator update.
+    requestAnimationFrame(() => {
+      updateDotsOverflowIndicators(dotsContainer);
+    });
+  }
+
+  /**
+   * Apply scrollable dots container width from configuration.
+   *
+   * @param {Object} state
+   *   The carousel state object.
+   * @param {HTMLElement} dotsContainer
+   *   The dots container element.
+   */
+  function applyScrollableDotsWidth(state, dotsContainer) {
+    if (!dotsContainer || state.config.scrollableDotsWidth <= 0) {
+      return;
+    }
+
+    // Apply the configured width directly.
+    dotsContainer.style.maxWidth = `${state.config.scrollableDotsWidth}px`;
+    dotsContainer.style.justifyContent = 'flex-start';
+
+    // Center the active dot after width is set.
+    requestAnimationFrame(() => {
+      centerActiveDot(state, dotsContainer);
+      updateDotsOverflowIndicators(dotsContainer);
+    });
+  }
+
+  /**
+   * Center the active dot in the scrollable container.
+   *
+   * @param {Object} state
+   *   The carousel state object.
+   * @param {HTMLElement} dotsContainer
+   *   The dots container element.
+   */
+  function centerActiveDot(state, dotsContainer) {
+    if (!dotsContainer || state.config.scrollableDotsWidth <= 0) {
+      return;
+    }
+
+    const activeDot = dotsContainer.querySelector('.vvjb-carousel-dot.active-slide');
+    if (!activeDot) {
+      return;
+    }
+
+    const containerWidth = dotsContainer.offsetWidth;
+    const dotOffsetLeft = activeDot.offsetLeft;
+    const dotWidth = activeDot.offsetWidth;
+
+    // Calculate scroll position to center the active dot.
+    const scrollTarget = dotOffsetLeft - (containerWidth / 2) + (dotWidth / 2);
+
+    // Clamp scroll position to valid range.
+    const maxScroll = dotsContainer.scrollWidth - containerWidth;
+    const clampedScroll = Math.max(0, Math.min(scrollTarget, maxScroll));
+
+    // Smooth scroll to the target position.
+    dotsContainer.scrollTo({
+      left: clampedScroll,
+      behavior: 'smooth'
+    });
+  }
+
+  /**
+   * Update overflow indicators for scrollable dots.
+   *
+   * Adds/removes classes based on scroll position to show fade gradients.
+   *
+   * @param {HTMLElement} dotsContainer
+   *   The dots container element.
+   */
+  function updateDotsOverflowIndicators(dotsContainer) {
+    if (!dotsContainer) {
+      return;
+    }
+
+    const scrollLeft = dotsContainer.scrollLeft;
+    const scrollWidth = dotsContainer.scrollWidth;
+    const containerWidth = dotsContainer.offsetWidth;
+    const maxScroll = scrollWidth - containerWidth;
+
+    // Threshold for considering overflow (2px tolerance for rounding).
+    const threshold = 2;
+
+    // Update start overflow indicator.
+    if (scrollLeft > threshold) {
+      dotsContainer.classList.add('has-overflow-start');
+    } else {
+      dotsContainer.classList.remove('has-overflow-start');
+    }
+
+    // Update end overflow indicator.
+    if (scrollLeft < maxScroll - threshold) {
+      dotsContainer.classList.add('has-overflow-end');
+    } else {
+      dotsContainer.classList.remove('has-overflow-end');
+    }
   }
 
   /**

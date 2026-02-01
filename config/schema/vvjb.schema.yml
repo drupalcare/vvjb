@@ -32,6 +32,27 @@ views.style.views_vvjb:
     breakpoints:
       type: string
       label: 'Responsive breakpoint'
+    show_play_pause:
+      type: boolean
+      label: 'Show play/pause button'
+    show_progress_bar:
+      type: boolean
+      label: 'Show progress bar'
+    show_page_counter:
+      type: boolean
+      label: 'Show page counter'
+    enable_keyboard_nav:
+      type: boolean
+      label: 'Enable keyboard navigation'
+    enable_touch_swipe:
+      type: boolean
+      label: 'Enable touch/swipe gestures'
+    enable_pause_on_hover:
+      type: boolean
+      label: 'Pause on hover'
+    pause_on_reduced_motion:
+      type: boolean
+      label: 'Pause on reduced motion preference'
     enable_deeplink:
       type: boolean
       label: 'Enable deep linking'
@@ -44,3 +65,10 @@ views.style.views_vvjb:
           message: 'Must start with letter, contain only lowercase letters, numbers, and hyphens'
         Length:
           max: 20
+    scrollable_dots_width:
+      type: integer
+      label: 'Scrollable dots navigation width in pixels'
+      constraints:
+        Range:
+          min: 0
+          max: 700
