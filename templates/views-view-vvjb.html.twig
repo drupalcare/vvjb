@@ -18,7 +18,7 @@
 {% set deeplink_config = {
   enabled: options.enable_deeplink|default(false),
   identifier: options.deeplink_identifier|default(''),
-  has_navigation_dots: options.navigation in ['dots', 'both']
+  has_navigation_dots: options.navigation in ['dots', 'both'],
 } %}
 
 {# Class management #}
@@ -28,10 +28,11 @@
   'vvjb-orientation-' ~ options.orientation,
   'vvjb-nav-' ~ options.navigation,
   'br-' ~ options.breakpoints,
-  has_bottom_controls
+  has_bottom_controls,
 ] %}
 
-<div {{ attributes.addClass(container_classes).setAttribute('id', vvjb_id) }} role="region" aria-label="Carousel" tabindex="0">
+<vvjb-carousel {{ attributes.addClass(container_classes).setAttribute('id', vvjb_id) }} role="region" aria-label="Carousel" tabindex="0"
+  {%- if deeplink_config.enabled and deeplink_config.identifier %} data-deeplink-id="{{ deeplink_config.identifier }}"{% endif %}>
   <div class="vvjb-inner"
        data-show-play-pause="{{ options.show_play_pause ? 'true' : 'false' }}"
        data-show-progress-bar="{{ options.show_progress_bar ? 'true' : 'false' }}"
@@ -61,7 +62,6 @@
              data-deeplink-id="{{ deeplink_config.identifier }}"
              {% endif %}
              style="{{ items_gap_style }}">
-
 
           {% for row in rows %}
             {% set item_id = 'vvjb-item-' ~ unique_id ~ '-' ~ loop.index %}
@@ -138,4 +138,4 @@
       {% endif %}
     </div>
   </div>
-</div>
+</vvjb-carousel>

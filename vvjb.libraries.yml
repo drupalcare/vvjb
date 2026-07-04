@@ -3,12 +3,19 @@ vvjb:
     theme:
       css/vvjb.css: { }
   js:
+    js/vvjb-carousel-element.js: {}
     js/vvjb.js: {}
   dependencies:
     - core/drupal
     - core/drupal.ajax
     - core/drupalSettings
     - core/once
+    - vvj_core/tokens
+    - vvj_core/base
+    - vvj_core/a11y
+    - vvj_core/element-base
+    - vvj_core/keyboard-nav
+    - vvj_core/deeplink-bridge
 
 vvjb-admin:
   css:

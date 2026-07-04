@@ -29,6 +29,9 @@ views.style.views_vvjb:
     navigation:
       type: string
       label: 'Navigation type'
+    dot_style:
+      type: string
+      label: 'Dot navigation style'
     breakpoints:
       type: string
       label: 'Responsive breakpoint'

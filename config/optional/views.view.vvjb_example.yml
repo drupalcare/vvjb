@@ -174,3 +174,54 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
+  page_1:
+    id: page_1
+    display_title: 'Demo Page'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'VVJB Basic Carousel Demo'
+      display_extenders: {  }
+      path: vvjb-example
+      defaults:
+        access: false
+      access:
+        type: perm
+        options:
+          perm: 'access administration pages'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:node.type.article'
+  block_1:
+    id: block_1
+    display_title: 'Basic Carousel Block'
+    display_plugin: block
+    position: 2
+    display_options:
+      title: 'Featured Articles'
+      display_extenders: {  }
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 3
+      defaults:
+        title: false
+        pager: false
+      block_description: 'VVJB Articles Basic Carousel Block'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:node.type.article'

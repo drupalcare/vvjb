@@ -1,166 +1,98 @@
-# Views Vanilla Javascript Basic Carousel
+# Views Vanilla JavaScript Basic Carousel (VVJB)
 
-## Description
+A vanilla-JavaScript carousel **Views format** for Drupal 11.3+ / 12. Renders
+Views rows as a responsive, touch-friendly, autoplay-capable carousel —
+horizontal, vertical, or hybrid orientations — with W3C ARIA-conformant keyboard
+navigation, configurable item-per-screen counts at small/large breakpoints,
+looping, deep-linking, scrollable-dot navigation, progress bar, page counter,
+and play/pause control.
 
-The **Views Vanilla Javascript Basic Carousel** module allows you to create
-accessible and responsive carousels for displaying various content items on
-your Drupal site. This module integrates with the Views module, providing a
-new display style that you can select when creating or editing views.
+v2.0 builds on the **`drupal/vvj_core` foundation** (composer auto-installs it).
+Behavior runs in a `<vvjb-carousel>` custom element extending `VvjElementBase`.
 
 ## Features
 
-- Renders content items in a horizontal or vertical carousel.
-- Supports responsive layout via screen size breakpoints.
-- Autoplay with play/pause support.
-- Configurable:
-  - Orientation (horizontal, vertical, hybrid).
-  - Items per screen (small/large).
-  - Item gap and optional item width.
-  - Looping and navigation style (arrows, dots, both, or none).
-  - Autoplay interval (1000–15000ms).
-
-## Requirements
-
-- Drupal 10 or later
-- Views module
+- Three orientations: horizontal / vertical / hybrid (vertical below breakpoint)
+- Configurable items-per-screen on small + large viewports
+- Configurable gap, optional fixed item width
+- Autoplay with 0–15 s interval (0 disables); pause-on-hover; pause-when-out-of-
+  viewport (IntersectionObserver); pause-when-tab-hidden (visibility API);
+  pause-on-reduced-motion
+- Looping (wrap to first when reaching end)
+- Touch / swipe gestures (RTL-aware)
+- Keyboard nav: ArrowLeft/Right (or Up/Down for vertical), Space (toggle
+  play/pause), Home, End
+- Arrow + dot navigation (or arrows-only / dots-only / none)
+- Scrollable dots with overflow indicators (configurable max width)
+- Play/pause button with SVG icon swap + ARIA label
+- RAF-driven progress bar with ARIA `role="progressbar"`
+- Page counter ("X of Y")
+- Deep linking — shareable URL fragments per slide (`#carousel-products-3`)
+- ARIA `aria-roledescription="carousel"`, `inert` on hidden slides, screen-
+  reader announcer for slide changes
+- Lazy IntersectionObserver hydration; AbortController-tracked listeners
+- View Transitions wrapping slide swaps (graceful fallback)
+- 5 responsive breakpoints (576 / 768 / 992 / 1200 / 1400 px)
+- **Views tokens** — `[vvjb:field]` / `[vvjb:field:plain]` in
+  header/footer/empty text when *Use replacement tokens from the first row* is
+  enabled (same pattern as other VVJ modules)
+- **Drupal admin help** — `/admin/help/vvjb`
 
 ## Installation
 
-1. Download and enable the **Views Vanilla JavaScript Basic Carousel** module.
-2. Clear the cache: `drush cr` or via the Drupal admin interface.
+```bash
+composer require drupal/vvjb:^2.0
+drush en vvjb
+```
 
 ## Usage
 
-1. Create or edit a view using the Views module.
-2. In the **Format** section, select **Basic Carousel** from the list of
-   available display styles.
-3. Under **Format Settings**, configure the available options to match your
-   design and interaction requirements.
-4. In the **Pager** settings, define the number of items to display. Since
-   this is a continuous scrolling carousel, traditional pagination is not
-   used.
+1. Create or edit a View.
+2. Set **Format** to *Views Vanilla JavaScript Basic Carousel*.
+3. Set **Show** to *Fields*.
+4. Configure orientation / items per screen / gap / autoplay / navigation /
+   responsive in the format settings.
+5. Save.
 
-## Configuration Options
+**Sample view:** Optional config `views.view.vvjb_example` (`config/optional/`)
+installs with the module when there is no ID conflict — use it as a reference
+implementation.
 
-- **Orientation:** Choose between horizontal, vertical, or hybrid layout.
-- **Items per Screen:** Define the number of visible items on small and large
-  screens.
-- **Custom Item Width:** Optional fixed width per item.
-- **Gap Between Items:** Space between slides, in pixels.
-- **Looping:** Toggle whether the carousel should loop back to the beginning.
-- **Navigation Style:** Use arrows, dots, both, or no navigation.
-- **Autoplay Time:** Set the interval between automatic slide transitions.
+## Public API
 
-## Token Support in Views Text Areas
+External code can drive the carousel via `Drupal.vvjb.*`. Pass either the
+deeplink identifier, a CSS selector, or an `Element` reference:
 
-In Views headers, footers, or empty text areas—when using *Global: Text area* or
-*Global: Unfiltered text*—there is an option called **"Use replacement tokens
-from the first row."**
-
-The default Twig-style tokens (e.g., `{{ title }}` or `{{ field_image }}`)
-**will not work** with the VVJB style. Instead, use the custom tokens provided
-by VVJB:
-
-**Examples:**
-
-- `{{ title }}` → `[vvjb:title]`  
-- `{{ field_image }}` → `[vvjb:field_image]`
-
-To strip any HTML from the output, you can append `:plain` to the token:
-
-- `[vvjb:title:plain]`
-
-These tokens pull data from the **first row** of the View result and are
-designed to work seamlessly with the VVJB rendering system.
-
-## Deep Linking
-
-Enable deep linking in your carousel's Format Settings to create shareable URLs for specific slides.
-
-**Setup:**
-1. Enable **Deep Linking** in Format Settings
-2. Set **URL Identifier** (e.g., "products")
-3. Ensure navigation is set to **Dots** or **Both**
-4. Carousel slide links become: `#carousel-products-3`
-
-**Note:** Deep linking requires navigation dots to be enabled.
-
-## JavaScript API
-
-Control carousels from your own JavaScript code:
-
-### Available Methods
-
-**Navigate to specific slide:**
-```javascript
-Drupal.vvjb.goToSlide('products', 3);  // Go to slide page 3
+```js
+Drupal.vvjb.goToSlide('products', 3);          // jump to page 3
+Drupal.vvjb.nextSlide('products');             // advance one page
+Drupal.vvjb.prevSlide('products');             // back one page
+Drupal.vvjb.pause('products');                 // pause autoplay
+Drupal.vvjb.resume('products');                // resume autoplay
+Drupal.vvjb.getCurrentSlide('products');       // → number (1-indexed)
+Drupal.vvjb.getTotalSlides('products');        // → number
+Drupal.vvjb.getInstance('#vvjb-12345');        // → <vvjb-carousel> element
 ```
 
-**Get current state:**
-```javascript
-const current = Drupal.vvjb.getCurrentSlide('products');  // Returns current slide number
-const total = Drupal.vvjb.getTotalSlides('products');     // Returns total slides
-```
+## Drop-in upgrade from 1.x
 
-**Navigation controls:**
-```javascript
-Drupal.vvjb.nextSlide('products');  // Go to next slide
-Drupal.vvjb.prevSlide('products');  // Go to previous slide
-```
+`composer update drupal/vvjb && drush cache:rebuild` is sufficient. v2
+preserves:
 
-**Playback control:**
-```javascript
-Drupal.vvjb.pause('products');   // Pause auto-rotation
-Drupal.vvjb.resume('products');  // Resume auto-rotation
-```
+- Plugin ID `views_vvjb`, theme hook `views_view_vvjb`
+- Twig template name
+- All option keys (19 total)
+- Library names (`vvjb`, `vvjb-admin`, `vvjb__576/768/992/1200/1400`)
+- JS behavior key `Drupal.behaviors.vvjbCarousel`
+- Public API surface
+  `Drupal.vvjb.{goToSlide,nextSlide,prevSlide,pause,resume,getCurrentSlide,getTotalSlides,getInstance}`
+- All CSS class names (`.vvjb`, `.vvjb-inner`, `.vvjb-items`, `.vvjb-item`,
+  `.vvjb-button`, `.vvjb-prev`/`.vvjb-next`, `.vvjb-carousel-dot`, `.vvjb-
+  progress-bar`, `.vvjb-play-pause-button`, `.vvjb-page-counter`, etc.)
 
-**Access carousel instance:**
-```javascript
-const instance = Drupal.vvjb.getInstance('#vvjb-12345');
-```
-
-### Complete Example: Custom Navigation
-
-```javascript
-// Wait for Drupal behaviors to attach
-Drupal.behaviors.myCustomNav = {
-  attach: function(context, settings) {
-    // Find your custom buttons
-    const myNextBtn = once('my-next', '.my-custom-next', context)[0];
-    const myPrevBtn = once('my-prev', '.my-custom-prev', context)[0];
-    
-    if (myNextBtn) {
-      myNextBtn.addEventListener('click', function() {
-        Drupal.vvjb.nextSlide('products');
-      });
-    }
-    
-    if (myPrevBtn) {
-      myPrevBtn.addEventListener('click', function() {
-        Drupal.vvjb.prevSlide('products');
-      });
-    }
-  }
-};
-```
-
-## Accessibility
-
-- Uses `aria-live` regions to announce slide changes.
-- Supports full keyboard navigation.
-- Play/pause interactions are keyboard accessible.
-
-## Maintainers
-
-- [Alaa Haddad](https://www.drupal.org/u/flashwebcenter)
+Outer rendered tag changed from `<div>` to `<vvjb-carousel>`. Theme selectors
+targeting `.vvjb` keep matching.
 
 ## License
 
-This project is licensed under the
-[GNU General Public License, version 2 or later](http://www.gnu.org/licenses/gpl-2.0.html).
-
----
-
-This README follows Drupal documentation best practices. It clearly outlines
-the module's purpose, usage, and configuration, and emphasizes accessibility
-and responsive behavior for front-end implementations.
+GPL-2.0-or-later.

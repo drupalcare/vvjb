@@ -24,8 +24,8 @@
   .vvjb.br-1200.vvjb-orientation-hybrid .vvjb-carousel-options {
     top: 0;
     bottom: 0;
-    left: 50%;
-    right: auto;
+    inset-inline-start: 50%;
+    inset-inline-end: auto;
     transform: translateX(-50%);
     flex-direction: column;
     justify-content: space-between;

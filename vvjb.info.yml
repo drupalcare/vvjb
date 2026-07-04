@@ -1,7 +1,10 @@
 name: 'Views Vanilla Javascript Basic Carousel - VVJB'
 type: module
-description: 'Provides a Vanilla Javascript Basic Carousel format for Views.'
-core_version_requirement: ^10 || ^11
-package: Views
+description: 'Accessible carousel display format for Views.'
+core_version_requirement: ^11.3 || ^12
+package: VVJ
+php: 8.3
 dependencies:
   - drupal:views
+  - drupal:filter
+  - vvj_core:vvj_core

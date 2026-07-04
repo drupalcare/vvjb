@@ -5,57 +5,117 @@ declare(strict_types=1);
 namespace Drupal\vvjb;
 
 /**
- * Defines constants for the VVJB module.
+ * Vvjb-specific constants — basic-carousel pattern-only values.
+ *
+ * Cross-cutting constants live in vvj_core's `ValidationBounds`.
+ *
+ * @internal Final, non-instantiable.
  */
 final class VvjbConstants {
 
-  public const ORIENTATION_HORIZONTAL = 'horizontal';
-  public const ORIENTATION_VERTICAL = 'vertical';
-  public const ORIENTATION_HYBRID = 'hybrid';
-
-  public const NAV_ARROWS = 'arrows';
-  public const NAV_DOTS = 'dots';
-  public const NAV_BOTH = 'both';
-  public const NAV_NONE = 'none';
+  /**
+   * Carousel orientation values.
+   */
+  public const string ORIENTATION_HORIZONTAL = 'horizontal';
+  public const string ORIENTATION_VERTICAL = 'vertical';
+  public const string ORIENTATION_HYBRID = 'hybrid';
+  public const string DEFAULT_ORIENTATION = self::ORIENTATION_HORIZONTAL;
 
   /**
-   * Scrollable dots configuration constants.
+   * Navigation control values.
    */
-  public const DEFAULT_SCROLLABLE_DOTS_WIDTH = 0;
-  public const MIN_SCROLLABLE_DOTS_WIDTH = 120;
-  public const MAX_SCROLLABLE_DOTS_WIDTH = 700;
+  public const string NAV_ARROWS = 'arrows';
+  public const string NAV_DOTS = 'dots';
+  public const string NAV_BOTH = 'both';
+  public const string NAV_NONE = 'none';
+  public const string DEFAULT_NAVIGATION = self::NAV_BOTH;
 
-  public const BREAKPOINT_576 = '576';
-  public const BREAKPOINT_768 = '768';
-  public const BREAKPOINT_992 = '992';
-  public const BREAKPOINT_1200 = '1200';
-  public const BREAKPOINT_1400 = '1400';
+  /**
+   * Dot-navigation style values.
+   *
+   * Circle is the default appearance (no class). Bar and Square map to the
+   * `bar-dots` / `square-dots` wrapper classes the CSS already ships.
+   */
+  public const string DOT_STYLE_CIRCLE = 'circle';
+  public const string DOT_STYLE_BAR = 'bar';
+  public const string DOT_STYLE_SQUARE = 'square';
+  public const string DEFAULT_DOT_STYLE = self::DOT_STYLE_CIRCLE;
 
-  public const DEFAULT_ORIENTATION = self::ORIENTATION_HORIZONTAL;
-  public const DEFAULT_ITEMS_SMALL = 1;
-  public const DEFAULT_ITEMS_BIG = 3;
-  public const DEFAULT_GAP = 16;
-  public const DEFAULT_ITEM_WIDTH = 0;
-  public const DEFAULT_LOOPING = TRUE;
-  public const DEFAULT_SLIDE_TIME = 5000;
-  public const DEFAULT_NAVIGATION = self::NAV_BOTH;
-  public const DEFAULT_BREAKPOINT = self::BREAKPOINT_992;
+  /**
+   * Map of dot-style value → wrapper CSS class ('' = default circle).
+   *
+   * The class is printed on the views wrapper (an ancestor of the carousel),
+   * where `.bar-dots .vvjb …` / `.square-dots .vvjb …` target it — the same
+   * spot a site builder would add it by hand.
+   *
+   * @var array<string, string>
+   */
+  public const array DOT_STYLE_CLASSES = [
+    self::DOT_STYLE_CIRCLE => '',
+    self::DOT_STYLE_BAR => 'bar-dots',
+    self::DOT_STYLE_SQUARE => 'square-dots',
+  ];
 
-  public const MIN_ITEMS = 1;
-  public const MIN_GAP = 0;
-  public const MIN_ITEM_WIDTH = 0;
-  public const MIN_SLIDE_TIME = 0;
-  public const MAX_SLIDE_TIME = 15000;
-  public const SLIDE_TIME_STEP = 1000;
+  /**
+   * Layout defaults.
+   */
+  public const int DEFAULT_ITEMS_SMALL = 1;
+  public const int DEFAULT_ITEMS_BIG = 3;
+  public const int DEFAULT_GAP = 16;
+  public const int DEFAULT_ITEM_WIDTH = 0;
 
-  public const MIN_UNIQUE_ID = 10000000;
-  public const MAX_UNIQUE_ID = 99999999;
+  /**
+   * Behavior defaults.
+   */
+  public const bool DEFAULT_LOOPING = TRUE;
+  public const int DEFAULT_SLIDE_TIME = 5000;
 
-  public const TOKEN_NAMESPACE = 'vvjb';
-  public const TOKEN_PLAIN_SUFFIX = ':plain';
-  public const TOKEN_PATTERN = '/^[a-zA-Z0-9_]+(:plain)?$/';
+  /**
+   * Slide-time bounds (milliseconds).
+   *
+   * Vvjb-specific, distinct from the seconds-based bounds in
+   * vvj_core's ValidationBounds.
+   */
+  public const int MIN_SLIDE_TIME_MS = 0;
+  public const int MAX_SLIDE_TIME_MS = 15000;
+  public const int SLIDE_TIME_STEP = 1000;
 
-  public const DATA_ATTRIBUTE_MAP = [
+  /**
+   * Item count + gap bounds.
+   */
+  public const int MIN_ITEMS = 1;
+  public const int MIN_GAP = 0;
+  public const int MIN_ITEM_WIDTH = 0;
+
+  /**
+   * Responsive breakpoint default.
+   */
+  public const string DEFAULT_BREAKPOINT = '992';
+
+  /**
+   * Scrollable-dots width bounds.
+   */
+  public const int DEFAULT_SCROLLABLE_DOTS_WIDTH = 0;
+  public const int MIN_SCROLLABLE_DOTS_WIDTH = 120;
+  public const int MAX_SCROLLABLE_DOTS_WIDTH = 700;
+
+  /**
+   * Reserved deeplink-identifier words specific to vvjb.
+   *
+   * Conflict with vvjb's URL fragment prefix `#carousel-{id}-{n}`.
+   *
+   * @var list<string>
+   */
+  public const array DEEPLINK_RESERVED_WORDS = ['carousel', 'slide', 'vvjb', 'vvj'];
+
+  /**
+   * Map of option key → data attribute name.
+   *
+   * Rendered on the carousel root as `data-{name}="{value}"`.
+   *
+   * @var array<string, string>
+   */
+  public const array DATA_ATTRIBUTE_MAP = [
     'orientation' => 'orientation',
     'items_small' => 'items-small',
     'items_big' => 'items-big',
@@ -76,17 +136,9 @@ final class VvjbConstants {
     'scrollable_dots_width' => 'scrollable-dots-width',
   ];
 
-  public const VIEWS_TYPE_INTEGER = 'integer';
-  public const VIEWS_TYPE_STRING = 'string';
-  public const VIEWS_TYPE_BOOLEAN = 'boolean';
-
   /**
-   * Deep linking configuration constants.
+   * Prevent instantiation.
    */
-  public const DEEPLINK_IDENTIFIER_MAX_LENGTH = 20;
-  public const DEEPLINK_IDENTIFIER_PATTERN = '/^[a-z][a-z0-9-]*[a-z0-9]$/';
-  public const DEEPLINK_RESERVED_WORDS = ['carousel', 'slide', 'vvjb'];
-
   private function __construct() {
   }
 
