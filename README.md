@@ -38,6 +38,20 @@ Behavior runs in a `<vvjb-carousel>` custom element extending `VvjElementBase`.
   enabled (same pattern as other VVJ modules)
 - **Drupal admin help** — `/admin/help/vvjb`
 
+## Token Support in Views Text Areas
+
+In Views headers, footers, or empty text with *Use replacement tokens from the
+first row*, default Twig tokens (`{{ title }}`) do not work. Use VVJB tokens
+instead:
+
+- `{{ title }}` → `[vvjb:title]`
+- `{{ field_image }}` → `[vvjb:field_image]`
+- Append `:plain` for plain text: `[vvjb:title:plain]`
+
+v2 resolves tokens through the shared `vvj_core.token_resolver` service; syntax
+is unchanged from v1. Tokens read from the **first row** of rendered View
+fields. Complex field rewrites are not supported.
+
 ## Installation
 
 ```bash
