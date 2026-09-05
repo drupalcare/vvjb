@@ -23,8 +23,6 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal, drupalSettings, once) => {
-  'use strict';
-
   Drupal.behaviors.vvjbCarousel = {
     attach(context) {
       once('vvjb-carousel-marker', 'vvjb-carousel', context);
@@ -39,23 +37,31 @@
    * @param {string|Element} identifier
    *   Either a deeplink-id (e.g. `'products'`), a CSS selector, or an
    *   existing element.
-   * @returns {Element|null}
+   * @return {Element|null}
    *   The matched `<vvjb-carousel>` element, or null.
    */
   function getElement(identifier) {
     if (identifier instanceof Element) {
       return identifier.closest('vvjb-carousel');
     }
-    if (typeof identifier !== 'string') { return null;
+    if (typeof identifier !== 'string') {
+      return null;
     }
-    let el = document.querySelector(`vvjb-carousel[data-deeplink-id="${identifier}"]`);
-    if (el) { return el;
+    let el = document.querySelector(
+      `vvjb-carousel[data-deeplink-id="${identifier}"]`,
+    );
+    if (el) {
+      return el;
     }
-    el = document.querySelector(`vvjb-carousel .vvjb-items[data-deeplink-id="${identifier}"]`);
-    if (el) { return el.closest('vvjb-carousel');
+    el = document.querySelector(
+      `vvjb-carousel .vvjb-items[data-deeplink-id="${identifier}"]`,
+    );
+    if (el) {
+      return el.closest('vvjb-carousel');
     }
     el = document.querySelector(identifier);
-    if (el) { return el.closest('vvjb-carousel') || el;
+    if (el) {
+      return el.closest('vvjb-carousel') || el;
     }
     return null;
   }
@@ -65,7 +71,9 @@
   Drupal.vvjb.goToSlide = (identifier, slideNumber) => {
     const el = getElement(identifier);
     if (!el || typeof el.goToSlide !== 'function') {
-      console.warn(`VVJB: Carousel "${identifier}" not found or not yet hydrated`);
+      console.warn(
+        `VVJB: Carousel "${identifier}" not found or not yet hydrated`,
+      );
       return false;
     }
     return el.goToSlide(slideNumber);
@@ -73,46 +81,52 @@
 
   Drupal.vvjb.getCurrentSlide = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.getCurrentSlide !== 'function') { return null;
+    if (!el || typeof el.getCurrentSlide !== 'function') {
+      return null;
     }
     return el.getCurrentSlide();
   };
 
   Drupal.vvjb.getTotalSlides = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.getTotalSlides !== 'function') { return null;
+    if (!el || typeof el.getTotalSlides !== 'function') {
+      return null;
     }
     return el.getTotalSlides();
   };
 
   Drupal.vvjb.nextSlide = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.nextSlide !== 'function') { return false;
+    if (!el || typeof el.nextSlide !== 'function') {
+      return false;
     }
     return el.nextSlide();
   };
 
   Drupal.vvjb.prevSlide = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.prevSlide !== 'function') { return false;
+    if (!el || typeof el.prevSlide !== 'function') {
+      return false;
     }
     return el.prevSlide();
   };
 
   Drupal.vvjb.pause = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.pause !== 'function') { return false;
+    if (!el || typeof el.pause !== 'function') {
+      return false;
     }
     return el.pause();
   };
 
   Drupal.vvjb.resume = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.resume !== 'function') { return false;
+    if (!el || typeof el.resume !== 'function') {
+      return false;
     }
     return el.resume();
   };
 
-  Drupal.vvjb.getInstance = (containerOrSelector) => getElement(containerOrSelector);
-
+  Drupal.vvjb.getInstance = (containerOrSelector) =>
+    getElement(containerOrSelector);
 })(Drupal, drupalSettings, once);

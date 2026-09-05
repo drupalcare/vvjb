@@ -7,7 +7,7 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
-@media (max-width:35.99875rem) {
+@media (max-width: 35.99875rem) {
   .vvjb.br-576.vvjb-orientation-hybrid.vvjb-nav-arrows .vvjb-carousel-outer,
   .vvjb.br-576.vvjb-orientation-hybrid.vvjb-nav-both .vvjb-carousel-outer {
     padding: 50px 0;
@@ -25,13 +25,13 @@
   .vvjb.br-576.vvjb-orientation-hybrid .vvjb-carousel-options {
     top: 0;
     bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    transform: translateX(-50%);
     inset-inline-start: 50%;
     inset-inline-end: auto;
-    transform: translateX(-50%);
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
   }
 
   .vvjb.br-576.vvjb-orientation-hybrid button svg {
@@ -40,9 +40,9 @@
 
   .vvjb.br-576.vvjb-orientation-hybrid .vvjb-carousel-outer {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
   }
 
   .vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
@@ -52,5 +52,4 @@
   .vvjb .vvjb-carousel-options .vvjb-next.vvjb-hidden {
     transform: translateY(20px);
   }
-
 }

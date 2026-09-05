@@ -37,8 +37,6 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal) => {
-  'use strict';
-
   const { ElementBase } = Drupal.Vvj;
 
   const SVG_PLAY = `<svg class="svg-play" xmlns="http://www.w3.org/2000/svg" viewBox="80 -880 800 800" fill="currentColor" aria-hidden="true">
@@ -58,14 +56,18 @@
 
   function parseIntSafe(value, defaultValue, minValue = 0) {
     const parsed = parseInt(value, 10);
-    return Number.isFinite(parsed) && parsed >= minValue ? parsed : defaultValue;
+    return Number.isFinite(parsed) && parsed >= minValue
+      ? parsed
+      : defaultValue;
   }
 
   function isRTLContext(element) {
-    return element.closest('[dir="rtl"]') !== null
-      || document.documentElement.dir === 'rtl'
-      || document.body.dir === 'rtl'
-      || getComputedStyle(element).direction === 'rtl';
+    return (
+      element.closest('[dir="rtl"]') !== null ||
+      document.documentElement.dir === 'rtl' ||
+      document.body.dir === 'rtl' ||
+      getComputedStyle(element).direction === 'rtl'
+    );
   }
 
   function debounce(fn, delay) {
@@ -77,9 +79,9 @@
   }
 
   class VvjbCarouselElement extends ElementBase {
-
     static get patternSlug() {
- return 'vvjb'; }
+      return 'vvjb';
+    }
 
     constructor() {
       super();
@@ -116,7 +118,8 @@
 
     onHydrate() {
       this._inner = this.querySelector(':scope > .vvjb-inner');
-      if (!this._inner) { return;
+      if (!this._inner) {
+        return;
       }
 
       this._wrapper = this._inner.querySelector('.vvjb-carousel-wrapper');
@@ -127,14 +130,17 @@
       }
 
       const items = this._itemsContainer.querySelectorAll('.vvjb-item');
-      if (!items.length) { return;
+      if (!items.length) {
+        return;
       }
       this._items = items;
 
       this._nextButton = this._inner.querySelector('.vvjb-next');
       this._prevButton = this._inner.querySelector('.vvjb-prev');
       this._announcer = this._inner.querySelector('.vvjb-carousel-announcer');
-      this._playPauseButton = this._inner.querySelector('.vvjb-play-pause-button');
+      this._playPauseButton = this._inner.querySelector(
+        '.vvjb-play-pause-button',
+      );
       this._progressBar = this._inner.querySelector('.vvjb-progress-bar');
       this._currentPageSpan = this._inner.querySelector('.vvjb-current-page');
       this._totalPagesSpan = this._inner.querySelector('.vvjb-total-pages');
@@ -143,16 +149,18 @@
       this._readConfig();
       this._initFeatures();
 
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        this._updateLayout();
-        this._createDots();
-        this._bindDots();
-        if (this._config.deeplinkEnabled && this._config.deeplinkId) {
-          this._initDeepLinking();
-        }
-        this._inner.removeAttribute('hidden');
-        setTimeout(() => this._updateLayout(), 100);
-      }));
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          this._updateLayout();
+          this._createDots();
+          this._bindDots();
+          if (this._config.deeplinkEnabled && this._config.deeplinkId) {
+            this._initDeepLinking();
+          }
+          this._inner.removeAttribute('hidden');
+          setTimeout(() => this._updateLayout(), 100);
+        }),
+      );
 
       this._inner.setAttribute('data-vvjb-initialized', 'true');
     }
@@ -175,10 +183,16 @@
       const innerDs = this._inner.dataset;
 
       const breakpointParsed = parseInt(itemsDs.breakpoints, 10);
-      const breakpoints = VALID_BREAKPOINTS.includes(breakpointParsed) ? breakpointParsed : 992;
+      const breakpoints = VALID_BREAKPOINTS.includes(breakpointParsed)
+        ? breakpointParsed
+        : 992;
 
       const dotsContainerDs = this._dotsContainer?.dataset ?? {};
-      const scrollableDotsWidth = parseIntSafe(dotsContainerDs.scrollableDotsWidth, 0, 0);
+      const scrollableDotsWidth = parseIntSafe(
+        dotsContainerDs.scrollableDotsWidth,
+        0,
+        0,
+      );
 
       this._isRTL = isRTLContext(this);
 
@@ -253,11 +267,15 @@
         this._bindDots();
       }, 300);
 
-      window.addEventListener('resize', () => {
-        this._clampPageIndex();
-        this._updateLayout();
-        refreshDots();
-      }, { signal: this.signal });
+      window.addEventListener(
+        'resize',
+        () => {
+          this._clampPageIndex();
+          this._updateLayout();
+          refreshDots();
+        },
+        { signal: this.signal },
+      );
     }
 
     // -----------------------------------------------------------------
@@ -267,9 +285,11 @@
     _resolveOrientation() {
       const raw = this._config.rawOrientation;
       const bp = this._config.breakpoints;
-      if (raw === 'vertical') { return 'vertical';
+      if (raw === 'vertical') {
+        return 'vertical';
       }
-      if (raw === 'hybrid' && window.innerWidth <= bp) { return 'vertical';
+      if (raw === 'hybrid' && window.innerWidth <= bp) {
+        return 'vertical';
       }
       return 'horizontal';
     }
@@ -282,11 +302,15 @@
       const isVertical = this._config.orientation === 'vertical';
       const isHybrid = this._config.rawOrientation === 'hybrid';
       const isSmallScreen = window.innerWidth <= this._config.breakpoints;
-      const max = isSmallScreen ? this._config.itemsSmall : this._config.itemsBig;
+      const max = isSmallScreen
+        ? this._config.itemsSmall
+        : this._config.itemsBig;
 
-      if (isVertical) { return max;
+      if (isVertical) {
+        return max;
       }
-      if (isHybrid && isSmallScreen) { return max;
+      if (isHybrid && isSmallScreen) {
+        return max;
       }
 
       const containerSize = this._wrapper.offsetWidth;
@@ -296,13 +320,16 @@
 
       for (let i = 0; i < this._items.length; i++) {
         const itemSize = this._items[i].offsetWidth;
-        if (i > 0) { total += gap;
+        if (i > 0) {
+          total += gap;
         }
         total += itemSize;
-        if (total > containerSize) { break;
+        if (total > containerSize) {
+          break;
         }
         count++;
-        if (count >= max) { break;
+        if (count >= max) {
+          break;
         }
       }
 
@@ -326,10 +353,12 @@
         const end = start + itemsVisible;
         for (let i = start; i < end && i < this._items.length; i++) {
           offset += this._getItemSize(this._items[i], isVertical);
-          if (i < end - 1) { offset += gap;
+          if (i < end - 1) {
+            offset += gap;
           }
         }
-        if (end < this._items.length) { offset += gap;
+        if (end < this._items.length) {
+          offset += gap;
         }
       }
 
@@ -338,7 +367,8 @@
 
     _setWrapperSize() {
       const itemsVisible = this._getItemsVisible();
-      if (!this._items.length) { return;
+      if (!this._items.length) {
+        return;
       }
 
       const visibleItems = this._getVisibleItems();
@@ -354,10 +384,10 @@
         this._wrapper.style.height = '';
         this._wrapper.style.maxWidth = '';
         this._centerOffset = 0;
-      }
-      else {
+      } else {
         const totalWidth = visibleItems.reduce(
-          (sum, item, idx) => sum + this._getItemSize(item, false) + (idx > 0 ? gap : 0),
+          (sum, item, idx) =>
+            sum + this._getItemSize(item, false) + (idx > 0 ? gap : 0),
           0,
         );
         const wrapperWidth = this._wrapper.offsetWidth;
@@ -381,9 +411,10 @@
       if (this._config.orientation === 'vertical') {
         const transform = Math.round(-offset);
         this._itemsContainer.style.transform = `translateY(${transform}px)`;
-      }
-      else {
-        const transform = Math.round(this._isRTL ? -(centering - offset) : (centering - offset));
+      } else {
+        const transform = Math.round(
+          this._isRTL ? -(centering - offset) : centering - offset,
+        );
         this._itemsContainer.style.transform = `translateX(${transform}px)`;
       }
     }
@@ -403,17 +434,21 @@
         item.setAttribute('aria-hidden', String(!isActive));
         if (isActive) {
           item.removeAttribute('inert');
-        }
-        else {
+        } else {
           item.setAttribute('inert', '');
         }
-        const interactiveElements = item.querySelectorAll('a, button, input, textarea, select, [tabindex]');
+        const interactiveElements = item.querySelectorAll(
+          'a, button, input, textarea, select, [tabindex]',
+        );
         interactiveElements.forEach((el) => {
           el.setAttribute('tabindex', isActive ? '0' : '-1');
         });
       });
 
-      if (this._config.navigation === 'dots' || this._config.navigation === 'both') {
+      if (
+        this._config.navigation === 'dots' ||
+        this._config.navigation === 'both'
+      ) {
         const dots = this._inner.querySelectorAll('.vvjb-carousel-dot');
         dots.forEach((dot, index) => {
           const isActive = index === this._pageIndex;
@@ -440,30 +475,42 @@
     }
 
     _updateNavVisibility() {
-      if (this._config.navigation !== 'arrows' && this._config.navigation !== 'both') {
+      if (
+        this._config.navigation !== 'arrows' &&
+        this._config.navigation !== 'both'
+      ) {
         return;
       }
       const itemsVisible = this._getItemsVisible();
       const maxPage = Math.ceil(this._config.totalSlides / itemsVisible) - 1;
       if (!this._config.looping) {
-        this._prevButton?.classList.toggle('vvjb-hidden', this._pageIndex === 0);
-        this._nextButton?.classList.toggle('vvjb-hidden', this._pageIndex >= maxPage);
-      }
-      else {
+        this._prevButton?.classList.toggle(
+          'vvjb-hidden',
+          this._pageIndex === 0,
+        );
+        this._nextButton?.classList.toggle(
+          'vvjb-hidden',
+          this._pageIndex >= maxPage,
+        );
+      } else {
         this._prevButton?.classList.remove('vvjb-hidden');
         this._nextButton?.classList.remove('vvjb-hidden');
       }
     }
 
     _announceVisible(start, end) {
-      if (!this._announcer) { return;
+      if (!this._announcer) {
+        return;
       }
       const total = this._config.totalSlides;
-      this._announcer.textContent = Drupal.t('Showing slides @start to @end of @total', {
-        '@start': start + 1,
-        '@end': Math.min(end, total),
-        '@total': total,
-      });
+      this._announcer.textContent = Drupal.t(
+        'Showing slides @start to @end of @total',
+        {
+          '@start': start + 1,
+          '@end': Math.min(end, total),
+          '@total': total,
+        },
+      );
     }
 
     _clampPageIndex() {
@@ -479,9 +526,12 @@
     _nextSlide() {
       const itemsVisible = this._getItemsVisible();
       const totalPages = Math.ceil(this._config.totalSlides / itemsVisible);
-      this._pageIndex = (this._pageIndex >= totalPages - 1)
-        ? (this._config.looping ? 0 : totalPages - 1)
-        : this._pageIndex + 1;
+      if (this._pageIndex < totalPages - 1) {
+        this._pageIndex += 1;
+      } else {
+        // Past the last page: wrap to the start when looping, else stay put.
+        this._pageIndex = this._config.looping ? 0 : totalPages - 1;
+      }
       this.withTransition(() => this._updateLayout());
       this._updateDeepLinkHash();
     }
@@ -489,9 +539,12 @@
     _prevSlide() {
       const itemsVisible = this._getItemsVisible();
       const maxPage = Math.ceil(this._config.totalSlides / itemsVisible) - 1;
-      this._pageIndex = (this._pageIndex > 0)
-        ? this._pageIndex - 1
-        : (this._config.looping ? maxPage : 0);
+      if (this._pageIndex > 0) {
+        this._pageIndex -= 1;
+      } else {
+        // Before the first page: wrap to the end when looping, else stay put.
+        this._pageIndex = this._config.looping ? maxPage : 0;
+      }
       this.withTransition(() => this._updateLayout());
       this._updateDeepLinkHash();
     }
@@ -510,121 +563,142 @@
     }
 
     _bindNavigation() {
-      const shouldAutoplay = this._config.slideTime >= 1000 && this._config.slideTime <= 15000;
+      const shouldAutoplay =
+        this._config.slideTime >= 1000 && this._config.slideTime <= 15000;
       const resetAutoSlide = () => {
         if (shouldAutoplay && this._autoSlideTimer) {
           this._stopAutoSlide();
-          if (!this._isPaused) { this._startAutoSlide();
+          if (!this._isPaused) {
+            this._startAutoSlide();
           }
         }
       };
-      this._nextButton?.addEventListener('click', () => {
-        this._nextSlide();
-        resetAutoSlide();
-      }, { signal: this.signal });
-      this._prevButton?.addEventListener('click', () => {
-        this._prevSlide();
-        resetAutoSlide();
-      }, { signal: this.signal });
+      this._nextButton?.addEventListener(
+        'click',
+        () => {
+          this._nextSlide();
+          resetAutoSlide();
+        },
+        { signal: this.signal },
+      );
+      this._prevButton?.addEventListener(
+        'click',
+        () => {
+          this._prevSlide();
+          resetAutoSlide();
+        },
+        { signal: this.signal },
+      );
     }
 
     _bindTouch() {
       let startX = 0;
       let startY = 0;
-      this._wrapper.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-      }, { passive: true, signal: this.signal });
-      this._wrapper.addEventListener('touchend', (e) => {
-        const deltaX = e.changedTouches[0].clientX - startX;
-        const deltaY = e.changedTouches[0].clientY - startY;
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          if (this._isRTL) {
-            if (deltaX < -50) { this._prevSlide();
-            } else if (deltaX > 50) { this._nextSlide();
+      this._wrapper.addEventListener(
+        'touchstart',
+        (e) => {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        },
+        { passive: true, signal: this.signal },
+      );
+      this._wrapper.addEventListener(
+        'touchend',
+        (e) => {
+          const deltaX = e.changedTouches[0].clientX - startX;
+          const deltaY = e.changedTouches[0].clientY - startY;
+          if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (this._isRTL) {
+              if (deltaX < -50) {
+                this._prevSlide();
+              } else if (deltaX > 50) {
+                this._nextSlide();
+              }
+            } else if (deltaX < -50) {
+              this._nextSlide();
+            } else if (deltaX > 50) {
+              this._prevSlide();
+            }
+          } else if (this._config.orientation === 'vertical') {
+            if (deltaY < -50) {
+              this._nextSlide();
+            } else if (deltaY > 50) {
+              this._prevSlide();
             }
           }
-          else if (deltaX < -50) { this._nextSlide();
-          } else if (deltaX > 50) { this._prevSlide();
-          }
-        }
-        else if (this._config.orientation === 'vertical') {
-          if (deltaY < -50) { this._nextSlide();
-          } else if (deltaY > 50) { this._prevSlide();
-          }
-        }
-      }, { passive: true, signal: this.signal });
+        },
+        { passive: true, signal: this.signal },
+      );
     }
 
     _bindKeyboard() {
       this.setAttribute('tabindex', '0');
-      this.addEventListener('keydown', (e) => {
-        if (e.target.matches('input, textarea, [contenteditable="true"]')) { return;
-        }
-        const orientation = this._config.orientation;
-        let handled = false;
+      this.addEventListener(
+        'keydown',
+        (e) => {
+          if (e.target.matches('input, textarea, [contenteditable="true"]')) {
+            return;
+          }
+          const orientation = this._config.orientation;
+          let handled = false;
 
-        if (orientation === 'horizontal') {
-          if (this._isRTL) {
-            if (e.key === 'ArrowRight') {
+          if (orientation === 'horizontal') {
+            if (this._isRTL) {
+              if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                this._prevSlide();
+                handled = true;
+              } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                this._nextSlide();
+                handled = true;
+              }
+            } else if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              this._nextSlide();
+              handled = true;
+            } else if (e.key === 'ArrowLeft') {
               e.preventDefault();
               this._prevSlide();
               handled = true;
             }
-            else if (e.key === 'ArrowLeft') {
+          } else if (orientation === 'vertical') {
+            if (e.key === 'ArrowDown') {
               e.preventDefault();
               this._nextSlide();
               handled = true;
+            } else if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              this._prevSlide();
+              handled = true;
             }
           }
-          else if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            this._nextSlide();
-            handled = true;
-          }
-          else if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            this._prevSlide();
-            handled = true;
-          }
-        }
-        else if (orientation === 'vertical') {
-          if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            this._nextSlide();
-            handled = true;
-          }
-          else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            this._prevSlide();
-            handled = true;
-          }
-        }
 
-        if (!handled) {
-          if (e.key === ' ' || e.key === 'Spacebar') {
-            e.preventDefault();
-            if (this._features.showPlayPause) { this._togglePlayPause();
+          if (!handled) {
+            if (e.key === ' ' || e.key === 'Spacebar') {
+              e.preventDefault();
+              if (this._features.showPlayPause) {
+                this._togglePlayPause();
+              }
+              handled = true;
+            } else if (e.key === 'Home') {
+              e.preventDefault();
+              this._goToFirstPage();
+              handled = true;
+            } else if (e.key === 'End') {
+              e.preventDefault();
+              this._goToLastPage();
+              handled = true;
             }
-            handled = true;
           }
-          else if (e.key === 'Home') {
-            e.preventDefault();
-            this._goToFirstPage();
-            handled = true;
-          }
-          else if (e.key === 'End') {
-            e.preventDefault();
-            this._goToLastPage();
-            handled = true;
-          }
-        }
 
-        if (handled && !this._isPaused && this._config.slideTime > 0) {
-          this._stopAutoSlide();
-          this._startAutoSlide();
-        }
-      }, { signal: this.signal });
+          if (handled && !this._isPaused && this._config.slideTime > 0) {
+            this._stopAutoSlide();
+            this._startAutoSlide();
+          }
+        },
+        { signal: this.signal },
+      );
     }
 
     // -----------------------------------------------------------------
@@ -633,7 +707,8 @@
 
     _createDots() {
       const navigationType = this._config.navigation;
-      if (!this._dotsContainer) { return;
+      if (!this._dotsContainer) {
+        return;
       }
 
       if (navigationType !== 'dots' && navigationType !== 'both') {
@@ -644,7 +719,8 @@
       const fragment = document.createDocumentFragment();
       const itemsVisible = this._getItemsVisible();
       const totalPages = Math.ceil(this._config.totalSlides / itemsVisible);
-      const useDeepLinks = this._config.deeplinkEnabled && this._config.deeplinkId;
+      const useDeepLinks =
+        this._config.deeplinkEnabled && this._config.deeplinkId;
 
       for (let i = 0; i < totalPages; i++) {
         let dot;
@@ -653,8 +729,7 @@
           dot.href = `#carousel-${this._config.deeplinkId}-${i + 1}`;
           dot.className = 'vvjb-carousel-dot';
           dot.setAttribute('role', 'button');
-        }
-        else {
+        } else {
           dot = document.createElement('button');
           dot.className = 'vvjb-carousel-dot';
           dot.type = 'button';
@@ -674,21 +749,33 @@
     }
 
     _bindDots() {
-      if (this._config.navigation !== 'dots' && this._config.navigation !== 'both') { return;
+      if (
+        this._config.navigation !== 'dots' &&
+        this._config.navigation !== 'both'
+      ) {
+        return;
       }
-      if (!this._dotsContainer) { return;
+      if (!this._dotsContainer) {
+        return;
       }
 
-      this._dotsContainer.querySelectorAll('.vvjb-carousel-dot').forEach((dot) => {
-        dot.addEventListener('click', () => {
-          const groupIndex = parseInt(dot.dataset.slideGroup, 10);
-          if (!Number.isFinite(groupIndex) || groupIndex < 0) { return;
-          }
-          this._pageIndex = groupIndex;
-          this.withTransition(() => this._updateLayout());
-          this._updateDeepLinkHash();
-        }, { signal: this.signal });
-      });
+      this._dotsContainer
+        .querySelectorAll('.vvjb-carousel-dot')
+        .forEach((dot) => {
+          dot.addEventListener(
+            'click',
+            () => {
+              const groupIndex = parseInt(dot.dataset.slideGroup, 10);
+              if (!Number.isFinite(groupIndex) || groupIndex < 0) {
+                return;
+              }
+              this._pageIndex = groupIndex;
+              this.withTransition(() => this._updateLayout());
+              this._updateDeepLinkHash();
+            },
+            { signal: this.signal },
+          );
+        });
 
       if (this._config.scrollableDotsWidth > 0) {
         this._initScrollableDots();
@@ -696,17 +783,23 @@
     }
 
     _initScrollableDots() {
-      if (!this._dotsContainer || this._config.scrollableDotsWidth <= 0) { return;
+      if (!this._dotsContainer || this._config.scrollableDotsWidth <= 0) {
+        return;
       }
       this._applyScrollableDotsWidth();
-      this._dotsContainer.addEventListener('scroll', () => {
-        this._updateDotsOverflowIndicators();
-      }, { passive: true, signal: this.signal });
+      this._dotsContainer.addEventListener(
+        'scroll',
+        () => {
+          this._updateDotsOverflowIndicators();
+        },
+        { passive: true, signal: this.signal },
+      );
       requestAnimationFrame(() => this._updateDotsOverflowIndicators());
     }
 
     _applyScrollableDotsWidth() {
-      if (!this._dotsContainer || this._config.scrollableDotsWidth <= 0) { return;
+      if (!this._dotsContainer || this._config.scrollableDotsWidth <= 0) {
+        return;
       }
       this._dotsContainer.style.maxWidth = `${this._config.scrollableDotsWidth}px`;
       this._dotsContainer.style.justifyContent = 'flex-start';
@@ -717,30 +810,41 @@
     }
 
     _centerActiveDot() {
-      if (!this._dotsContainer || this._config.scrollableDotsWidth <= 0) { return;
+      if (!this._dotsContainer || this._config.scrollableDotsWidth <= 0) {
+        return;
       }
-      const activeDot = this._dotsContainer.querySelector('.vvjb-carousel-dot.active-slide');
-      if (!activeDot) { return;
+      const activeDot = this._dotsContainer.querySelector(
+        '.vvjb-carousel-dot.active-slide',
+      );
+      if (!activeDot) {
+        return;
       }
       const containerWidth = this._dotsContainer.offsetWidth;
       const dotOffsetLeft = activeDot.offsetLeft;
       const dotWidth = activeDot.offsetWidth;
-      const scrollTarget = dotOffsetLeft - (containerWidth / 2) + (dotWidth / 2);
+      const scrollTarget = dotOffsetLeft - containerWidth / 2 + dotWidth / 2;
       const maxScroll = this._dotsContainer.scrollWidth - containerWidth;
       const clampedScroll = Math.max(0, Math.min(scrollTarget, maxScroll));
       this._dotsContainer.scrollTo({ left: clampedScroll, behavior: 'smooth' });
     }
 
     _updateDotsOverflowIndicators() {
-      if (!this._dotsContainer) { return;
+      if (!this._dotsContainer) {
+        return;
       }
       const scrollLeft = this._dotsContainer.scrollLeft;
       const scrollWidth = this._dotsContainer.scrollWidth;
       const containerWidth = this._dotsContainer.offsetWidth;
       const maxScroll = scrollWidth - containerWidth;
       const threshold = 2;
-      this._dotsContainer.classList.toggle('has-overflow-start', scrollLeft > threshold);
-      this._dotsContainer.classList.toggle('has-overflow-end', scrollLeft < maxScroll - threshold);
+      this._dotsContainer.classList.toggle(
+        'has-overflow-start',
+        scrollLeft > threshold,
+      );
+      this._dotsContainer.classList.toggle(
+        'has-overflow-end',
+        scrollLeft < maxScroll - threshold,
+      );
     }
 
     // -----------------------------------------------------------------
@@ -749,17 +853,20 @@
 
     _startAutoSlide() {
       let interval = parseInt(this._config.slideTime, 10);
-      if (interval === 0) { return;
+      if (interval === 0) {
+        return;
       }
       if (!Number.isFinite(interval) || interval < 1000 || interval > 15000) {
         interval = 5000;
       }
       this._stopAutoSlide();
       this._autoSlideTimer = setInterval(() => {
-        if (!this._isPaused) { this._nextSlide();
+        if (!this._isPaused) {
+          this._nextSlide();
         }
       }, interval);
-      if (this._features.showProgressBar) { this._startProgressBar();
+      if (this._features.showProgressBar) {
+        this._startProgressBar();
       }
     }
 
@@ -773,7 +880,8 @@
 
     _bindAutoSlide() {
       const start = () => {
-        if (!this._isPaused) { this._startAutoSlide();
+        if (!this._isPaused) {
+          this._startAutoSlide();
         }
       };
       const stop = () => this._stopAutoSlide();
@@ -781,41 +889,65 @@
       start();
 
       if (this._features.enablePauseOnHover) {
-        this._wrapper.addEventListener('mouseenter', stop, { signal: this.signal });
-        this._wrapper.addEventListener('mouseleave', () => {
-          if (this._isInViewport && !this._isPaused) { start();
-          }
-        }, { signal: this.signal });
+        this._wrapper.addEventListener('mouseenter', stop, {
+          signal: this.signal,
+        });
+        this._wrapper.addEventListener(
+          'mouseleave',
+          () => {
+            if (this._isInViewport && !this._isPaused) {
+              start();
+            }
+          },
+          { signal: this.signal },
+        );
       }
 
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) { stop();
-        } else if (this._isInViewport && !this._isPaused) { start();
-        }
-      }, { signal: this.signal });
+      document.addEventListener(
+        'visibilitychange',
+        () => {
+          if (document.hidden) {
+            stop();
+          } else if (this._isInViewport && !this._isPaused) {
+            start();
+          }
+        },
+        { signal: this.signal },
+      );
 
       if ('IntersectionObserver' in window) {
-        this._intersectionObserver = new IntersectionObserver((entries) => {
-          this._isInViewport = entries[0].isIntersecting;
-          if (this._isInViewport && !this._isPaused) { start();
-          } else { stop();
-          }
-        }, { threshold: 0.3 });
+        this._intersectionObserver = new IntersectionObserver(
+          (entries) => {
+            this._isInViewport = entries[0].isIntersecting;
+            if (this._isInViewport && !this._isPaused) {
+              start();
+            } else {
+              stop();
+            }
+          },
+          { threshold: 0.3 },
+        );
         this._intersectionObserver.observe(this);
       }
     }
 
     _initPlayPauseButton() {
-      if (!this._playPauseButton) { return;
+      if (!this._playPauseButton) {
+        return;
       }
       this._updatePlayPauseButton();
-      this._playPauseButton.addEventListener('click', () => {
-        this._togglePlayPause();
-      }, { signal: this.signal });
+      this._playPauseButton.addEventListener(
+        'click',
+        () => {
+          this._togglePlayPause();
+        },
+        { signal: this.signal },
+      );
     }
 
     _updatePlayPauseButton() {
-      if (!this._playPauseButton) { return;
+      if (!this._playPauseButton) {
+        return;
       }
       this._playPauseButton.innerHTML = this._isPaused ? SVG_PLAY : SVG_PAUSE;
       const label = this._isPaused
@@ -834,23 +966,26 @@
         this._stopProgressBar();
         if (this._progressBar) {
           setTimeout(() => {
-            if (this._isPaused) { this._resetProgressBar();
+            if (this._isPaused) {
+              this._resetProgressBar();
             }
           }, 300);
         }
-      }
-      else {
+      } else {
         this._startAutoSlide();
         this._startProgressBar();
       }
     }
 
     _startProgressBar() {
-      if (!this._features.showProgressBar || !this._progressBar) { return;
+      if (!this._features.showProgressBar || !this._progressBar) {
+        return;
       }
-      if (this._progressRaf) { return;
+      if (this._progressRaf) {
+        return;
       }
-      if (this._config.slideTime <= 0) { return;
+      if (this._config.slideTime <= 0) {
+        return;
       }
 
       this._pageStartTime = Date.now();
@@ -861,13 +996,18 @@
           return;
         }
         const elapsed = Date.now() - this._pageStartTime;
-        const progress = Math.min(100, (elapsed / this._config.slideTime) * 100);
+        const progress = Math.min(
+          100,
+          (elapsed / this._config.slideTime) * 100,
+        );
         this._progressBar.style.setProperty('--progress', `${progress}%`);
-        this._progressBar.setAttribute('aria-valuenow', String(Math.round(progress)));
+        this._progressBar.setAttribute(
+          'aria-valuenow',
+          String(Math.round(progress)),
+        );
         if (progress < 100) {
           this._progressRaf = requestAnimationFrame(update);
-        }
-        else {
+        } else {
           this._stopProgressBar();
         }
       };
@@ -882,7 +1022,8 @@
     }
 
     _resetProgressBar() {
-      if (!this._progressBar) { return;
+      if (!this._progressBar) {
+        return;
       }
       this._stopProgressBar();
       this._progressBar.style.setProperty('--progress', '0%');
@@ -890,7 +1031,8 @@
     }
 
     _updatePageCounter() {
-      if (!this._currentPageSpan || !this._totalPagesSpan) { return;
+      if (!this._currentPageSpan || !this._totalPagesSpan) {
+        return;
       }
       const itemsVisible = this._getItemsVisible();
       const totalPages = Math.ceil(this._config.totalSlides / itemsVisible);
@@ -899,17 +1041,22 @@
     }
 
     _applyReducedMotion() {
-      if (!window.matchMedia) { return;
+      if (!window.matchMedia) {
+        return;
       }
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return;
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
       }
       this._isPaused = true;
       this._inner.classList.add('is-paused', 'reduced-motion');
       this._stopAutoSlide();
-      if (this._playPauseButton) { this._updatePlayPauseButton();
+      if (this._playPauseButton) {
+        this._updatePlayPauseButton();
       }
       if (this._announcer) {
-        this._announcer.textContent = Drupal.t('Carousel paused due to reduced motion preference');
+        this._announcer.textContent = Drupal.t(
+          'Carousel paused due to reduced motion preference',
+        );
       }
     }
 
@@ -920,15 +1067,18 @@
     _initDeepLinking() {
       const id = this._config.deeplinkId;
       const applyHash = (hash) => {
-        if (!hash || !hash.startsWith(`#carousel-${id}-`)) { return;
+        if (!hash || !hash.startsWith(`#carousel-${id}-`)) {
+          return;
         }
         const slideNumber = parseInt(hash.split('-').pop(), 10);
-        if (!Number.isFinite(slideNumber) || slideNumber <= 0) { return;
+        if (!Number.isFinite(slideNumber) || slideNumber <= 0) {
+          return;
         }
         const itemsVisible = this._getItemsVisible();
         const totalPages = Math.ceil(this._config.totalSlides / itemsVisible);
         const pageIndex = slideNumber - 1;
-        if (pageIndex < 0 || pageIndex >= totalPages) { return;
+        if (pageIndex < 0 || pageIndex >= totalPages) {
+          return;
         }
         this._pageIndex = pageIndex;
         this._updateLayout();
@@ -936,17 +1086,22 @@
 
       applyHash(window.location.hash);
 
-      window.addEventListener('hashchange', () => {
-        applyHash(window.location.hash);
-      }, { signal: this.signal });
+      window.addEventListener(
+        'hashchange',
+        () => {
+          applyHash(window.location.hash);
+        },
+        { signal: this.signal },
+      );
     }
 
     _updateDeepLinkHash() {
-      if (!this._config.deeplinkEnabled || !this._config.deeplinkId) { return;
+      if (!this._config.deeplinkEnabled || !this._config.deeplinkId) {
+        return;
       }
       const newHash = `#carousel-${this._config.deeplinkId}-${this._pageIndex + 1}`;
       if (window.location.hash !== newHash) {
-        history.replaceState(null, '', newHash);
+        window.history.replaceState(null, '', newHash);
       }
     }
 
@@ -959,7 +1114,9 @@
       const totalPages = Math.ceil(this._config.totalSlides / itemsVisible);
       const pageIndex = slideNumber - 1;
       if (pageIndex < 0 || pageIndex >= totalPages) {
-        console.warn(`VVJB: Invalid slide ${slideNumber}. Must be between 1 and ${totalPages}`);
+        console.warn(
+          `VVJB: Invalid slide ${slideNumber}. Must be between 1 and ${totalPages}`,
+        );
         return false;
       }
       this._pageIndex = pageIndex;
@@ -988,23 +1145,23 @@
     }
 
     pause() {
-      if (this._isPaused) { return false;
+      if (this._isPaused) {
+        return false;
       }
       this._togglePlayPause();
       return true;
     }
 
     resume() {
-      if (!this._isPaused) { return false;
+      if (!this._isPaused) {
+        return false;
       }
       this._togglePlayPause();
       return true;
     }
-
   }
 
   if (!customElements.get('vvjb-carousel')) {
     customElements.define('vvjb-carousel', VvjbCarouselElement);
   }
-
 })(Drupal);

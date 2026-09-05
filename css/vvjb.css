@@ -8,27 +8,27 @@
  */
 :root {
   --vvjb-progress-size: 32px;
-  --vvjb-progress-thickness: 6px;  /* Colors */
-  --vvjb-progress-color: #3b82f6;              /* Active progress color */
-  --vvjb-progress-track: rgba(255, 255, 255, 0.3);  /* Background track */
-  --vvjb-progress-inner-bg: #fff;              /* Inner circle background */
-  --vvjb-progress-text-color: #3b82f6;         /* Percentage text color */
-  --vvjb-progress-complete-color: #22c55e;     /* Color at 100% */
-  --vvjb-progress-complete-text: #22c55e;      /* Text color at 100% */
+  --vvjb-progress-thickness: 6px; /* Colors */
+  --vvjb-progress-color: #3b82f6; /* Active progress color */
+  --vvjb-progress-track: rgb(255, 255, 255, 0.3); /* Background track */
+  --vvjb-progress-inner-bg: #fff; /* Inner circle background */
+  --vvjb-progress-text-color: #3b82f6; /* Percentage text color */
+  --vvjb-progress-complete-color: #22c55e; /* Color at 100% */
+  --vvjb-progress-complete-text: #22c55e; /* Text color at 100% */
   --vvjb-progress-font-size: 0.625rem;
 }
 
 /* Base Carousel Styles */
 .vvjb-carousel .visually-hidden {
   position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   width: 1px;
   height: 1px;
   margin: -1px;
   padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
   white-space: nowrap;
+  border: 0;
 }
 
 .vvjb-carousel,
@@ -37,9 +37,9 @@
 }
 
 .vvjb {
-  max-width: 100%;
-  width: 100%;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
   padding: 1rem;
 }
@@ -47,27 +47,27 @@
 .vvjb .vvjb-carousel-outer {
   position: relative;
   display: block;
-  max-width: 100%;
   width: 100%;
+  max-width: 100%;
   height: 100%;
 }
 
 .vvjb .vvjb-carousel-wrapper {
-  max-width: 100%;
   width: 100%;
+  max-width: 100%;
 }
 
 .vvjb .vvjb-items,
 .vvjb .vvjb-item {
-  max-width: 100%;
   min-width: 0;
+  max-width: 100%;
 }
 
 .vvjb.vvjb-orientation-vertical .vvjb-carousel-outer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 }
 
 .vvjb.vvjb-nav-dots .vvjb-carousel-outer,
@@ -77,18 +77,18 @@
 
 .vvjb .vvjb-carousel-wrapper {
   position: relative;
+  visibility: hidden;
   overflow: hidden;
   width: auto;
   height: auto;
   margin: 0 auto;
-  opacity: 0;
-  visibility: hidden;
   transition: all 0.4s ease;
+  opacity: 0;
 }
 
 .vvjb .vvjb-carousel-wrapper.is-visible {
-  opacity: 1;
   visibility: visible;
+  opacity: 1;
 }
 
 .vvjb .vvjb-items {
@@ -104,7 +104,9 @@
 
 .vvjb .vvjb-item {
   flex: 0 0 auto;
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
   scroll-snap-align: start;
   /* Prevent sub-pixel blur in Chrome during transforms. */
   backface-visibility: hidden;
@@ -112,21 +114,21 @@
 }
 
 .vvjb .vvjb-item.active-slide {
-  opacity: 1;
   pointer-events: auto;
+  opacity: 1;
 }
 
 .vvjb .vvjb-item.non-active-slide {
-  opacity: 0.15;
   pointer-events: none;
+  opacity: 0.15;
 }
 
 /* Horizontal and Hybrid Layout */
 .vvjb.vvjb-orientation-hybrid .vvjb-items,
 .vvjb.vvjb-orientation-horizontal .vvjb-items {
   flex-direction: row;
-  min-height: 0;
   min-width: 0;
+  min-height: 0;
 }
 
 .vvjb.vvjb-orientation-hybrid.vvjb-nav-arrows .vvjb-carousel-outer,
@@ -139,17 +141,17 @@
 .vvjb.vvjb-orientation-hybrid .vvjb-carousel-options,
 .vvjb.vvjb-orientation-horizontal .vvjb-carousel-options {
   position: absolute;
+  z-index: 1;
   top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
   inset-inline-start: 0;
   inset-inline-end: 0;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none;
-  padding: 0;
-  margin: 0;
-  z-index: 1;
 }
 
 .vvjb.vvjb-orientation-hybrid.vvjb-bottom .vvjb-carousel-options,
@@ -179,18 +181,18 @@
 
 .vvjb.vvjb-orientation-vertical .vvjb-carousel-options {
   position: absolute;
-  inset-inline-start: 50%;
+  z-index: 1;
   top: 0;
   bottom: 0;
-  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  pointer-events: none;
-  padding: 0;
+  justify-content: space-between;
   margin: 0;
-  z-index: 1;
+  padding: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+  inset-inline-start: 50%;
 }
 
 .vvjb.vvjb-orientation-vertical .vvjb-carousel-options .vvjb-button {
@@ -204,43 +206,43 @@
 .vvjb-carousel-controls {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
   width: 100%;
   margin-block-start: 1rem;
+  gap: 1rem;
 }
 
 /* Carousel Arrow Button Styles */
 .vvjb .vvjb-play-pause-button,
 .vvjb .vvjb-carousel-options .vvjb-button {
-  all: unset;
-  width: 28px;
-  height: 28px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  width: 28px;
+  height: 28px;
   margin: 0;
+  padding: 0;
+  cursor: pointer;
   transition: all 0.3s ease;
   color: #fff;
+  border: 2px solid rgb(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background: rgb(0, 0, 0, 0.6);
+  all: unset;
   backdrop-filter: blur(4px);
 }
 
 .vvjb .vvjb-play-pause-button:hover,
 .vvjb .vvjb-carousel-options .vvjb-button:hover {
-  background: rgba(0, 0, 0, 0.8);
-  border-color: #fff;
   transform: scale(1.05);
+  border-color: #fff;
+  background: rgb(0, 0, 0, 0.8);
 }
 
 .vvjb .vvjb-play-pause-button:focus-visible,
 .vvjb .vvjb-carousel-options .vvjb-button:focus-visible {
-  outline: 2px solid currentcolor;
+  outline: 2px solid currentColor;
   outline-offset: 4px;
 }
 
@@ -249,9 +251,9 @@
   transform: scale(0.95);
 }
 
-.vvjb .vvjb-carousel-options .vvjb-button[style*='visibility:hidden'] {
-  opacity: 0;
+.vvjb .vvjb-carousel-options .vvjb-button[style*="visibility:hidden"] {
   pointer-events: none;
+  opacity: 0;
 }
 
 .vvjb .vvjb-play-pause-button svg,
@@ -264,26 +266,26 @@
 /* Carousel Dots Navigation Styles */
 .vvjb .vvjb-carousel-dots {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0 0.75rem;
+  justify-content: center;
   margin: 0;
   padding: 0;
-  flex-wrap: wrap;
+  gap: 0 0.75rem;
 }
 
 .vvjb .vvjb-carousel-dot {
-  all: unset;
   width: 12px;
   height: 12px;
-  border-radius: 50%;
-  border: 2px solid currentcolor;
-  background-color: transparent;
-  cursor: pointer;
-  padding: 0;
   margin: 0;
-  opacity: 0.5;
+  padding: 0;
+  cursor: pointer;
   transition: all 0.3s ease;
+  opacity: 0.5;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  background-color: transparent;
+  all: unset;
 }
 
 /* Elegant, modern pulse animation */
@@ -296,39 +298,37 @@
   50% {
     transform: scale(1.35);
   }
-
 }
 
 .vvjb .vvjb-carousel-dot.active-slide {
-  background-color: currentcolor;
-  opacity: 1;
   animation: vvjb-heartbeat 2s ease-in-out infinite;
+  opacity: 1;
+  background-color: currentColor;
 }
 
 /* Respect reduced motion preferences */
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
   .vvjb .vvjb-carousel-dot.active-slide {
-    animation: none;
     transform: scale(1.2);
+    animation: none;
   }
-
 }
 
 .vvjb-carousel-dots > a,
 .vvjb-carousel-dots > button {
-  padding: 0 !important;
   margin: 0.75rem 0 !important;
+  padding: 0 !important;
 }
 
 /* Hover and focus states */
 .vvjb .vvjb-carousel-dot:hover {
-  opacity: 0.8;
   transform: scale(1.1);
+  opacity: 0.8;
 }
 
 .vvjb .vvjb-carousel-dot:focus-visible {
   opacity: 1;
-  outline: 2px solid currentcolor;
+  outline: 2px solid currentColor;
   outline-offset: 4px;
 }
 
@@ -339,16 +339,16 @@
 
 /* Alternative square dot style */
 .square-dots .vvjb .vvjb-carousel-dots .vvjb-carousel-dot {
-  border-radius: 2px;
   width: 10px;
   height: 10px;
+  border-radius: 2px;
 }
 
 /* Alternative bar/line indicator style */
 .bar-dots .vvjb .vvjb-carousel-dots .vvjb-carousel-dot {
-  border-radius: 2px;
   width: 24px;
   height: 4px;
+  border-radius: 2px;
 }
 
 .bar-dots .vvjb .vvjb-carousel-dots .vvjb-carousel-dot.active-slide {
@@ -361,21 +361,20 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast:high) {
+@media (prefers-contrast: more) {
   .vvjb .vvjb-carousel-dot {
-    border-width: 3px;
     opacity: 0.7;
+    border-width: 3px;
   }
 
   .vvjb .vvjb-carousel-dot.active-slide {
     opacity: 1;
-    background-color: currentcolor;
+    background-color: currentColor;
   }
-
 }
 
 /* Reduced motion support */
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
   .vvjb .vvjb-carousel-dot {
     transition: opacity 0.2s ease;
     transform: none;
@@ -389,31 +388,30 @@
   .vvjb .vvjb-carousel-dot:active {
     transform: none;
   }
-
 }
 
 /* Scrollable Dots Navigation Styles */
 .vvjb .vvjb-carousel-dots.vvjb-scrollable-dots {
+  position: relative;
   display: flex;
-  flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  max-width: 100%;
+  margin: 0;
+  padding: 4px;
+  background: transparent;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  max-width: 100%;
-  padding: 4px;
-  margin: 0;
   gap: 0 16px;
-  justify-content: flex-start;
-  position: relative;
-  background: transparent;
 }
 
 .vvjb .vvjb-carousel-dots.vvjb-scrollable-dots::-webkit-scrollbar {
   display: none;
-  height: 0;
   width: 0;
+  height: 0;
 }
 
 /* Ensure dots don't shrink in scrollable container */
@@ -422,7 +420,7 @@
 }
 
 /* Reduced motion support for scrollable dots */
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
   .vvjb .vvjb-carousel-dots.vvjb-scrollable-dots {
     scroll-behavior: auto;
   }
@@ -435,56 +433,58 @@
 
 /* Progress Bar Wrapper - centers the circular progress indicator */
 .vvjb .vvjb-progress-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-  width: 32px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   line-height: 1;
 }
 
 /* Circular Progress Indicator */
 .vvjb .vvjb-progress-bar {
-  opacity: 1;
-  overflow: hidden;
-
   --progress: 0%;
   --size: 30px;
   --bar-width: 6px;
 
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
   width: var(--size);
   height: var(--size);
+  transition:
+    background 0.3s linear,
+    transform 0.3s ease,
+    opacity 0.3s ease-in-out;
+  opacity: 1;
   border-radius: 50%;
   background: conic-gradient(#007bff var(--progress), #e6e6e6 0%);
-  display: grid;
-  place-items: center;
-  position: relative;
-  transition: background 0.3s linear, transform 0.3s ease, opacity 0.3s ease-in-out;
 }
 
 /* Inner circle with percentage text */
 .vvjb .vvjb-progress-bar::after {
- font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace!important;
-  content: attr(aria-valuenow) "%";
-  width: calc(100% - var(--bar-width));
-  height: calc(100% - var(--bar-width));
-  border-radius: 50%;
-  background: #fff;
+  position: absolute;
   display: grid;
   place-items: center;
   justify-content: center;
+  width: calc(100% - var(--bar-width));
+  height: calc(100% - var(--bar-width));
+  content: attr(aria-valuenow) "%";
+  transition: color 0.3s ease-in-out;
+  color: #007bff;
+  border-radius: 50%;
+  background: #fff;
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace !important;
   font-size: 0.625rem;
   line-height: 1;
-  color: #007bff;
-  position: absolute;
-  transition: color 0.3s ease-in-out;
 }
 
 /* Completion state - Scale up and change color */
 .vvjb .vvjb-progress-bar[aria-valuenow="100"] {
-  background: conic-gradient(var(--vvjb-progress-complete-color, #22c55e) 100%, var(--vvjb-progress-complete-color, #22c55e) 0%);
   transform: scale(1.05);
+  background: conic-gradient(var(--vvjb-progress-complete-color, #22c55e) 100%, var(--vvjb-progress-complete-color, #22c55e) 0%);
 }
 
 .vvjb .vvjb-progress-bar[aria-valuenow="100"]::after {
@@ -493,46 +493,46 @@
 }
 
 /* Reduced motion support */
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
   .vvjb .vvjb-progress-bar {
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
   }
 
   .vvjb .vvjb-progress-bar[aria-valuenow="100"] {
     transform: none;
   }
-
 }
 
 /* Reduced motion support */
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
   .vvjb .vvjb-progress-bar::before {
     transition: none;
   }
-
 }
 
 /* Page Counter Styles */
 .vvjb .vvjb-page-counter {
-  padding: 0 0.75rem;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  border-radius: 999px;
-  font-size: 0.875rem;
-  backdrop-filter: blur(4px);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  transition: all 0.3s ease;
   height: 32px;
+  padding: 0 0.75rem;
+  transition: all 0.3s ease;
+  color: #fff;
+  border-radius: 999px;
+  background: rgb(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+  backdrop-filter: blur(4px);
+  gap: 0.25rem;
 }
 
 .vvjb .vvjb-page-counter > * {
   display: inline-flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   line-height: 1;
 }
 
@@ -541,8 +541,8 @@
 }
 
 .vvjb .vvjb-counter-separator {
-  opacity: 0.7;
   padding: 0 0.125rem;
+  opacity: 0.7;
 }
 
 .vvjb .vvjb-total-pages {
@@ -552,21 +552,21 @@
 .vvjb.vvjb-orientation-vertical .vvjb-progress-bar::before {
   width: 100%;
   height: var(--progress, 0%);
-  background: linear-gradient(180deg, rgba(59, 130, 246, 0.8) 0%, rgba(96, 165, 250, 0.9) 50%, rgba(147, 197, 253, 1) 100%);
+  background: linear-gradient(180deg, rgb(59, 130, 246, 0.8) 0%, rgb(96, 165, 250, 0.9) 50%, rgb(147, 197, 253, 1) 100%);
 }
 
 .vvjb .vvjb-carousel-options .vvjb-next,
 .vvjb .vvjb-carousel-options .vvjb-prev {
-  opacity: 1;
   visibility: visible;
   transform: translateX(0);
+  opacity: 1;
 }
 
 .vvjb .vvjb-carousel-options .vvjb-next.vvjb-hidden,
 .vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
-  opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  opacity: 0;
 }
 
 .vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
@@ -586,7 +586,7 @@
 }
 
 /* Reduced Motion Support for New Features */
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
   .vvjb .vvjb-play-pause-button {
     transition: none;
   }
@@ -603,29 +603,27 @@
   .vvjb .vvjb-page-counter {
     transition: none;
   }
-
 }
 
 /* High Contrast Mode Support for New Features */
-@media (prefers-contrast:high) {
+@media (prefers-contrast: more) {
   .vvjb .vvjb-play-pause-button {
-    background: #000;
     border-width: 3px;
+    background: #000;
   }
 
   .vvjb .vvjb-page-counter {
-    background: #000;
     border: 2px solid #fff;
+    background: #000;
   }
 
   .vvjb .vvjb-progress-bar {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgb(255, 255, 255, 0.5);
   }
 
   .vvjb .vvjb-progress-bar::before {
     background: #fff;
   }
-
 }
 
 /* Hide features when data attributes indicate they're disabled */
@@ -642,10 +640,10 @@
 }
 
 /* Responsive Adjustments for Small Screens */
-@media (max-width:576px) {
+@media (max-width: 576px) {
   .vvjb .vvjb-page-counter {
-    font-size: 0.75rem;
     padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
   }
 
   .vvjb .vvjb-play-pause-wrapper {
@@ -657,12 +655,11 @@
     bottom: 0.5rem;
     inset-inline-start: 0.5rem;
   }
-
 }
 
 /* Focus Management and Keyboard Navigation Indicators */
 .vvjb[tabindex]:focus-visible {
-  outline: 3px solid rgba(59, 130, 246, 0.6);
+  outline: 3px solid rgb(59, 130, 246, 0.6);
   outline-offset: 4px;
 }
 
@@ -677,8 +674,8 @@
 
 /* Loading State - Initial Hidden */
 .vvjb-inner[hidden] {
-  opacity: 0;
   visibility: hidden;
+  opacity: 0;
 }
 
 /* Smooth Fade-In After Initialization */
@@ -694,7 +691,6 @@
   to {
     opacity: 1;
   }
-
 }
 
 /* Hide progress bar when paused */
