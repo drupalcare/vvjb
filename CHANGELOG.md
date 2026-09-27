@@ -19,6 +19,8 @@ behavior key, and public-API method from 1.x.
 
 ### Fixed
 
+- Update 10002 converts v1 views to the v2 option shape (value types:
+  strings and integers stored where v2 declares integer, boolean and float).
 - Restored v1's support for **any** Views row plugin (Fields *or* Content/entity
   rows). The shared base defaulted to requiring Fields — force-switching the row
   plugin on edit and blocking validation — which broke non-Fields carousels
