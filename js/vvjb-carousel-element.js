@@ -879,8 +879,12 @@
     }
 
     _bindAutoSlide() {
+      // NEVER WHILE THE PAGE IS HIDDEN. A page that loads in a background tab
+      // gets no visibilitychange, and the viewport observer still fires — so
+      // autoplay started anyway, and every slide threw "Transition was aborted
+      // because of invalid state. Document hidden" (measured 2026-09-27).
       const start = () => {
-        if (!this._isPaused) {
+        if (!this._isPaused && !document.hidden) {
           this._startAutoSlide();
         }
       };
