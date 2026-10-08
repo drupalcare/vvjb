@@ -727,11 +727,11 @@
         if (useDeepLinks) {
           dot = document.createElement('a');
           dot.href = `#carousel-${this._config.deeplinkId}-${i + 1}`;
-          dot.className = 'vvjb-carousel-dot';
+          dot.className = 'vvjb-carousel-dot control-btn';
           dot.setAttribute('role', 'button');
         } else {
           dot = document.createElement('button');
-          dot.className = 'vvjb-carousel-dot';
+          dot.className = 'vvjb-carousel-dot control-btn';
           dot.type = 'button';
         }
         const label = Drupal.t('Go to slide group @num', { '@num': i + 1 });

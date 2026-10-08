@@ -87,12 +87,12 @@
 
           {% if options.navigation in ['arrows', 'both'] %}
             <div class="vvjb-carousel-options" aria-label="{{ 'Carousel Controls'|t }}">
-              <button id="prev-{{ unique_id }}" type="button" class="vvjb-button vvjb-prev" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Previous Slide'|t }}">
+              <button id="prev-{{ unique_id }}" type="button" class="vvjb-button vvjb-prev control-btn" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Previous Slide'|t }}">
                 <span class="visually-hidden">{{ 'Previous Slide'|t }}</span>
                 {{ include('@vvjb/svg/svg-prev.svg') }}
               </button>
 
-              <button id="next-{{ unique_id }}" type="button" class="vvjb-button vvjb-next" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Next Slide'|t }}">
+              <button id="next-{{ unique_id }}" type="button" class="vvjb-button vvjb-next control-btn" aria-controls="{{ vvjb_id }}" aria-label="{{ 'Next Slide'|t }}">
                 <span class="visually-hidden">{{ 'Next Slide'|t }}</span>
                 {{ include('@vvjb/svg/svg-next.svg') }}
               </button>
@@ -102,7 +102,7 @@
           {# Autoplay controls group: Play/Pause + Progress #}
           {% if options.show_play_pause %}
             <div class="vvjb-play-pause-wrapper">
-              <button type="button" class="vvjb-play-pause-button" aria-label="{{ 'Pause carousel'|t }}">
+              <button type="button" class="vvjb-play-pause-button control-btn" aria-label="{{ 'Pause carousel'|t }}">
                 {{ include('@vvjb/svg/svg-pause.svg') }}
               </button>
             </div>
