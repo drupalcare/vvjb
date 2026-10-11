@@ -64,8 +64,20 @@ final class VvjbJavascriptSmokeTest extends VvjPatternJavascriptTestBase {
     $view = View::load('vvjb_example');
     $this->assertNotNull($view);
     $display = &$view->getDisplay('default');
-    $display['display_options']['style']['options']['enable_deeplink'] = TRUE;
-    $display['display_options']['style']['options']['deeplink_identifier'] = 'probe';
+    // The display's nested options are untyped config; assert the shape before
+    // writing into it, so a renamed key fails here rather than silently
+    // creating a new one.
+    $display_options = $display['display_options'];
+    $this->assertIsArray($display_options);
+    $style = $display_options['style'];
+    $this->assertIsArray($style);
+    $options = $style['options'];
+    $this->assertIsArray($options);
+    $options['enable_deeplink'] = TRUE;
+    $options['deeplink_identifier'] = 'probe';
+    $style['options'] = $options;
+    $display_options['style'] = $style;
+    $display['display_options'] = $display_options;
     $view->save();
 
     $this->drupalGet('<front>');
