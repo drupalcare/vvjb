@@ -2,7 +2,7 @@
 
 A vanilla-JavaScript carousel **Views format** for Drupal 11.3+ / 12. Renders
 Views rows as a responsive, touch-friendly, autoplay-capable carousel —
-horizontal, vertical, or hybrid orientations — with W3C ARIA-conformant keyboard
+horizontal, vertical, or hybrid orientations, with W3C ARIA-conformant keyboard
 navigation, configurable item-per-screen counts at small/large breakpoints,
 looping, deep-linking, scrollable-dot navigation, progress bar, page counter,
 and play/pause control.
@@ -27,16 +27,16 @@ Behavior runs in a `<vvjb-carousel>` custom element extending `VvjElementBase`.
 - Play/pause button with SVG icon swap + ARIA label
 - RAF-driven progress bar with ARIA `role="progressbar"`
 - Page counter ("X of Y")
-- Deep linking — shareable URL fragments per slide (`#carousel-products-3`)
+- Deep linking: shareable URL fragments per slide (`#carousel-products-3`)
 - ARIA `aria-roledescription="carousel"`, `inert` on hidden slides, screen-
   reader announcer for slide changes
 - Lazy IntersectionObserver hydration; AbortController-tracked listeners
 - View Transitions wrapping slide swaps (graceful fallback)
 - 5 responsive breakpoints (576 / 768 / 992 / 1200 / 1400 px)
-- **Views tokens** — `[vvjb:field]` / `[vvjb:field:plain]` in
+- **Views tokens**: `[vvjb:field]` / `[vvjb:field:plain]` in
   header/footer/empty text when *Use replacement tokens from the first row* is
   enabled (same pattern as other VVJ modules)
-- **Drupal admin help** — `/admin/help/vvjb`
+- **Drupal admin help**: `/admin/help/vvjb`
 
 ## Token Support in Views Text Areas
 
@@ -69,7 +69,7 @@ drush en vvjb
 5. Save.
 
 **Sample view:** Optional config `views.view.vvjb_example` (`config/optional/`)
-installs with the module when there is no ID conflict — use it as a reference
+installs with the module when there is no ID conflict. Use it as a reference
 implementation.
 
 ## Public API
@@ -124,10 +124,10 @@ export SIMPLETEST_DB="mysql://user:pass@localhost/dbname"
 ../vendor/bin/phpunit -c core modules/contrib/vvjb/tests/src/Kernel
 ```
 
-The **Functional** and **FunctionalJavascript** suites additionally need
+The **Functional** and **FunctionalJavascript** suites also need
 `SIMPLETEST_BASE_URL` pointing at a running web server, and the JavaScript ones
 need chromedriver. Without those they error rather than fail, and the errors
-name missing infrastructure rather than anything about this module — so don't
+name missing infrastructure rather than anything about this module, so don't
 read them as test failures. The drupal.org pipeline provides both.
 
 ## License

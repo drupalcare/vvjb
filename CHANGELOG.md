@@ -1,10 +1,10 @@
 # Changelog
 
-## [2.0.0] — UNRELEASED
+## [2.0.0] (UNRELEASED)
 
-**Drop-in upgrade for 1.x sites.** v2 modernizes internals — extends `vvj_core`
+**Drop-in upgrade for 1.x sites.** v2 modernizes internals: extends `vvj_core`
 foundation, ships `<vvjb-carousel>` custom element extending `VvjElementBase`,
-AbortController-tracked listeners, View Transitions wrapping slide swaps — while
+AbortController-tracked listeners, View Transitions wrapping slide swaps, while
 preserving every option key, library name, CSS class, plugin ID, theme hook, JS
 behavior key, and public-API method from 1.x.
 
@@ -13,7 +13,7 @@ behavior key, and public-API method from 1.x.
 - **Dot navigation style** select (Circle / Bar / Square) in Navigation
   Settings. Prints the matching wrapper class (`bar-dots` / `square-dots`;
   Circle is the default and adds no class) that v1 required site builders to
-  type into the view's CSS-class field by hand — no CSS added, it reuses the
+  type into the view's CSS-class field by hand. No CSS added, it reuses the
   existing dot-style rules and outputs the class in the same spot (the views
   wrapper). Shown only when dots are enabled.
 
@@ -22,15 +22,15 @@ behavior key, and public-API method from 1.x.
 - Update 10002 converts v1 views to the v2 option shape (value types:
   strings and integers stored where v2 declares integer, boolean and float).
 - Restored v1's support for **any** Views row plugin (Fields *or* Content/entity
-  rows). The shared base defaulted to requiring Fields — force-switching the row
-  plugin on edit and blocking validation — which broke non-Fields carousels
+  rows). The shared base defaulted to requiring Fields: force-switching the row
+  plugin on edit and blocking validation, which broke non-Fields carousels
   including the shipped `vvjb_example` (`entity:node` teaser rows). vvjb now
   opts out (`requiresFieldsRow()` → FALSE), matching v1.
 - Removed the phantom "Active on all screens" (`all`) option from the responsive
-  breakpoint select — a PHP array-union (`+`) bug leaked the base registry's
+  breakpoint select. A PHP array-union (`+`) bug leaked the base registry's
   options; v1 offered exactly 576/768/992/1200/1400.
 - Deep-link "URL Identifier" field show/hide + required toggle now works (fixed
-  in the `vvj_core` base — the toggle attributes are slug-derived).
+  in the `vvj_core` base. The toggle attributes are slug-derived).
 
 ### Added
 
