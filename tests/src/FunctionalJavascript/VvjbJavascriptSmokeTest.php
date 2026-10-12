@@ -64,14 +64,15 @@ final class VvjbJavascriptSmokeTest extends VvjPatternJavascriptTestBase {
     $view = View::load('vvjb_example');
     $this->assertNotNull($view);
     $display = &$view->getDisplay('default');
-    // The display's nested options are untyped config; assert the shape before
-    // writing into it, so a renamed key fails here rather than silently
-    // creating a new one.
+    // The display's nested options are untyped config; assert the shape of
+    // each level before writing into it. The shipped view stores only the
+    // style `type`, so `options` is absent until the first write and starts
+    // as an empty array.
     $display_options = $display['display_options'];
     $this->assertIsArray($display_options);
     $style = $display_options['style'];
     $this->assertIsArray($style);
-    $options = $style['options'];
+    $options = $style['options'] ?? [];
     $this->assertIsArray($options);
     $options['enable_deeplink'] = TRUE;
     $options['deeplink_identifier'] = 'probe';
