@@ -298,6 +298,44 @@
       return isVertical ? item.offsetHeight : item.offsetWidth;
     }
 
+    /**
+     * Where an item starts along the slide axis, as laid out by the browser.
+     *
+     * Positions are measured rather than summed from sizes and the gap
+     * setting, so margins a theme puts on the items, the CSS gap and any
+     * other spacing are all counted. In RTL the axis runs from the right
+     * edge, so the result grows with the item index in both directions.
+     *
+     * @param {HTMLElement} item - The carousel item element.
+     * @param {boolean} isVertical - Whether the carousel is in vertical mode.
+     * @return {number} The item's start position in pixels.
+     */
+    _getItemStart(item, isVertical) {
+      if (isVertical) {
+        return item.offsetTop;
+      }
+      return this._isRTL
+        ? -(item.offsetLeft + item.offsetWidth)
+        : item.offsetLeft;
+    }
+
+    /**
+     * The length along the slide axis from the start of one item to the end
+     * of another, including whatever spacing the browser put between them.
+     *
+     * @param {HTMLElement} first - The first item.
+     * @param {HTMLElement} last - The last item.
+     * @param {boolean} isVertical - Whether the carousel is in vertical mode.
+     * @return {number} The span in pixels.
+     */
+    _getSpan(first, last, isVertical) {
+      return (
+        this._getItemStart(last, isVertical) +
+        this._getItemSize(last, isVertical) -
+        this._getItemStart(first, isVertical)
+      );
+    }
+
     _getItemsVisible() {
       const isVertical = this._config.orientation === 'vertical';
       const isHybrid = this._config.rawOrientation === 'hybrid';
@@ -314,17 +352,11 @@
       }
 
       const containerSize = this._wrapper.offsetWidth;
-      const gap = this._config.gap || 0;
-      let total = 0;
       let count = 0;
 
       for (let i = 0; i < this._items.length; i++) {
-        const itemSize = this._items[i].offsetWidth;
-        if (i > 0) {
-          total += gap;
-        }
-        total += itemSize;
-        if (total > containerSize) {
+        const span = this._getSpan(this._items[0], this._items[i], false);
+        if (span > containerSize) {
           break;
         }
         count++;
@@ -345,51 +377,40 @@
     _getGroupOffset() {
       const itemsVisible = this._getItemsVisible();
       const isVertical = this._config.orientation === 'vertical';
-      const gap = this._config.gap || 0;
-      let offset = 0;
-
-      for (let page = 0; page < this._pageIndex; page++) {
-        const start = page * itemsVisible;
-        const end = start + itemsVisible;
-        for (let i = start; i < end && i < this._items.length; i++) {
-          offset += this._getItemSize(this._items[i], isVertical);
-          if (i < end - 1) {
-            offset += gap;
-          }
-        }
-        if (end < this._items.length) {
-          offset += gap;
-        }
+      const start = Math.min(
+        this._pageIndex * itemsVisible,
+        this._items.length - 1,
+      );
+      if (start <= 0) {
+        return 0;
       }
 
-      return offset;
+      return (
+        this._getItemStart(this._items[start], isVertical) -
+        this._getItemStart(this._items[0], isVertical)
+      );
     }
 
     _setWrapperSize() {
-      const itemsVisible = this._getItemsVisible();
       if (!this._items.length) {
         return;
       }
 
       const visibleItems = this._getVisibleItems();
-      const gap = this._config.gap || 0;
-      const totalGap = (itemsVisible - 1) * gap;
+      if (!visibleItems.length) {
+        return;
+      }
+      const first = visibleItems[0];
+      const last = visibleItems[visibleItems.length - 1];
 
       if (this._config.orientation === 'vertical') {
-        const totalHeight = visibleItems.reduce(
-          (sum, item) => sum + this._getItemSize(item, true),
-          0,
-        );
-        this._wrapper.style.maxHeight = `${totalHeight + totalGap}px`;
+        const totalHeight = this._getSpan(first, last, true);
+        this._wrapper.style.maxHeight = `${totalHeight}px`;
         this._wrapper.style.height = '';
         this._wrapper.style.maxWidth = '';
         this._centerOffset = 0;
       } else {
-        const totalWidth = visibleItems.reduce(
-          (sum, item, idx) =>
-            sum + this._getItemSize(item, false) + (idx > 0 ? gap : 0),
-          0,
-        );
+        const totalWidth = this._getSpan(first, last, false);
         const wrapperWidth = this._wrapper.offsetWidth;
         const centerOffset = (wrapperWidth - totalWidth) / 2;
         this._centerOffset = centerOffset > 0 ? centerOffset : 0;

@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- **Pages no longer drift when the theme adds a margin to the items.** Page
+  positions were worked out from each item's width plus the gap setting, so
+  any margin a theme put on `.vvjb-item` was missed and every page landed a
+  little further off, until the last items could not be reached. The carousel
+  now measures where the browser actually placed each item, so margins, the
+  gap and any other spacing are all counted. Carousels without such a margin
+  page exactly as before.
+
 ## [2.0.0] (UNRELEASED)
 
 **Drop-in upgrade for 1.x sites.** v2 modernizes internals: extends `vvj_core`
