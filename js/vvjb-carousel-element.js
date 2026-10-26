@@ -408,12 +408,19 @@
         this._wrapper.style.maxHeight = `${totalHeight}px`;
         this._wrapper.style.height = '';
         this._wrapper.style.maxWidth = '';
+        this._wrapper.style.clipPath = '';
         this._centerOffset = 0;
       } else {
         const totalWidth = this._getSpan(first, last, false);
         const wrapperWidth = this._wrapper.offsetWidth;
         const centerOffset = (wrapperWidth - totalWidth) / 2;
         this._centerOffset = centerOffset > 0 ? centerOffset : 0;
+        // Clip the window to the centered group, so the next slide does not
+        // show in the side gutter and pull the group visually off center. The
+        // wrapper keeps its width, which _getItemsVisible() measures. 4px stay
+        // unclipped so a focus ring on an edge item is not cut off.
+        const inset = Math.floor(this._centerOffset) - 4;
+        this._wrapper.style.clipPath = inset > 0 ? `inset(0 ${inset}px)` : '';
         this._wrapper.style.maxWidth = '';
         this._wrapper.style.width = '';
         this._wrapper.style.maxHeight = '';

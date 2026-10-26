@@ -11,6 +11,12 @@
   now measures where the browser actually placed each item, so margins, the
   gap and any other spacing are all counted. Carousels without such a margin
   page exactly as before.
+- **A centered carousel no longer looks off center.** When the visible items
+  are narrower than the carousel (a fixed Item width with few items per page),
+  the group is centered, but the next item showed faded in the empty gutter
+  beside it and pulled the group visually to one side. The window is now
+  clipped to the visible items, leaving 4px so an edge item's focus ring
+  stays whole. Carousels whose items fill the width look exactly as before.
 
 ## [2.0.0] (UNRELEASED)
 
