@@ -511,18 +511,25 @@
       }
       const itemsVisible = this._getItemsVisible();
       const maxPage = Math.ceil(this._config.totalSlides / itemsVisible) - 1;
-      if (!this._config.looping) {
-        this._prevButton?.classList.toggle(
-          'vvjb-hidden',
-          this._pageIndex === 0,
-        );
-        this._nextButton?.classList.toggle(
-          'vvjb-hidden',
-          this._pageIndex >= maxPage,
-        );
+      // Without looping, an arrow at the end stays in place but is disabled,
+      // so the controls never shift and the visitor can see where they are.
+      // aria-disabled (not the disabled attribute) keeps a focused arrow
+      // focused when the last click brings it to the end.
+      const atStart = !this._config.looping && this._pageIndex === 0;
+      const atEnd = !this._config.looping && this._pageIndex >= maxPage;
+      this._setArrowDisabled(this._prevButton, atStart);
+      this._setArrowDisabled(this._nextButton, atEnd);
+    }
+
+    _setArrowDisabled(button, disabled) {
+      if (!button) {
+        return;
+      }
+      button.classList.toggle('vvjb-disabled', disabled);
+      if (disabled) {
+        button.setAttribute('aria-disabled', 'true');
       } else {
-        this._prevButton?.classList.remove('vvjb-hidden');
-        this._nextButton?.classList.remove('vvjb-hidden');
+        button.removeAttribute('aria-disabled');
       }
     }
 
@@ -604,6 +611,9 @@
       this._nextButton?.addEventListener(
         'click',
         () => {
+          if (this._nextButton.getAttribute('aria-disabled') === 'true') {
+            return;
+          }
           this._nextSlide();
           resetAutoSlide();
         },
@@ -612,6 +622,9 @@
       this._prevButton?.addEventListener(
         'click',
         () => {
+          if (this._prevButton.getAttribute('aria-disabled') === 'true') {
+            return;
+          }
           this._prevSlide();
           resetAutoSlide();
         },

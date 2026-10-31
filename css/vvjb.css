@@ -570,27 +570,19 @@
   opacity: 1;
 }
 
-.vvjb .vvjb-carousel-options .vvjb-next.vvjb-hidden,
-.vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
-  visibility: hidden;
-  pointer-events: none;
-  opacity: 0;
+/* At the end of a carousel that does not loop, the arrow stays in place, dimmed and inactive (aria-disabled). */
+.vvjb .vvjb-carousel-options .vvjb-button.vvjb-disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
 }
 
-.vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
-  transform: translateX(-20px);
+.vvjb .vvjb-carousel-options .vvjb-button.vvjb-disabled:hover,
+.vvjb .vvjb-carousel-options .vvjb-button.vvjb-disabled:active {
+  transform: none;
 }
 
-.vvjb .vvjb-carousel-options .vvjb-next.vvjb-hidden {
-  transform: translateX(20px);
-}
-
-.vvjb.vvjb-orientation-vertical .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
-  transform: translateY(-20px);
-}
-
-.vvjb.vvjb-orientation-vertical .vvjb-carousel-options .vvjb-next.vvjb-hidden {
-  transform: translateY(20px);
+.vvjb .vvjb-carousel-options .vvjb-button.vvjb-disabled:hover svg {
+  opacity: 0.7;
 }
 
 /* Reduced Motion Support for New Features */

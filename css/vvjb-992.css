@@ -43,13 +43,4 @@
     align-items: center;
     justify-content: center;
   }
-
-  /* Hybrid mode switches to vertical on small screens - RTL has no effect */
-  .vvjb .vvjb-carousel-options .vvjb-prev.vvjb-hidden {
-    transform: translateY(-20px);
-  }
-
-  .vvjb .vvjb-carousel-options .vvjb-next.vvjb-hidden {
-    transform: translateY(20px);
-  }
 }

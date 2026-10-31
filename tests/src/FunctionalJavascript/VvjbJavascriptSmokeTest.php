@@ -162,6 +162,93 @@ final class VvjbJavascriptSmokeTest extends VvjPatternJavascriptTestBase {
   }
 
   /**
+   * Without looping, the arrow at an end stays in place but is disabled.
+   *
+   * Owner decision 2026-10-30: never hide it (a hidden arrow left a gap and
+   * shifted the controls). The arrow keeps focus, a click on it does nothing,
+   * and it carries `aria-disabled="true"` plus `vvjb-disabled`.
+   */
+  public function testArrowsDisabledAtTheEndsWithoutLooping(): void {
+    $this->setExampleStyleOptions(['looping' => FALSE]);
+    $this->drupalGet('<front>');
+    $this->assertJsCondition("document.querySelector('vvjb-carousel')._isHydrated === true", 10000);
+    $page = $this->getSession()->getPage();
+
+    $this->assertArrowDisabled('.vvjb-prev', TRUE);
+    $this->assertArrowDisabled('.vvjb-next', FALSE);
+    $page->find('css', 'vvjb-carousel .vvjb-prev')->click();
+    $this->assertJsCondition("document.querySelector('vvjb-carousel')._pageIndex === 0");
+
+    // Three items, one per page: two steps reach the end.
+    $next = $page->find('css', 'vvjb-carousel .vvjb-next');
+    $next->click();
+    $next->click();
+    $this->assertJsCondition("document.querySelector('vvjb-carousel')._pageIndex === 2");
+    $this->assertArrowDisabled('.vvjb-next', TRUE);
+    $this->assertArrowDisabled('.vvjb-prev', FALSE);
+    $this->assertJsCondition("document.activeElement === document.querySelector('vvjb-carousel .vvjb-next')");
+    $next->click();
+    $this->assertJsCondition("document.querySelector('vvjb-carousel')._pageIndex === 2");
+  }
+
+  /**
+   * A looping carousel never disables either arrow.
+   */
+  public function testLoopingNeverDisablesArrows(): void {
+    $this->setExampleStyleOptions(['looping' => TRUE]);
+    $this->drupalGet('<front>');
+    $this->assertJsCondition("document.querySelector('vvjb-carousel')._isHydrated === true", 10000);
+    $this->assertArrowDisabled('.vvjb-prev', FALSE);
+    $this->getSession()->getPage()->find('css', 'vvjb-carousel .vvjb-prev')->click();
+    $this->assertJsCondition("document.querySelector('vvjb-carousel')._pageIndex === 2");
+    $this->assertArrowDisabled('.vvjb-prev', FALSE);
+    $this->assertArrowDisabled('.vvjb-next', FALSE);
+  }
+
+  /**
+   * Sets one item per page, arrows only and no autoplay, plus the overrides.
+   *
+   * @param array<string, mixed> $overrides
+   *   Style options to set on the example view's default display.
+   */
+  private function setExampleStyleOptions(array $overrides): void {
+    $view = View::load('vvjb_example');
+    $this->assertNotNull($view);
+    $default = &$view->getDisplay('default');
+    $display_options = $default['display_options'];
+    $this->assertIsArray($display_options);
+    $style = $display_options['style'];
+    $this->assertIsArray($style);
+    $options = $style['options'] ?? [];
+    $this->assertIsArray($options);
+    $options = $overrides + [
+      'items_big' => 1,
+      'items_small' => 1,
+      'navigation' => 'arrows',
+      'slide_time' => 0,
+    ] + $options;
+    $style['options'] = $options;
+    $display_options['style'] = $style;
+    $default['display_options'] = $display_options;
+    $view->save();
+  }
+
+  /**
+   * Asserts an arrow's disabled state, by class and by aria-disabled.
+   *
+   * @param string $selector
+   *   The arrow selector inside the carousel.
+   * @param bool $disabled
+   *   The expected state.
+   */
+  private function assertArrowDisabled(string $selector, bool $disabled): void {
+    $element = "document.querySelector('vvjb-carousel " . $selector . "')";
+    $this->assertJsCondition($disabled
+      ? $element . ".getAttribute('aria-disabled') === 'true' && " . $element . ".classList.contains('vvjb-disabled')"
+      : "!" . $element . ".hasAttribute('aria-disabled') && !" . $element . ".classList.contains('vvjb-disabled')");
+  }
+
+  /**
    * Adds a theme-style item margin, pages once, and checks the alignment.
    *
    * @param string $item

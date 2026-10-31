@@ -4,6 +4,14 @@
 
 ### Fixed
 
+- **The arrows no longer disappear at the ends.** On a carousel that does not
+  loop, the previous arrow on the first page and the next arrow on the last
+  page were hidden, which left a gap and shifted the controls beside them.
+  They now stay in place, dimmed and marked `aria-disabled="true"`, and a
+  click on them does nothing. Keyboard focus stays on an arrow that becomes
+  disabled. The `vvjb-hidden` class is replaced by `vvjb-disabled`; a theme
+  that styled `vvjb-hidden` should style `vvjb-disabled` instead. Looping
+  carousels are unchanged.
 - **Pages no longer drift when the theme adds a margin to the items.** Page
   positions were worked out from each item's width plus the gap setting, so
   any margin a theme put on `.vvjb-item` was missed and every page landed a
