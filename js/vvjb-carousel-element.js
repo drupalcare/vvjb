@@ -78,6 +78,26 @@
     };
   }
 
+
+  /**
+   * Marks an arrow disabled or enabled without hiding it.
+   *
+   * aria-disabled (not the disabled attribute) keeps a focused arrow focused.
+   *
+   * @param {HTMLElement|null} button - The arrow button.
+   * @param {boolean} disabled - Whether the arrow is at an end.
+   */
+  function setArrowDisabled(button, disabled) {
+    if (!button) {
+      return;
+    }
+    button.classList.toggle('vvjb-disabled', disabled);
+    if (disabled) {
+      button.setAttribute('aria-disabled', 'true');
+    } else {
+      button.removeAttribute('aria-disabled');
+    }
+  }
   class VvjbCarouselElement extends ElementBase {
     static get patternSlug() {
       return 'vvjb';
@@ -517,20 +537,8 @@
       // focused when the last click brings it to the end.
       const atStart = !this._config.looping && this._pageIndex === 0;
       const atEnd = !this._config.looping && this._pageIndex >= maxPage;
-      this._setArrowDisabled(this._prevButton, atStart);
-      this._setArrowDisabled(this._nextButton, atEnd);
-    }
-
-    _setArrowDisabled(button, disabled) {
-      if (!button) {
-        return;
-      }
-      button.classList.toggle('vvjb-disabled', disabled);
-      if (disabled) {
-        button.setAttribute('aria-disabled', 'true');
-      } else {
-        button.removeAttribute('aria-disabled');
-      }
+      setArrowDisabled(this._prevButton, atStart);
+      setArrowDisabled(this._nextButton, atEnd);
     }
 
     _announceVisible(start, end) {
