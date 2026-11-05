@@ -1,0 +1,28 @@
+label: 'Dockrail'
+description: 'Three portrait cards with editorial captions and a glass dock at the bottom: arrows, page dots, counter and pause.'
+weight: 0
+options:
+  orientation: horizontal
+  items_small: 1
+  items_big: 3
+  gap: 24
+  item_width: 0
+  looping: true
+  slide_time: 6000
+  navigation: both
+  dot_style: circle
+  breakpoints: '768'
+  show_play_pause: true
+  show_progress_bar: true
+  show_page_counter: true
+  enable_keyboard_nav: true
+  enable_touch_swipe: true
+  enable_pause_on_hover: true
+  pause_on_reduced_motion: true
+  scrollable_dots_width: 0
+  enable_deeplink: false
+features: []
+needs:
+  - 'Fields in this order: the image (vvj_image, class vvj-media), kicker (vvj_kicker), title, summary (vvj_summary) and link (vvj_link).'
+  - 'Give the field elements the classes vvj-media, vvj-kicker, vvj-title, vvj-summary and vvj-link.'
+  - 'Show the image with the image style vvj_square_800 or a portrait style.'

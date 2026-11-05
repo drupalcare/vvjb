@@ -1,0 +1,152 @@
+/**
+ * @file
+ * Shared by every vvjb Pattern: resets the vvjb controls the Patterns restyle.
+ *
+ * Icons are Google Material arrow, pause and play paths, drawn as masks so
+ * they take the button's text colour. Defensive: every element a Pattern styles
+ * is reset here with full shorthands, so a theme rule on buttons, links,
+ * headings, paragraphs, lists or images cannot reach into a Pattern.
+ */
+
+.vvj-pattern.vvjb {
+  --vvjb-icon-prev: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M313-440l224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z'/%3E%3C/svg%3E");
+  --vvjb-icon-next: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z'/%3E%3C/svg%3E");
+  --vvjb-icon-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z'/%3E%3C/svg%3E");
+  --vvjb-icon-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z'/%3E%3C/svg%3E");
+  --vvjb-icon-pause: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Z'/%3E%3C/svg%3E");
+  --vvjb-icon-play: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M320-200v-560l440 280-440 280Z'/%3E%3C/svg%3E");
+  padding: 0;
+  color: var(--vvj-stage-color);
+  background: var(--vvj-stage-bg);
+  font-family: var(--vvj-font-ui);
+}
+.vvj-pattern.vvjb,
+.vvj-pattern.vvjb *,
+.vvj-pattern.vvjb *::before,
+.vvj-pattern.vvjb *::after { box-sizing: border-box; }
+
+/* Theme resets: headings, paragraphs, lists, images. */
+.vvj-pattern.vvjb :is(h1, h2, h3, h4, h5, h6, p) {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  hyphens: manual;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.vvj-pattern.vvjb :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
+.vvj-pattern.vvjb :is(img, svg) { display: block; max-width: 100%; height: auto; }
+
+.vvj-pattern.vvjb .vvjb-carousel-outer { padding: 0; }
+
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button,
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button,
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-carousel-dot {
+  all: unset;
+  appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  outline: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button svg,
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button svg { display: none; }
+
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button::before,
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  -webkit-mask: var(--vvjb-icon) center / contain no-repeat;
+  mask: var(--vvjb-icon) center / contain no-repeat;
+}
+
+.vvj-pattern.vvjb .vvjb-prev { --vvjb-icon: var(--vvjb-icon-prev); }
+.vvj-pattern.vvjb .vvjb-next { --vvjb-icon: var(--vvjb-icon-next); }
+.vvj-pattern.vvjb.vvjb-orientation-vertical .vvjb-prev { --vvjb-icon: var(--vvjb-icon-up); }
+.vvj-pattern.vvjb.vvjb-orientation-vertical .vvjb-next { --vvjb-icon: var(--vvjb-icon-down); }
+.vvj-pattern.vvjb .vvjb-play-pause-button { --vvjb-icon: var(--vvjb-icon-pause); }
+.vvj-pattern.vvjb .vvjb-play-pause-button:has(.svg-play) { --vvjb-icon: var(--vvjb-icon-play); }
+
+.vvj-pattern.vvjb .vvjb-carousel-controls .control-btn:focus-visible,
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-carousel-dot:focus-visible { outline: 3px solid var(--vvj-stage-color); outline-offset: 3px; }
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button[aria-disabled="true"] { cursor: default; opacity: 0.35; }
+
+.vvj-pattern.vvjb .vvjb-carousel-dots { display: flex; flex-wrap: nowrap; gap: 6px; margin: 0; padding: 0; }
+.vvj-pattern.vvjb .vvjb-progress-wrapper,
+.vvj-pattern.vvjb .vvjb-page-counter,
+.vvj-pattern.vvjb .vvjb-play-pause-wrapper,
+.vvj-pattern.vvjb .vvjb-carousel-options { position: static; margin: 0; padding: 0; background: none; transform: none; }
+/* height: auto undoes vvjb.css's fixed 32px, which a stacked counter overflows. */
+.vvj-pattern.vvjb .vvjb-page-counter { height: auto; color: inherit; border-radius: 0; font-variant-numeric: tabular-nums; }
+
+/* Field content: titles beat the theme's h1-h6 colour and never hyphenate. */
+.vvj-pattern.vvjb .vvjb-item .vvj-title,
+.vvj-pattern.vvjb .vvjb-item .vvj-title a { color: inherit; font-weight: inherit; letter-spacing: inherit; text-transform: none; hyphens: manual; overflow-wrap: normal; word-break: normal; text-decoration: none; }
+.vvj-pattern.vvjb .vvjb-item .vvj-kicker,
+.vvj-pattern.vvjb .vvjb-item .vvj-summary,
+.vvj-pattern.vvjb .vvjb-item .vvj-link { margin: 0; }
+.vvj-pattern.vvjb .vvjb-item .vvj-media { overflow: hidden; }
+.vvj-pattern.vvjb .vvjb-item .vvj-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Link control: full reset; each Pattern sets only its own shape. */
+.vvj-pattern.vvjb .vvjb-item :is(.vvj-title, .vvj-link) a {
+  appearance: none;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  text-align: start;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  vertical-align: baseline;
+  outline: 0;
+  cursor: pointer;
+}
+.vvj-pattern.vvjb .vvjb-item :is(.vvj-title, .vvj-link) a:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+/* A standalone link is a control: at least 24px tall (WCAG 2.5.8). */
+.vvj-pattern.vvjb .vvjb-item .vvj-link a { display: inline-flex; align-items: center; min-height: 24px; }
+/* Whatever the title holds (a field wrapper, the word spans split-text adds)
+   takes the title's colour, so a theme heading or span colour cannot reach it. */
+.vvj-pattern.vvjb .vvjb-item .vvj-title * { color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vvj-pattern.vvjb *,
+  .vvj-pattern.vvjb *::before,
+  .vvj-pattern.vvjb *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

@@ -53,3 +53,55 @@ vvjb__1400:
   css:
     theme:
       css/vvjb-1400.css: { weight: 202 }
+
+vvjb-pattern-base:
+  css:
+    theme:
+      patterns/vvjb-pattern-base.css: {}
+  dependencies:
+    - vvj_patterns/base
+
+pattern.dockrail:
+  css:
+    theme:
+      patterns/dockrail/vvjb-dockrail.css: {}
+  dependencies:
+    - vvjb/vvjb-pattern-base
+
+pattern.ledger:
+  css:
+    theme:
+      patterns/ledger/vvjb-ledger.css: {}
+  dependencies:
+    - vvjb/vvjb-pattern-base
+
+pattern.switchboard:
+  css:
+    theme:
+      patterns/switchboard/vvjb-switchboard.css: {}
+  dependencies:
+    - vvjb/vvjb-pattern-base
+
+pattern.swatch:
+  css:
+    theme:
+      patterns/swatch/vvjb-swatch.css: {}
+  js:
+    patterns/swatch/vvjb-swatch.js: {}
+  dependencies:
+    - vvjb/vvjb-pattern-base
+    - core/drupal
+    - core/once
+    - vvj_core/element-base
+
+pattern.nightstory:
+  css:
+    theme:
+      patterns/nightstory/vvjb-nightstory.css: {}
+  js:
+    patterns/nightstory/vvjb-nightstory.js: {}
+  dependencies:
+    - vvjb/vvjb-pattern-base
+    - core/drupal
+    - core/once
+    - vvj_patterns/split-text

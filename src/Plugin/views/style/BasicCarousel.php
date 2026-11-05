@@ -51,6 +51,15 @@ class BasicCarousel extends VvjStylePluginBase {
   /**
    * {@inheritdoc}
    *
+   * The Patterns select appears only while vvj_patterns is enabled.
+   */
+  protected function supportsPatterns(): bool {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
    * @return list<string>
    *   Reserved words that conflict with vvjb's `#carousel-` prefix.
    */
@@ -561,6 +570,9 @@ class BasicCarousel extends VvjStylePluginBase {
     }
 
     $flattened['unique_id'] = $this->options['unique_id'] ?? $this->generateUniqueId();
+
+    // Patterns: the shared logic lives in vvj_patterns.
+    $this->flattenPatternChoice($values, $flattened);
 
     return $flattened;
   }

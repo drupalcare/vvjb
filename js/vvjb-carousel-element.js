@@ -492,6 +492,19 @@
         });
       });
 
+      // Patterns only (class `vvj-pattern`): the shared state contract, with
+      // `--vvj-i` 0..n on the items of this page so CSS can stagger them.
+      if (this.classList.contains('vvj-pattern')) {
+        this.writeState({
+          index: this._pageIndex,
+          total: Math.max(
+            1,
+            Math.ceil(this._config.totalSlides / Math.max(1, itemsVisible)),
+          ),
+          items: Array.from(this._items).slice(start, end),
+        });
+      }
+
       if (
         this._config.navigation === 'dots' ||
         this._config.navigation === 'both'
@@ -1057,6 +1070,12 @@
           'aria-valuenow',
           String(Math.round(progress)),
         );
+        if (this.classList.contains('vvj-pattern')) {
+          // Patterns: the active dot fills with time (0 to 1).
+          this._inner
+            .querySelector('.vvjb-carousel-dot.active-slide')
+            ?.style.setProperty('--vvj-progress', String(progress / 100));
+        }
         if (progress < 100) {
           this._progressRaf = requestAnimationFrame(update);
         } else {

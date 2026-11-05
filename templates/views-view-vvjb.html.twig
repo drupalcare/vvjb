@@ -21,6 +21,9 @@
   has_navigation_dots: options.navigation in ['dots', 'both'],
 } %}
 
+{# A Pattern chosen in the style settings (vvj_patterns enabled). #}
+{% set vvj_pattern = options.vvj_pattern_active|default('') %}
+
 {# Class management #}
 {% set container_classes = [
   'vvjb',
@@ -29,9 +32,11 @@
   'vvjb-nav-' ~ options.navigation,
   'br-' ~ options.breakpoints,
   has_bottom_controls,
+  vvj_pattern ? 'vvj-pattern' : '',
+  vvj_pattern,
 ] %}
 
-<vvjb-carousel {{ attributes.addClass(container_classes).setAttribute('id', vvjb_id) }} role="region" aria-label="Carousel" tabindex="0"
+<vvjb-carousel {{ attributes.addClass(container_classes).setAttribute('id', vvjb_id) }} role="region" aria-label="{{ vvj_pattern and options.vvj_pattern_label ? options.vvj_pattern_label : 'Carousel' }}" tabindex="0"
   {%- if deeplink_config.enabled and deeplink_config.identifier %} data-deeplink-id="{{ deeplink_config.identifier }}"{% endif %}>
   <div class="vvjb-inner"
        data-show-play-pause="{{ options.show_play_pause ? 'true' : 'false' }}"
