@@ -36,6 +36,7 @@ behavior key, and public-API method from 1.x.
 
 ### Added
 
+- **Patterns**: 5 ready-made designs for this format (Dockrail, Ledger, Switchboard, Swatch, Nightstory). Pick one in the "Patterns" section of the format settings and its layout, animation, styling and deep linking settings are applied to the view. Needs the `vvj_patterns` module from `vvj_core`; the optional `vvj_patterns_demo` module adds example views.
 - **Dot navigation style** select (Circle / Bar / Square) in Navigation
   Settings. Prints the matching wrapper class (`bar-dots` / `square-dots`;
   Circle is the default and adds no class) that v1 required site builders to
