@@ -4,17 +4,17 @@
  */
 
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory { padding: clamp(16px, 4vw, 48px); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-outer { position: relative; }
+:where(.vvj-pattern--vvjb-nightstory) .vvjb-carousel-outer { position: relative; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item { position: relative; overflow: hidden; isolation: isolate; height: clamp(440px, 72vh, 680px); border-radius: 22px; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(20px, 3vw, 36px); box-sizing: border-box; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-media { position: absolute; inset: 0; z-index: -2; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-media img { transform: scale(1.08); transition: transform 6s linear; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item.active-slide .vvj-media img { transform: scale(1); }
+:where(.vvj-pattern--vvjb-nightstory) :where(.vvjb-item) :where(.vvj-media) img { transform: scale(1.08); transition: transform 6s linear; }
+:where(.vvj-pattern--vvjb-nightstory) :where(.vvjb-item.active-slide) :where(.vvj-media) img { transform: scale(1); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, var(--vvj-stage-scrim) 0%, rgb(0 0 0 / .62) 42%, transparent 70%), linear-gradient(to bottom, rgb(0 0 0 / .55), transparent 18%); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-kicker { margin: 0 0 10px; font-size: .75rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--vvj-stage-muted); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-title { color: var(--vvj-stage-color); margin: 0 0 12px; font: 800 clamp(2rem, 4.4vw, 3.6rem)/1.02 var(--vvj-font-display); letter-spacing: -.025em; text-wrap: balance; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0 0 .06em; }
+:where(.vvj-pattern--vvjb-nightstory) :where(.vvjb-item) .vvj-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0 0 .06em; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-word > span { display: inline-block; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item.active-slide .vvj-word > span { animation: vvjb-nightstory-word .8s var(--vvj-ease-out) both calc(var(--vvj-i, 0) * 70ms + 200ms); }
+:where(.vvj-pattern--vvjb-nightstory) :where(.vvjb-item.active-slide) :where(.vvj-word) > span { animation: vvjb-nightstory-word .8s var(--vvj-ease-out) both calc(var(--vvj-i, 0) * 70ms + 200ms); }
 @keyframes vvjb-nightstory-word { from { transform: translateY(105%); } }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-summary { margin: 0 0 18px; max-width: 40ch; line-height: 1.5; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-link a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px; border-radius: 99px; font-weight: 600; text-decoration: none; border: 1.5px solid var(--vvj-stage-muted); transition: background-color .25s, color .25s; }
@@ -23,7 +23,7 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-link a:hover::after, .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-link a:focus-visible::after { transform: translateX(4px); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-controls { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: 14px 0 0; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-options { display: contents; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-prev { order: 1; } .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-play-pause-wrapper { order: 2; } .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-next { order: 3; }
+:where(.vvj-pattern--vvjb-nightstory) .vvjb-prev { order: 1; } :where(.vvj-pattern--vvjb-nightstory) .vvjb-play-pause-wrapper { order: 2; } :where(.vvj-pattern--vvjb-nightstory) .vvjb-next { order: 3; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-progress-wrapper { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-controls .vvjb-button, .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-controls .vvjb-play-pause-button { width: 48px; height: 48px; border-radius: 50%; color: var(--vvj-stage-bg); background: var(--vvj-stage-color); font-size: 22px; transition: transform .2s, background-color .2s; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-controls .vvjb-play-pause-button { font-size: 16px; color: var(--vvj-stage-color); background: transparent; box-shadow: inset 0 0 0 1.5px var(--vvj-stage-color); }

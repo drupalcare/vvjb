@@ -21,12 +21,12 @@
   font-family: var(--vvj-font-ui);
 }
 .vvj-pattern.vvjb,
-.vvj-pattern.vvjb *,
-.vvj-pattern.vvjb *::before,
-.vvj-pattern.vvjb *::after { box-sizing: border-box; }
+:where(.vvj-pattern.vvjb) *,
+:where(.vvj-pattern.vvjb) *::before,
+:where(.vvj-pattern.vvjb) *::after { box-sizing: border-box; }
 
 /* Theme resets: headings, paragraphs, lists, images. */
-.vvj-pattern.vvjb :is(h1, h2, h3, h4, h5, h6, p) {
+:where(.vvj-pattern.vvjb) :is(h1, h2, h3, h4, h5, h6, p) {
   margin: 0;
   padding: 0;
   font-size: inherit;
@@ -36,8 +36,8 @@
   overflow-wrap: normal;
   word-break: normal;
 }
-.vvj-pattern.vvjb :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
-.vvj-pattern.vvjb :is(img, svg) { display: block; max-width: 100%; height: auto; }
+:where(.vvj-pattern.vvjb) :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
+:where(.vvj-pattern.vvjb) :is(img, svg) { display: block; max-width: 100%; height: auto; }
 
 .vvj-pattern.vvjb .vvjb-carousel-outer { padding: 0; }
 
@@ -86,12 +86,12 @@
   mask: var(--vvjb-icon) center / contain no-repeat;
 }
 
-.vvj-pattern.vvjb .vvjb-prev { --vvjb-icon: var(--vvjb-icon-prev); }
-.vvj-pattern.vvjb .vvjb-next { --vvjb-icon: var(--vvjb-icon-next); }
-.vvj-pattern.vvjb.vvjb-orientation-vertical .vvjb-prev { --vvjb-icon: var(--vvjb-icon-up); }
-.vvj-pattern.vvjb.vvjb-orientation-vertical .vvjb-next { --vvjb-icon: var(--vvjb-icon-down); }
-.vvj-pattern.vvjb .vvjb-play-pause-button { --vvjb-icon: var(--vvjb-icon-pause); }
-.vvj-pattern.vvjb .vvjb-play-pause-button:has(.svg-play) { --vvjb-icon: var(--vvjb-icon-play); }
+:where(.vvj-pattern.vvjb) .vvjb-prev { --vvjb-icon: var(--vvjb-icon-prev); }
+:where(.vvj-pattern.vvjb) .vvjb-next { --vvjb-icon: var(--vvjb-icon-next); }
+:where(.vvj-pattern.vvjb.vvjb-orientation-vertical) .vvjb-prev { --vvjb-icon: var(--vvjb-icon-up); }
+:where(.vvj-pattern.vvjb.vvjb-orientation-vertical) .vvjb-next { --vvjb-icon: var(--vvjb-icon-down); }
+:where(.vvj-pattern.vvjb) .vvjb-play-pause-button { --vvjb-icon: var(--vvjb-icon-pause); }
+:where(.vvj-pattern.vvjb) .vvjb-play-pause-button:has(.svg-play) { --vvjb-icon: var(--vvjb-icon-play); }
 
 .vvj-pattern.vvjb .vvjb-carousel-controls .control-btn:focus-visible,
 .vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-carousel-dot:focus-visible { outline: 3px solid var(--vvj-stage-color); outline-offset: 3px; }
@@ -143,10 +143,10 @@
 .vvj-pattern.vvjb .vvjb-item .vvj-link a { display: inline-flex; align-items: center; min-height: 24px; }
 /* Whatever the title holds (a field wrapper, the word spans split-text adds)
    takes the title's colour, so a theme heading or span colour cannot reach it. */
-.vvj-pattern.vvjb .vvjb-item .vvj-title * { color: inherit; }
+:where(.vvj-pattern.vvjb) :where(.vvjb-item) :where(.vvj-title) * { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
-  .vvj-pattern.vvjb *,
-  .vvj-pattern.vvjb *::before,
-  .vvj-pattern.vvjb *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  :where(.vvj-pattern.vvjb) *,
+  :where(.vvj-pattern.vvjb) *::before,
+  :where(.vvj-pattern.vvjb) *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
