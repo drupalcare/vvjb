@@ -1,6 +1,6 @@
-name: 'Views Vanilla Javascript Basic Carousel - VVJB'
+name: 'Views Vanilla JavaScript Basic Carousel - VVJB'
 type: module
-description: 'Accessible carousel display format for Views.'
+description: 'Displays Views results as an accessible carousel.'
 core_version_requirement: ^11.3 || ^12
 package: VVJ
 php: 8.3

@@ -1,14 +1,19 @@
 # Views Vanilla JavaScript Basic Carousel (VVJB)
 
-A vanilla-JavaScript carousel **Views format** for Drupal 11.3+ / 12. Renders
+A vanilla-JavaScript carousel **Views format** for Drupal. Renders
 Views rows as a responsive, touch-friendly, autoplay-capable carousel —
 horizontal, vertical, or hybrid orientations, with W3C ARIA-conformant keyboard
 navigation, configurable item-per-screen counts at small/large breakpoints,
 looping, deep-linking, scrollable-dot navigation, progress bar, page counter,
 and play/pause control.
 
+- Project page: [drupal.org/project/vvjb](https://www.drupal.org/project/vvjb)
+- Issue queue:
+  [drupal.org/project/issues/vvjb](https://www.drupal.org/project/issues/vvjb)
+
 v2.0 builds on the **`drupal/vvj_core` foundation** (composer auto-installs it).
 Behavior runs in a `<vvjb-carousel>` custom element extending `VvjElementBase`.
+
 
 ## Table of contents
 
@@ -23,6 +28,7 @@ Behavior runs in a `<vvjb-carousel>` custom element extending `VvjElementBase`.
 - Changelog
 - Maintainers
 - License
+
 
 ## Overview
 
@@ -52,36 +58,45 @@ Behavior runs in a `<vvjb-carousel>` custom element extending `VvjElementBase`.
   enabled (same pattern as other VVJ modules)
 - **Drupal admin help**: `/admin/help/vvjb`
 
+
 ## Requirements
 
 - Drupal core `^11.3 || ^12`.
 - PHP 8.3 or later.
 - Drupal core modules Views and Filter.
-- [VVJ Core](https://www.drupal.org/project/vvj_core) (`vvj_core`), installed automatically by Composer.
+- [VVJ Core](https://www.drupal.org/project/vvj_core) (`vvj_core`), installed
+  automatically by Composer.
+
 
 ## Installation
 
-1. Install with Composer: `composer require drupal/vvjb:^2.0` (it pulls `drupal/vvj_core`), or download the module and `vvj_core` from [Drupal.org](https://www.drupal.org/project/vvjb).
-2. Enable it in the admin interface or with Drush: `drush en vvjb`.
-3. Clear caches so the new plugin is available: `drush cr`.
+1. Install with Composer: `composer require drupal/vvjb:^2.0` (it pulls
+   `drupal/vvj_core`), or download the module and `vvj_core` from
+   [Drupal.org](https://www.drupal.org/project/vvjb).
+1. Enable it in the admin interface or with Drush: `drush en vvjb`.
+1. Clear caches so the new plugin is available: `drush cr`.
+
 
 ## Configuration
 
-Settings live in the format settings of the view. Configure orientation / items per screen / gap / autoplay / navigation / responsive in the format settings.
+Settings live in the format settings of the view. Configure orientation / items
+per screen / gap / autoplay / navigation / responsive in the format settings.
 
 For a ready-made starting point, choose a Pattern (see Patterns below).
+
 
 ## Usage
 
 1. Create or edit a View.
-2. Set **Format** to *Views Vanilla JavaScript Basic Carousel*.
-3. Set **Show** to *Fields*.
-4. Configure the format settings (see Configuration).
-5. Save.
+1. Set **Format** to *Views Vanilla JavaScript Basic Carousel*.
+1. Set **Show** to *Fields*.
+1. Configure the format settings (see Configuration).
+1. Save.
 
 **Sample view:** Optional config `views.view.vvjb_example` (`config/optional/`)
 installs with the module when there is no ID conflict. Use it as a reference
 implementation.
+
 
 ### Token support in Views text areas
 
@@ -96,6 +111,7 @@ instead:
 v2 resolves tokens through the shared `vvj_core.token_resolver` service; syntax
 is unchanged from v1. Tokens read from the **first row** of rendered View
 fields. Complex field rewrites are not supported.
+
 
 ### JavaScript API
 
@@ -113,10 +129,13 @@ Drupal.vvjb.getTotalSlides('products');        // → number
 Drupal.vvjb.getInstance('#vvjb-12345');        // → <vvjb-carousel> element
 ```
 
+
 ## Patterns
 
-A Pattern is a ready-made design for this format. One choice in the format settings sets the layout, animation,
-styling and deep linking together. Views Vanilla JavaScript Basic Carousel ships 5 Patterns:
+A Pattern is a ready-made design for this format. One choice in the format
+settings sets the layout, animation,
+styling and deep linking together. Views Vanilla JavaScript Basic Carousel ships
+5 Patterns:
 
 | Pattern | What it looks like | Demo page path |
 |---|---|---|
@@ -126,25 +145,36 @@ styling and deep linking together. Views Vanilla JavaScript Basic Carousel ships
 | Swatch | Edge-to-edge square tiles that open as circles, big round magnetic arrows, dots and a ring progress. | `vvj/vvjb/swatch` |
 | Nightstory | Two tall photo cards with text on a scrim, story bars over the photos and a headline that rises word by word. | `vvj/vvjb/nightstory` |
 
-The demo pages exist only while the optional `vvj_patterns_demo` module is enabled (see "Example views" below).
+The demo pages exist only while the optional `vvj_patterns_demo` module is
+enabled (see "Example views" below).
+
 
 ### Choosing a Pattern
 
-1. Enable the shared Patterns base, which ships inside `vvj_core`: `drush en vvj_patterns`. The "Pattern" select
+1. Enable the shared Patterns base, which ships inside `vvj_core`:
+   `drush en vvj_patterns`. The "Pattern" select
    appears in the format settings only while `vvj_patterns` is enabled.
-2. Edit the view and open the format settings.
-3. In the "Patterns" section, pick a Pattern in the "Pattern" select and save.
-4. The Pattern's settings replace the layout, animation, styling and deep linking settings of the view. You can
+1. Edit the view and open the format settings.
+1. In the "Patterns" section, pick a Pattern in the "Pattern" select and save.
+1. The Pattern's settings replace the layout, animation, styling and deep
+   linking settings of the view. You can
    change them afterwards. Pick "None" to keep your own settings.
-5. A list titled "To finish the <name> Pattern" shows what the view must supply: which fields, which markup
-   classes and how many items. Follow it; a Pattern shows its finished design only when the view matches.
+1. A list titled "To finish the <name> Pattern" shows what the view must supply:
+   which fields, which markup
+   classes and how many items. Follow it; a Pattern shows its finished design
+   only when the view matches.
+
 
 ### Example views
 
-Enable the optional `vvj_patterns_demo` module (`drush en vvj_patterns_demo`) to see every Pattern with content.
-It creates a "VVJ Slide" content type with five demo slides and pictures, plus example views titled
-"VVJ demo: <format>" for the VVJ format modules that are enabled, one page per Pattern at the paths in the table
+Enable the optional `vvj_patterns_demo` module (`drush en vvj_patterns_demo`) to
+see every Pattern with content.
+It creates a "VVJ Slide" content type with five demo slides and pictures, plus
+example views titled
+"VVJ demo: <format>" for the VVJ format modules that are enabled, one page per
+Pattern at the paths in the table
 above. Uninstalling the demo module removes the slides and pictures it created.
+
 
 ## Upgrading from 1.x
 
@@ -165,6 +195,7 @@ preserves:
 Outer rendered tag changed from `<div>` to `<vvjb-carousel>`. Theme selectors
 targeting `.vvjb` keep matching.
 
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -174,16 +205,21 @@ targeting `.vvjb` keep matching.
 | `drush updb` errors before `vvj_core` is enabled | Run `drush en vvj_core -y`, then `drush updb -y && drush cr`. |
 | No "Patterns" section in the format settings | Enable `vvj_patterns`: `drush en vvj_patterns`. |
 
-Report bugs and request features in the [issue queue](https://www.drupal.org/project/issues/vvjb).
+Report bugs and request features in the
+[issue queue](https://www.drupal.org/project/issues/vvjb).
+
 
 ## Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md).
 
+
 ## Maintainers
 
 - Alaa Haddad - [flashwebcenter](https://www.drupal.org/u/flashwebcenter)
 
+
 ## License
 
-GPL-2.0-or-later. See the [GNU General Public License, version 2 or later](https://www.gnu.org/licenses/gpl-2.0.html).
+GPL-2.0-or-later. See the
+[GNU General Public License, version 2 or later](https://www.gnu.org/licenses/gpl-2.0.html).

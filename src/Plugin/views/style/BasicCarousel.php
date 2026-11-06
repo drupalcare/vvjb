@@ -133,7 +133,7 @@ class BasicCarousel extends VvjStylePluginBase {
   protected function buildLayoutSection(array &$form): void {
     $form['layout_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Layout Settings'),
+      '#title' => $this->t('Layout settings'),
       '#open' => TRUE,
       '#weight' => -40,
     ];
@@ -196,7 +196,7 @@ class BasicCarousel extends VvjStylePluginBase {
   protected function buildBehaviorSection(array &$form): void {
     $form['behavior_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Behavior Settings'),
+      '#title' => $this->t('Behavior settings'),
       '#open' => TRUE,
       '#weight' => -30,
     ];
@@ -249,7 +249,7 @@ class BasicCarousel extends VvjStylePluginBase {
   protected function buildControlsSection(array &$form): void {
     $form['controls_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Control Elements'),
+      '#title' => $this->t('Control elements'),
       '#open' => TRUE,
       '#weight' => -25,
     ];
@@ -285,7 +285,7 @@ class BasicCarousel extends VvjStylePluginBase {
   protected function buildNavigationSection(array &$form): void {
     $form['navigation_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Navigation Settings'),
+      '#title' => $this->t('Navigation settings'),
       '#open' => TRUE,
       '#weight' => -20,
     ];
@@ -351,7 +351,7 @@ class BasicCarousel extends VvjStylePluginBase {
   protected function buildAccessibilitySection(array &$form): void {
     $form['accessibility_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Accessibility Settings'),
+      '#title' => $this->t('Accessibility settings'),
       '#open' => FALSE,
       '#weight' => -15,
     ];
@@ -373,7 +373,7 @@ class BasicCarousel extends VvjStylePluginBase {
   protected function buildResponsiveSection(array &$form): void {
     $form['responsive_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Responsive Settings'),
+      '#title' => $this->t('Responsive settings'),
       '#open' => FALSE,
       '#weight' => -10,
     ];

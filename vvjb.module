@@ -2,7 +2,7 @@
 
 /**
  * @file
- * VVJB — Views Vanilla Javascript Basic Carousel bootstrap.
+ * VVJB — Views Vanilla JavaScript Basic Carousel bootstrap.
  *
  * Hooks live as OOP `#[Hook]` attribute classes under `src/Hook/`.
  *
