@@ -35,8 +35,10 @@
             return;
           }
           const box = button.getBoundingClientRect();
-          const x = (event.clientX - box.left - box.width / 2) / (box.width / 2);
-          const y = (event.clientY - box.top - box.height / 2) / (box.height / 2);
+          const x =
+            (event.clientX - box.left - box.width / 2) / (box.width / 2);
+          const y =
+            (event.clientY - box.top - box.height / 2) / (box.height / 2);
           button.style.setProperty('--vvjb-mx', `${(x * 8).toFixed(1)}px`);
           button.style.setProperty('--vvjb-my', `${(y * 8).toFixed(1)}px`);
         },
@@ -48,7 +50,11 @@
 
   Drupal.behaviors.vvjPatternVvjbSwatch = {
     attach(context) {
-      once('vvj-pattern-vvjb-swatch', '.vvj-pattern--vvjb-swatch', context).forEach(wire);
+      once(
+        'vvj-pattern-vvjb-swatch',
+        '.vvj-pattern--vvjb-swatch',
+        context,
+      ).forEach(wire);
     },
     detach(context, settings, trigger) {
       if (trigger !== 'unload') {

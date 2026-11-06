@@ -22,9 +22,9 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-options { display: contents; }
 :where(.vvj-pattern--vvjb-dockrail) .vvjb-prev { order: 1; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-carousel-dots { order: 2; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-page-counter { order: 3; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-play-pause-wrapper { order: 4; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-next { order: 5; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-progress-wrapper { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button, .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button { width: 44px; height: 44px; border-radius: 50%; font-size: 18px; color: var(--vvj-stage-bg); background: var(--vvj-stage-color); transition: transform .2s, background-color .2s; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button, .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button { width: 44px; height: 44px; border-radius: 50%; font-size: 18px; color: var(--vvjb-btn-color); background: var(--vvjb-btn-bg); transition: transform .2s, background-color .2s; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button { font-size: 15px; color: var(--vvj-stage-color); background: radial-gradient(closest-side, var(--vvj-stage-bg) 80%, transparent 82%), conic-gradient(var(--vvj-stage-color) calc(var(--vvj-progress, 0) * 360deg), var(--vvj-stage-line) 0); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button:hover { background: var(--vvj-stage-muted); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button:hover { background: var(--vvjb-btn-bg-hover); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .control-btn:active { transform: scale(.92); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot { width: 44px; height: 44px; border-radius: 12px; opacity: .55; transition: opacity .3s, width .45s var(--vvj-ease-io); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
@@ -33,4 +33,4 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot.active-slide::before { width: 28px; border-radius: 5px; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-page-counter { min-width: 66px; text-align: center; font-size: .9rem; font-weight: 600; }
 .vvj-pattern--vvjb-dockrail .vvjb-counter-separator { margin: 0 4px; color: var(--vvj-stage-muted); }
-@media (max-width: 480px) { .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-dots { display: none; } }
+@container vvj-region (max-width: 440px) { .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-dots { display: none; } }

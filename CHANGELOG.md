@@ -2,8 +2,22 @@
 
 ## [Unreleased]
 
+### Added
+
+- Patterns: the Solo and APEX bridges map nothing; the controls sit on the dark stage and keep the stage tokens.
+- Patterns: every hard-coded colour is now a vvjb token, and Solo and APEX get a theme bridge (`pattern-bridge-solo`, `pattern-bridge-apex`) that maps the vvjb controls to the theme colours; the black-and-white look is unchanged.
+
 ### Fixed
 
+- Patterns: the hybrid vertical switch and the small-screen item count now follow the Pattern's own width (a ResizeObserver on the element) instead of the window; the script marks the switch with `vvjb-stacked` and the Pattern CSS stacks on that class instead of viewport media queries. Classic carousels still use the window width.
+- Patterns: the viewport breakpoint files (`vvjb-NNN.css`) no longer lay out Pattern markup; a hybrid Pattern (Switchboard) stacks its slides in one column under its own CSS below the chosen breakpoint. Classic carousels are unchanged.
+- Accessibility: the current slide no longer makes its non-control elements (`tabindex="-1"`, links without `href`) into Tab stops; only links, buttons and fields follow the slide.
+- Accessibility: the Swatch and Ledger Patterns now show the summary and link (24 px tall at least) instead of hiding them.
+- Accessibility: carousel keys (Space, arrows, Home, End) act only when the carousel itself has focus, so a focused button keeps Space; dots are always buttons; control and dot groups carry `role="group"`; the progress bar is hidden from screen readers; timer steps no longer fill the live regions.
+
+- Patterns: prev and next arrows click again (the Pattern reset had made them inherit `pointer-events: none` from the arrow bar); Switchboard card edge no longer clipped on the right.
+- `_setWrapperSize()` lists the horizontal branch first so its layout reads come before any style write (JS-RULES.md rule 3); behavior unchanged.
+- Hover rules that must beat a rest rule are flattened with `:where()` so no new Pattern selector exceeds 0,2,0; the look is unchanged (check-vvj-cascade: winners changed 0).
 - **The arrows no longer disappear at the ends.** On a carousel that does not
   loop, the previous arrow on the first page and the next arrow on the last
   page were hidden, which left a gap and shifted the controls beside them.
@@ -25,6 +39,11 @@
   beside it and pulled the group visually to one side. The window is now
   clipped to the visible items, leaving 4px so an edge item's focus ring
   stays whole. Carousels whose items fill the width look exactly as before.
+
+### Changed
+
+- Code style: JavaScript and CSS follow Drupal core's ESLint, Stylelint and Prettier rules, and the spell-check job passes with a project word file. Rendering and behavior are unchanged.
+- Layout: Pattern layout now follows the width the Pattern itself gets (container queries on `vvj-region`) instead of the screen width, so Patterns lay out correctly in a narrow content column; overlays and the Pattern root keep screen-width queries.
 
 ## [2.0.0] (UNRELEASED)
 

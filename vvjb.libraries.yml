@@ -61,6 +61,18 @@ vvjb-pattern-base:
   dependencies:
     - vvj_patterns/base
 
+# Theme bridge (solo): token mapping only. Added to vvjb-pattern-base by vvj_patterns when the solo theme is active.
+pattern-bridge-solo:
+  css:
+    theme:
+      patterns/bridge/vvjb-bridge-solo.css: { weight: 1 }
+
+# Theme bridge (apex): token mapping only. Added to vvjb-pattern-base by vvj_patterns when the apex theme is active.
+pattern-bridge-apex:
+  css:
+    theme:
+      patterns/bridge/vvjb-bridge-apex.css: { weight: 1 }
+
 pattern.dockrail:
   css:
     theme:

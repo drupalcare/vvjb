@@ -9,14 +9,17 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-options { display: contents; }
 :where(.vvj-pattern--vvjb-switchboard) .vvjb-prev { order: 1; } :where(.vvj-pattern--vvjb-switchboard) .vvjb-carousel-dots { order: 2; } :where(.vvj-pattern--vvjb-switchboard) .vvjb-next { order: 3; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-button { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--vvj-stage-line); background: var(--vvj-glass-bg); font-size: 20px; transition: background-color .2s, color .2s, transform .15s; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-button:not([aria-disabled="true"]):hover { color: var(--vvj-stage-bg); background: var(--vvj-stage-color); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-button:not([aria-disabled="true"]):hover { color: var(--vvjb-btn-color); background: var(--vvjb-btn-bg); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .control-btn:active { transform: scale(.94); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-dots { gap: 2px; margin: 0 !important; padding: 3px !important; border-radius: 14px; background: var(--vvj-glass-bg); counter-reset: vvjb-switchboard-seg; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-carousel-dot { counter-increment: vvjb-switchboard-seg; min-width: 44px; height: 38px; border-radius: 11px; color: var(--vvj-stage-muted); font-weight: 650; font-size: .9rem; transition: background-color .3s, color .3s; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-carousel-dot { counter-increment: vvjb-switchboard-seg; min-width: 44px; height: 38px; border-radius: 11px; color: var(--vvjb-tab-color); font-weight: 650; font-size: .9rem; transition: background-color .3s, color .3s; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-carousel-dot::before { content: counter(vvjb-switchboard-seg); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-carousel-dot:hover { color: var(--vvj-stage-color); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-carousel-dot.active-slide { color: var(--vvj-stage-bg); background: var(--vvj-stage-color); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 10px 10px 18px; border-radius: 18px; background: var(--vvj-glass-bg); border: 1px solid var(--vvj-stage-line); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-carousel-dot:hover { color: var(--vvjb-tab-color-hover); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-carousel-dot.active-slide { color: var(--vvjb-tab-color-current); background: var(--vvjb-tab-bg-current); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 10px 10px 18px; border-radius: 18px; background: var(--vvj-glass-bg); border: 0; box-shadow: inset 0 0 0 1px var(--vvj-stage-line); }
+/* The edge is an inset shadow and the focus ring sits inside: vvjb.css clips
+   the slide wrapper (overflow hidden) at a fractional width, which cut the
+   right border. */
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-media { aspect-ratio: 4 / 3; border-radius: 12px; margin: 0 0 6px; }
 :where(.vvj-pattern--vvjb-switchboard) :where(.vvjb-item) :where(.vvj-media) img { transition: transform .8s var(--vvj-ease-out); }
 :where(.vvj-pattern--vvjb-switchboard) :where(.vvjb-item:hover) :where(.vvj-media) img, :where(.vvj-pattern--vvjb-switchboard) :where(.vvjb-item:focus-within) :where(.vvj-media) img { transform: scale(1.06); }
@@ -28,7 +31,7 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-link a::after { content: "\2197"; display: inline-block; margin: 0 0 0 6px; transition: transform .3s var(--vvj-ease-out); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-link a:hover, .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-link a:focus-visible { background-size: 100% 2px; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-link a:hover::after, .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-link a:focus-visible::after { transform: translate(3px, -3px); }
-:where(.vvj-pattern--vvjb-switchboard) .vvjb-item:focus-within { outline: 3px solid var(--vvj-stage-color); outline-offset: 2px; }
+:where(.vvj-pattern--vvjb-switchboard) .vvjb-item:focus-within { outline: 3px solid var(--vvj-stage-color); outline-offset: -3px; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item.active-slide { animation: vvjb-switchboard-in .6s var(--vvj-ease-out) both calc(var(--vvj-i, 0) * 80ms); }
 @keyframes vvjb-switchboard-in { from { opacity: 0; transform: translateY(16px) scale(.98); } }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard.vvjb-orientation-vertical .vvjb-item { height: 132px; flex-direction: row; align-items: center; flex-wrap: wrap; align-content: center; padding: 10px; gap: 4px 14px; }

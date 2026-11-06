@@ -1,0 +1,25 @@
+/**
+ * @file
+ * vvjb theme bridge - Solo: maps the vvjb colour tokens to the theme's region colours.
+ *
+ * Tokens only, no element painting. Zero specificity (:where), loaded after
+ * vvjb-pattern-base so it restates the tokens that file declares. Every value
+ * keeps the black-and-white token as its fallback, so a region that leaves a
+ * colour unset still renders. Contrast of each mapped pair depends on the
+ * region's colours: needs checking.
+ *
+ * Not mapped on purpose: tab and dot idle colours, dot track and fill, scrims
+ * and shadows stay derived from the --vvj-* stage tokens.
+ */
+
+/* Nothing is mapped: every vvjb control (buttons, tabs, dots) sits on the dark stage, where a
+   theme fill could vanish (1.4.11), so they all keep the stage tokens from vvjb-pattern-base.css. */
+@media (forced-colors: active) {
+  :where(.vvj-pattern.vvjb) {
+    --vvjb-btn-bg: ButtonText;
+    --vvjb-btn-color: ButtonFace;
+    --vvjb-btn-bg-hover: Highlight;
+    --vvjb-tab-bg-current: Highlight;
+    --vvjb-tab-color-current: HighlightText;
+  }
+}

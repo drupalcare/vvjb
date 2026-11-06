@@ -15,31 +15,63 @@
   --vvjb-icon-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z'/%3E%3C/svg%3E");
   --vvjb-icon-pause: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Z'/%3E%3C/svg%3E");
   --vvjb-icon-play: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M320-200v-560l440 280-440 280Z'/%3E%3C/svg%3E");
+
   padding: 0;
   color: var(--vvj-stage-color);
   background: var(--vvj-stage-bg);
   font-family: var(--vvj-font-ui);
 }
+/* Colour tokens of vvjb: the ONE place they are declared. Zero specificity, so
+   a theme bridge (patterns/bridge/) can restate them; values come from --vvj-*. */
+:where(.vvj-pattern.vvjb) {
+  --vvjb-scrim-strong: color-mix(in sRGB, var(--vvj-stage-bg) 62%, transparent);
+  --vvjb-scrim-top: color-mix(in sRGB, var(--vvj-stage-bg) 55%, transparent);
+  --vvjb-mask-solid: var(--vvj-mask-solid);
+  --vvjb-btn-bg: var(--vvj-stage-color);
+  --vvjb-btn-color: var(--vvj-stage-bg);
+  --vvjb-btn-bg-hover: var(--vvj-stage-muted);
+  --vvjb-tab-color: var(--vvj-stage-muted);
+  --vvjb-tab-color-hover: var(--vvj-stage-color);
+  --vvjb-tab-bg-current: var(--vvj-stage-color);
+  --vvjb-tab-color-current: var(--vvj-stage-bg);
+  --vvjb-dot-track: color-mix(in sRGB, var(--vvj-stage-color) 42%, transparent);
+  --vvjb-dot-fill: var(--vvj-stage-color);
+}
 .vvj-pattern.vvjb,
 :where(.vvj-pattern.vvjb) *,
 :where(.vvj-pattern.vvjb) *::before,
-:where(.vvj-pattern.vvjb) *::after { box-sizing: border-box; }
+:where(.vvj-pattern.vvjb) *::after {
+  box-sizing: border-box;
+}
 
 /* Theme resets: headings, paragraphs, lists, images. */
 :where(.vvj-pattern.vvjb) :is(h1, h2, h3, h4, h5, h6, p) {
   margin: 0;
   padding: 0;
+  word-break: normal;
+  hyphens: manual;
+  color: inherit;
   font-size: inherit;
   line-height: inherit;
-  color: inherit;
-  hyphens: manual;
   overflow-wrap: normal;
-  word-break: normal;
 }
-:where(.vvj-pattern.vvjb) :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
-:where(.vvj-pattern.vvjb) :is(img, svg) { display: block; max-width: 100%; height: auto; }
+:where(.vvj-pattern.vvjb) :is(ul, ol, li) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+:where(.vvj-pattern.vvjb) :is(img, svg) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 
-.vvj-pattern.vvjb .vvjb-carousel-outer { padding: 0; }
+.vvj-pattern.vvjb .vvjb-carousel-outer {
+  padding: 0;
+}
+
+/* stylelint-disable order/properties-order -- shorthand/longhand order is significant here (all vs box-sizing); reordering would change the result
+ */
 
 .vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button,
 .vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button,
@@ -47,6 +79,10 @@
   all: unset;
   appearance: none;
   box-sizing: border-box;
+  /* all: unset makes pointer-events inherit, and vvjb.css sets the arrow bar
+     to none so clicks pass through it: give the controls their clicks back. */
+  pointer-events: auto;
+  cursor: pointer;
   position: relative;
   display: inline-grid;
   place-items: center;
@@ -69,84 +105,169 @@
   text-align: center;
   vertical-align: middle;
   outline: 0;
-  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* stylelint-enable order/properties-order
+ */
+
 .vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button svg,
-.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button svg { display: none; }
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button svg {
+  display: none;
+}
 
 .vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button::before,
 .vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button::before {
-  content: "";
   width: 1em;
   height: 1em;
+  content: "";
   background: currentColor;
   -webkit-mask: var(--vvjb-icon) center / contain no-repeat;
   mask: var(--vvjb-icon) center / contain no-repeat;
 }
 
-:where(.vvj-pattern.vvjb) .vvjb-prev { --vvjb-icon: var(--vvjb-icon-prev); }
-:where(.vvj-pattern.vvjb) .vvjb-next { --vvjb-icon: var(--vvjb-icon-next); }
-:where(.vvj-pattern.vvjb.vvjb-orientation-vertical) .vvjb-prev { --vvjb-icon: var(--vvjb-icon-up); }
-:where(.vvj-pattern.vvjb.vvjb-orientation-vertical) .vvjb-next { --vvjb-icon: var(--vvjb-icon-down); }
-:where(.vvj-pattern.vvjb) .vvjb-play-pause-button { --vvjb-icon: var(--vvjb-icon-pause); }
-:where(.vvj-pattern.vvjb) .vvjb-play-pause-button:has(.svg-play) { --vvjb-icon: var(--vvjb-icon-play); }
+:where(.vvj-pattern.vvjb) .vvjb-prev {
+  --vvjb-icon: var(--vvjb-icon-prev);
+}
+:where(.vvj-pattern.vvjb) .vvjb-next {
+  --vvjb-icon: var(--vvjb-icon-next);
+}
+:where(.vvj-pattern.vvjb.vvjb-orientation-vertical) .vvjb-prev {
+  --vvjb-icon: var(--vvjb-icon-up);
+}
+:where(.vvj-pattern.vvjb.vvjb-orientation-vertical) .vvjb-next {
+  --vvjb-icon: var(--vvjb-icon-down);
+}
+:where(.vvj-pattern.vvjb) .vvjb-play-pause-button {
+  --vvjb-icon: var(--vvjb-icon-pause);
+}
+:where(.vvj-pattern.vvjb) .vvjb-play-pause-button:has(.svg-play) {
+  --vvjb-icon: var(--vvjb-icon-play);
+}
 
 .vvj-pattern.vvjb .vvjb-carousel-controls .control-btn:focus-visible,
-.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-carousel-dot:focus-visible { outline: 3px solid var(--vvj-stage-color); outline-offset: 3px; }
-.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button[aria-disabled="true"] { cursor: default; opacity: 0.35; }
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-carousel-dot:focus-visible {
+  outline: 3px solid var(--vvj-stage-color);
+  outline-offset: 3px;
+}
+.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button[aria-disabled="true"] {
+  cursor: default;
+  opacity: 0.35;
+}
 
-.vvj-pattern.vvjb .vvjb-carousel-dots { display: flex; flex-wrap: nowrap; gap: 6px; margin: 0; padding: 0; }
+.vvj-pattern.vvjb .vvjb-carousel-dots {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
 .vvj-pattern.vvjb .vvjb-progress-wrapper,
 .vvj-pattern.vvjb .vvjb-page-counter,
 .vvj-pattern.vvjb .vvjb-play-pause-wrapper,
-.vvj-pattern.vvjb .vvjb-carousel-options { position: static; margin: 0; padding: 0; background: none; transform: none; }
+.vvj-pattern.vvjb .vvjb-carousel-options {
+  position: static;
+  margin: 0;
+  padding: 0;
+  transform: none;
+  background: none;
+}
 /* height: auto undoes vvjb.css's fixed 32px, which a stacked counter overflows. */
-.vvj-pattern.vvjb .vvjb-page-counter { height: auto; color: inherit; border-radius: 0; font-variant-numeric: tabular-nums; }
+.vvj-pattern.vvjb .vvjb-page-counter {
+  height: auto;
+  color: inherit;
+  border-radius: 0;
+  font-variant-numeric: tabular-nums;
+}
 
 /* Field content: titles beat the theme's h1-h6 colour and never hyphenate. */
 .vvj-pattern.vvjb .vvjb-item .vvj-title,
-.vvj-pattern.vvjb .vvjb-item .vvj-title a { color: inherit; font-weight: inherit; letter-spacing: inherit; text-transform: none; hyphens: manual; overflow-wrap: normal; word-break: normal; text-decoration: none; }
+.vvj-pattern.vvjb .vvjb-item .vvj-title a {
+  text-decoration: none;
+  letter-spacing: inherit;
+  text-transform: none;
+  word-break: normal;
+  hyphens: manual;
+  color: inherit;
+  font-weight: inherit;
+  overflow-wrap: normal;
+}
 .vvj-pattern.vvjb .vvjb-item .vvj-kicker,
 .vvj-pattern.vvjb .vvjb-item .vvj-summary,
-.vvj-pattern.vvjb .vvjb-item .vvj-link { margin: 0; }
-.vvj-pattern.vvjb .vvjb-item .vvj-media { overflow: hidden; }
-.vvj-pattern.vvjb .vvjb-item .vvj-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.vvj-pattern.vvjb .vvjb-item .vvj-link {
+  margin: 0;
+}
+.vvj-pattern.vvjb .vvjb-item .vvj-media {
+  overflow: hidden;
+}
+.vvj-pattern.vvjb .vvjb-item .vvj-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 /* Link control: full reset; each Pattern sets only its own shape. */
 .vvj-pattern.vvjb .vvjb-item :is(.vvj-title, .vvj-link) a {
-  appearance: none;
   display: inline;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
   margin: 0;
   padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  color: inherit;
-  font: inherit;
+  cursor: pointer;
+  text-align: start;
+  vertical-align: baseline;
+  text-decoration: none;
   letter-spacing: normal;
   text-transform: none;
-  text-decoration: none;
-  text-align: start;
-  width: auto;
-  height: auto;
-  min-width: 0;
-  min-height: 0;
-  vertical-align: baseline;
+  color: inherit;
+  border: 0;
+  border-radius: 0;
   outline: 0;
-  cursor: pointer;
+  background: none;
+  box-shadow: none;
+  font: inherit;
+  appearance: none;
 }
-.vvj-pattern.vvjb .vvjb-item :is(.vvj-title, .vvj-link) a:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.vvj-pattern.vvjb .vvjb-item :is(.vvj-title, .vvj-link) a:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
 /* A standalone link is a control: at least 24px tall (WCAG 2.5.8). */
-.vvj-pattern.vvjb .vvjb-item .vvj-link a { display: inline-flex; align-items: center; min-height: 24px; }
+.vvj-pattern.vvjb .vvjb-item .vvj-link a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
 /* Whatever the title holds (a field wrapper, the word spans split-text adds)
    takes the title's colour, so a theme heading or span colour cannot reach it. */
-:where(.vvj-pattern.vvjb) :where(.vvjb-item) :where(.vvj-title) * { color: inherit; }
+:where(.vvj-pattern.vvjb) :where(.vvjb-item) :where(.vvj-title) * {
+  color: inherit;
+}
+
+/* Hybrid orientation, once the element's script has switched it to a vertical
+   list (class `vvjb-stacked`, set when the Pattern's own width is at or below the
+   breakpoint the view was set to): the slides stack in one column. Keyed on the
+   script's class, not a viewport query, so CSS and script cannot disagree. The
+   module's vvjb-NNN.css no longer reaches Pattern markup, so this is the
+   Pattern's own copy. The arrow strip, the stage padding and the icon rotation
+   that file also set are not wanted here: the controls sit in the controls row
+   and the arrows keep their left and right shapes. */
+:where(.vvj-pattern.vvjb.vvjb-orientation-hybrid.vvjb-stacked) .vvjb-items {
+  flex-direction: column;
+}
+:where(.vvj-pattern.vvjb.vvjb-orientation-hybrid.vvjb-stacked) .vvjb-item {
+  width: 100%;
+}
 
 @media (prefers-reduced-motion: reduce) {
   :where(.vvj-pattern.vvjb) *,
   :where(.vvj-pattern.vvjb) *::before,
-  :where(.vvj-pattern.vvjb) *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  :where(.vvj-pattern.vvjb) *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

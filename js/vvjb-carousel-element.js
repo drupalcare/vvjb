@@ -9,6 +9,8 @@
  *
  * Implements the full v1 vvjb behavior set:
  *   - Horizontal / vertical / hybrid orientations with breakpoint switch
+ *     (window width; a Pattern uses its own width and marks the hybrid
+ *     switch with `vvjb-stacked`)
  *   - Autoplay with configurable interval, pause-on-hover, pause-when-hidden,
  *     pause-when-out-of-viewport, pause-on-reduced-motion
  *   - Looping
@@ -37,7 +39,7 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal) => {
-  const { ElementBase } = Drupal.Vvj;
+  const { ElementBase, ownWidth, watchOwnWidth } = Drupal.Vvj;
 
   const SVG_PLAY = `<svg class="svg-play" xmlns="http://www.w3.org/2000/svg" viewBox="80 -880 800 800" fill="currentColor" aria-hidden="true">
   <path d="m380-300 280-180-280-180v360ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"></path>
@@ -97,6 +99,7 @@
       button.removeAttribute('aria-disabled');
     }
   }
+
   class VvjbCarouselElement extends ElementBase {
     static get patternSlug() {
       return 'vvjb';
@@ -129,6 +132,8 @@
       this._isInViewport = true;
       this._centerOffset = 0;
       this._isRTL = false;
+      this._patterned = false;
+      this._width = 0;
     }
 
     // -----------------------------------------------------------------
@@ -164,6 +169,13 @@
       this._currentPageSpan = this._inner.querySelector('.vvjb-current-page');
       this._totalPagesSpan = this._inner.querySelector('.vvjb-total-pages');
       this._dotsContainer = this._inner.querySelector('.vvjb-carousel-dots');
+
+      // A Pattern follows the room it has (a narrow column on a wide
+      // screen switches too); a view without a Pattern keeps the window.
+      this._patterned = this.classList.contains('vvj-pattern');
+      if (this._patterned) {
+        this._width = ownWidth(this);
+      }
 
       this._readConfig();
       this._initFeatures();
@@ -261,11 +273,11 @@
         this._initPlayPauseButton();
       }
 
+      // The progress bar is decorative (redrawn every frame): hide it from
+      // assistive technology; the page counter carries the state.
       if (this._features.showProgressBar && this._progressBar) {
-        this._progressBar.setAttribute('role', 'progressbar');
-        this._progressBar.setAttribute('aria-valuemin', '0');
-        this._progressBar.setAttribute('aria-valuemax', '100');
-        this._progressBar.setAttribute('aria-valuenow', '0');
+        this._progressBar.setAttribute('aria-hidden', 'true');
+        this._progressBar.removeAttribute('role');
       }
 
       if (this._features.showPageCounter && this._currentPageSpan) {
@@ -295,6 +307,18 @@
         },
         { signal: this.signal },
       );
+
+      if (this._patterned) {
+        watchOwnWidth(this, this.signal, (width) => {
+          if (width === this._width) {
+            return;
+          }
+          this._width = width;
+          this._clampPageIndex();
+          this._updateLayout();
+          refreshDots();
+        });
+      }
     }
 
     // -----------------------------------------------------------------
@@ -307,10 +331,22 @@
       if (raw === 'vertical') {
         return 'vertical';
       }
-      if (raw === 'hybrid' && window.innerWidth <= bp) {
+      if (raw === 'hybrid' && this._breakpointWidth() <= bp) {
         return 'vertical';
       }
       return 'horizontal';
+    }
+
+    /**
+     * The width the breakpoint is compared against.
+     *
+     * @return {number}
+     *   For a Pattern (class `vvj-pattern`) its own width, kept current by
+     *   its ResizeObserver, as its `@container vvj-region` CSS uses; for a
+     *   view without one, the window width.
+     */
+    _breakpointWidth() {
+      return this._patterned ? this._width : window.innerWidth;
     }
 
     _getItemSize(item, isVertical) {
@@ -358,7 +394,7 @@
     _getItemsVisible() {
       const isVertical = this._config.orientation === 'vertical';
       const isHybrid = this._config.rawOrientation === 'hybrid';
-      const isSmallScreen = window.innerWidth <= this._config.breakpoints;
+      const isSmallScreen = this._breakpointWidth() <= this._config.breakpoints;
       const max = isSmallScreen
         ? this._config.itemsSmall
         : this._config.itemsBig;
@@ -422,14 +458,9 @@
       const first = visibleItems[0];
       const last = visibleItems[visibleItems.length - 1];
 
-      if (this._config.orientation === 'vertical') {
-        const totalHeight = this._getSpan(first, last, true);
-        this._wrapper.style.maxHeight = `${totalHeight}px`;
-        this._wrapper.style.height = '';
-        this._wrapper.style.maxWidth = '';
-        this._wrapper.style.clipPath = '';
-        this._centerOffset = 0;
-      } else {
+      // Horizontal first: its layout reads come before any style write in
+      // this method (JS-RULES.md rule 3). Only one branch runs.
+      if (this._config.orientation !== 'vertical') {
         const totalWidth = this._getSpan(first, last, false);
         const wrapperWidth = this._wrapper.offsetWidth;
         const centerOffset = (wrapperWidth - totalWidth) / 2;
@@ -443,6 +474,13 @@
         this._wrapper.style.maxWidth = '';
         this._wrapper.style.width = '';
         this._wrapper.style.maxHeight = '';
+      } else {
+        const totalHeight = this._getSpan(first, last, true);
+        this._wrapper.style.maxHeight = `${totalHeight}px`;
+        this._wrapper.style.height = '';
+        this._wrapper.style.maxWidth = '';
+        this._wrapper.style.clipPath = '';
+        this._centerOffset = 0;
       }
 
       if (this._wrapper.style.visibility !== 'visible') {
@@ -468,6 +506,16 @@
 
     _updateLayout() {
       this._config.orientation = this._resolveOrientation();
+      // Patterns only: a hybrid carousel that switched to vertical marks it,
+      // so the Pattern CSS stacks the slides from the same width this
+      // script used. Written before _setWrapperSize() reads the layout.
+      if (this._patterned) {
+        this.classList.toggle(
+          'vvjb-stacked',
+          this._config.rawOrientation === 'hybrid' &&
+            this._config.orientation === 'vertical',
+        );
+      }
       this._setWrapperSize();
 
       const itemsVisible = this._getItemsVisible();
@@ -484,8 +532,11 @@
         } else {
           item.setAttribute('inert', '');
         }
+        // Controls only. A `[tabindex]` match turned any element the content
+        // keeps out of the Tab order (tabindex="-1") into a tab stop with
+        // nothing to operate; `inert` already hides the inactive slides.
         const interactiveElements = item.querySelectorAll(
-          'a, button, input, textarea, select, [tabindex]',
+          'a[href], button, input, textarea, select',
         );
         interactiveElements.forEach((el) => {
           el.setAttribute('tabindex', isActive ? '0' : '-1');
@@ -697,7 +748,10 @@
       this.addEventListener(
         'keydown',
         (e) => {
-          if (e.target.matches('input, textarea, [contenteditable="true"]')) {
+          // Keys belong to the carousel only when the carousel itself has
+          // focus. A focused button, dot or link keeps its own Space, Enter,
+          // Home and End.
+          if (e.target !== this) {
             return;
           }
           const orientation = this._config.orientation;
@@ -780,21 +834,12 @@
       const fragment = document.createDocumentFragment();
       const itemsVisible = this._getItemsVisible();
       const totalPages = Math.ceil(this._config.totalSlides / itemsVisible);
-      const useDeepLinks =
-        this._config.deeplinkEnabled && this._config.deeplinkId;
-
       for (let i = 0; i < totalPages; i++) {
-        let dot;
-        if (useDeepLinks) {
-          dot = document.createElement('a');
-          dot.href = `#carousel-${this._config.deeplinkId}-${i + 1}`;
-          dot.className = 'vvjb-carousel-dot control-btn';
-          dot.setAttribute('role', 'button');
-        } else {
-          dot = document.createElement('button');
-          dot.className = 'vvjb-carousel-dot control-btn';
-          dot.type = 'button';
-        }
+        // Always a native button (Space and Enter both work); with deep
+        // links on, the click handler writes the hash.
+        const dot = document.createElement('button');
+        dot.className = 'vvjb-carousel-dot control-btn';
+        dot.type = 'button';
         const label = Drupal.t('Go to slide group @num', { '@num': i + 1 });
         dot.setAttribute('aria-label', label);
         dot.dataset.slideGroup = String(i);
@@ -923,12 +968,29 @@
       this._stopAutoSlide();
       this._autoSlideTimer = setInterval(() => {
         if (!this._isPaused) {
+          // A timer step is not announced; a visitor action is.
+          this._setLiveRegions(false);
           this._nextSlide();
         }
       }, interval);
       if (this._features.showProgressBar) {
         this._startProgressBar();
       }
+    }
+
+    /**
+     * Turns the announcer and the page counter on or off.
+     *
+     * @param {boolean} on
+     *   TRUE after a visitor action, FALSE before a timer step, so autoplay
+     *   does not talk over the page.
+     */
+    _setLiveRegions(on) {
+      const value = on ? 'polite' : 'off';
+      this._announcer?.setAttribute('aria-live', value);
+      this._inner
+        ?.querySelector('.vvjb-page-counter')
+        ?.setAttribute('aria-live', value);
     }
 
     _stopAutoSlide() {
@@ -950,6 +1012,18 @@
         }
       };
       const stop = () => this._stopAutoSlide();
+
+      // A visitor action turns announcements back on (timer steps turn them
+      // off in _startAutoSlide).
+      const polite = () => this._setLiveRegions(true);
+      this.addEventListener('click', polite, {
+        capture: true,
+        signal: this.signal,
+      });
+      this.addEventListener('keydown', polite, {
+        capture: true,
+        signal: this.signal,
+      });
 
       start();
 
@@ -1066,6 +1140,7 @@
           (elapsed / this._config.slideTime) * 100,
         );
         this._progressBar.style.setProperty('--progress', `${progress}%`);
+        // Drives the CSS percentage label; the bar itself is aria-hidden.
         this._progressBar.setAttribute(
           'aria-valuenow',
           String(Math.round(progress)),
