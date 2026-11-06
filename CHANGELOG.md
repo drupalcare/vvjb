@@ -47,6 +47,8 @@
 
 ## [2.0.0] (UNRELEASED)
 
+- Accessibility: in Windows high contrast (forced colors) the Pattern icons stay visible; they are masks painted with the text color, which the system used to replace.
+
 **Drop-in upgrade for 1.x sites.** v2 modernizes internals: extends `vvj_core`
 foundation, ships `<vvjb-carousel>` custom element extending `VvjElementBase`,
 AbortController-tracked listeners, View Transitions wrapping slide swaps, while

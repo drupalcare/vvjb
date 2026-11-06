@@ -271,3 +271,12 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Forced colors: icons are masks painted with currentColor. Keep that paint,
+   so the system does not replace it with the page ground and hide the icon. */
+@media (forced-colors: active) {
+  :where(.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-button)::before,
+  :where(.vvj-pattern.vvjb .vvjb-carousel-controls .vvjb-play-pause-button)::before {
+    forced-color-adjust: none;
+  }
+}
