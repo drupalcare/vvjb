@@ -1,10 +1,6 @@
 services:
   Drupal\vvjb\Hook\VvjbHelpHook:
-    arguments:
-      - '@extension.list.module'
-      - '@module_handler'
-      - '@plugin.manager.filter'
-      - '@config.factory'
+    autowire: true
 
   Drupal\vvjb\Hook\VvjbThemeHook:
     autowire: true
