@@ -5,7 +5,7 @@
 ### Added
 
 - Patterns: the Solo and APEX bridges map nothing; the controls sit on the dark stage and keep the stage tokens.
-- Patterns: every hard-coded colour is now a vvjb token, and Solo and APEX get a theme bridge (`pattern-bridge-solo`, `pattern-bridge-apex`) that maps the vvjb controls to the theme colours; the black-and-white look is unchanged.
+- Patterns: every hard-coded color is now a vvjb token, and Solo and APEX get a theme bridge (`pattern-bridge-solo`, `pattern-bridge-apex`) that maps the vvjb controls to the theme colors; the black-and-white look is unchanged.
 
 ### Fixed
 

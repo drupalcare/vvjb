@@ -3,7 +3,7 @@
  * Shared by every vvjb Pattern: resets the vvjb controls the Patterns restyle.
  *
  * Icons are Google Material arrow, pause and play paths, drawn as masks so
- * they take the button's text colour. Defensive: every element a Pattern styles
+ * they take the button's text color. Defensive: every element a Pattern styles
  * is reset here with full shorthands, so a theme rule on buttons, links,
  * headings, paragraphs, lists or images cannot reach into a Pattern.
  */
@@ -21,7 +21,7 @@
   background: var(--vvj-stage-bg);
   font-family: var(--vvj-font-ui);
 }
-/* Colour tokens of vvjb: the ONE place they are declared. Zero specificity, so
+/* Color tokens of vvjb: the ONE place they are declared. Zero specificity, so
    a theme bridge (patterns/bridge/) can restate them; values come from --vvj-*. */
 :where(.vvj-pattern.vvjb) {
   --vvjb-scrim-strong: color-mix(in sRGB, var(--vvj-stage-bg) 62%, transparent);
@@ -180,7 +180,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Field content: titles beat the theme's h1-h6 colour and never hyphenate. */
+/* Field content: titles beat the theme's h1-h6 color and never hyphenate. */
 .vvj-pattern.vvjb .vvjb-item .vvj-title,
 .vvj-pattern.vvjb .vvjb-item .vvj-title a {
   text-decoration: none;
@@ -242,7 +242,7 @@
   min-height: 24px;
 }
 /* Whatever the title holds (a field wrapper, the word spans split-text adds)
-   takes the title's colour, so a theme heading or span colour cannot reach it. */
+   takes the title's color, so a theme heading or span color cannot reach it. */
 :where(.vvj-pattern.vvjb) :where(.vvjb-item) :where(.vvj-title) * {
   color: inherit;
 }
