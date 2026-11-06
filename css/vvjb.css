@@ -230,6 +230,9 @@
   border-radius: 50%;
   background: rgb(0, 0, 0, 0.6);
   all: unset;
+  /* `all: unset` makes pointer-events inherit `none` from the arrow bar;
+     the buttons must stay clickable. */
+  pointer-events: auto;
   backdrop-filter: blur(4px);
 }
 

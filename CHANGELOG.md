@@ -9,6 +9,8 @@
 
 ### Fixed
 
+- Arrows: prev, next and play/pause click again on a carousel without a Pattern. The button reset's `all: unset` made them inherit `pointer-events: none` from the arrow bar once the arrow rule moved into `:where()`.
+- Smoke test: dots are always buttons, so the deep-linking case now expects `<button>` dots.
 - Patterns: the hybrid vertical switch and the small-screen item count now follow the Pattern's own width (a ResizeObserver on the element) instead of the window; the script marks the switch with `vvjb-stacked` and the Pattern CSS stacks on that class instead of viewport media queries. Classic carousels still use the window width.
 - Patterns: the viewport breakpoint files (`vvjb-NNN.css`) no longer lay out Pattern markup; a hybrid Pattern (Switchboard) stacks its slides in one column under its own CSS below the chosen breakpoint. Classic carousels are unchanged.
 - Accessibility: the current slide no longer makes its non-control elements (`tabindex="-1"`, links without `href`) into Tab stops; only links, buttons and fields follow the slide.

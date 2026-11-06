@@ -55,8 +55,8 @@ final class VvjbJavascriptSmokeTest extends VvjPatternJavascriptTestBase {
    * The dots exist only after the element hydrates, so the kernel render test
    * cannot see them. `control-btn` is the opt-out hook a theme that styles
    * every button uses to leave these controls alone (owner decision
-   * 2026-10-07). Both dot shapes are checked: `<button>` by default, `<a>`
-   * when deep linking is on.
+   * 2026-10-07). Dots are always `<button>` (VVJB 2.0), with deep linking
+   * off and on; with it on, the click handler writes the hash.
    */
   public function testNavigationDotsCarryControlBtn(): void {
     $this->drupalGet('<front>');
@@ -83,7 +83,7 @@ final class VvjbJavascriptSmokeTest extends VvjPatternJavascriptTestBase {
     $view->save();
 
     $this->drupalGet('<front>');
-    $this->assertDotsCarryControlBtn('a');
+    $this->assertDotsCarryControlBtn('button');
   }
 
   /**
