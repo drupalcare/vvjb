@@ -3,35 +3,35 @@
  * vvjb Pattern Ledger.
  */
 
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger { padding: clamp(24px, 5vw, 64px) clamp(16px, 5vw, 64px); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-outer { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: clamp(16px, 3vw, 40px); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger { padding: clamp(24px, 5cqi, 64px) clamp(16px, 5cqi, 64px); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-outer { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: clamp(16px, 3cqi, 40px); }
 .vvj-pattern--vvjb-ledger .vvjb-carousel-wrapper { grid-column: 2; grid-row: 1; border: solid var(--vvj-stage-line); border-width: 0 0 1px; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: center; gap: var(--vvj-space-12, 12px); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-options { display: contents; }
 :where(.vvj-pattern--vvjb-ledger) .vvjb-prev { order: 1; } :where(.vvj-pattern--vvjb-ledger) .vvjb-page-counter { order: 2; } :where(.vvj-pattern--vvjb-ledger) .vvjb-progress-wrapper { order: 3; } :where(.vvj-pattern--vvjb-ledger) .vvjb-next { order: 4; } :where(.vvj-pattern--vvjb-ledger) .vvjb-play-pause-wrapper { order: 5; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-button, .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-play-pause-button { width: 48px; height: 48px; border-radius: 14px; border: 1px solid var(--vvj-stage-line); font-size: 18px; transition: background-color .2s, color .2s, transform .2s, border-radius .3s; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-button, .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-play-pause-button { width: 48px; height: 48px; border-radius: var(--vvj-radius-14, 14px); border: 1px solid var(--vvj-stage-line); font-size: var(--vvj-text-18, 1.125rem); transition: background-color var(--vvj-dur-200, 0.2s), color var(--vvj-dur-200, 0.2s), transform var(--vvj-dur-200, 0.2s), border-radius var(--vvj-dur-300, 0.3s); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-button:not([aria-disabled="true"]):hover, .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-play-pause-button:hover { color: var(--vvjb-btn-color); background: var(--vvjb-btn-bg); border-radius: 50%; }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .control-btn:active { transform: scale(.92); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-progress-wrapper { flex: 1; width: 2px; min-height: 56px; border-radius: 2px; position: relative; overflow: hidden; background: var(--vvj-stage-line); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-progress-wrapper { flex: 1; width: 2px; min-height: 56px; border-radius: var(--vvj-radius-2, 2px); position: relative; overflow: hidden; background: var(--vvj-stage-line); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-progress-wrapper .vvjb-progress-bar { all: unset; position: absolute; inset: 0; background: var(--vvj-stage-color); transform-origin: top; transform: scaleY(calc(var(--progress, 0%) / 100%)); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-page-counter { display: grid; justify-items: center; height: auto; padding: 0; line-height: 1; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-current-page { font: 600 1.9rem/1 var(--vvj-font-display); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-counter-separator { width: 18px; height: 1px; margin: 6px 0; font-size: 0; background: var(--vvj-stage-line); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-total-pages { font-size: .85rem; color: var(--vvj-stage-muted); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-page-counter { display: grid; justify-items: center; height: auto; padding: var(--vvj-space-6, 6px); line-height: 1; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-current-page { font: 600 var(--vvj-text-30, 1.875rem)/1 var(--vvj-font-display); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-counter-separator { width: 18px; height: 1px; margin: var(--vvj-space-6, 6px) 0; font-size: 0; background: var(--vvj-stage-line); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-total-pages { font-size: var(--vvj-text-14, 0.875rem); color: var(--vvj-stage-muted); }
 :where(.vvj-pattern--vvjb-ledger) .vvjb-items { counter-reset: vvjb-ledger-row; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item { counter-increment: vvjb-ledger-row; height: clamp(150px, 17vw, 184px); box-sizing: border-box; display: grid; grid-template-columns: auto minmax(0, 1fr) clamp(96px, 20vw, 220px); grid-template-rows: auto auto auto 1fr; align-content: center; column-gap: clamp(12px, 2.5vw, 32px); border: solid var(--vvj-stage-line); border-width: 1px 0 0; padding: 14px 0; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item::before { content: counter(vvjb-ledger-row, decimal-leading-zero); grid-column: 1; grid-row: 1 / -1; align-self: center; min-width: 2.2ch; font: 300 clamp(2.2rem, 4.6vw, 3.8rem)/1 var(--vvj-font-display); color: var(--vvj-stage-muted); transition: color .4s; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item { counter-increment: vvjb-ledger-row; height: clamp(150px, 17cqi, 184px); box-sizing: border-box; display: grid; grid-template-columns: auto minmax(0, 1fr) clamp(96px, 20cqi, 220px); grid-template-rows: auto auto auto 1fr; align-content: center; column-gap: clamp(12px, 2.5cqi, 32px); border: solid var(--vvj-stage-line); border-width: 1px 0 0; padding: var(--vvj-space-14, 14px) 0; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item::before { content: counter(vvjb-ledger-row, decimal-leading-zero); grid-column: 1; grid-row: 1 / -1; align-self: center; min-width: 2.2ch; font: 300 clamp(2.2rem, 4.6cqi, 3.8rem)/1 var(--vvj-font-display); color: var(--vvj-stage-muted); transition: color var(--vvj-dur-400, 0.4s); }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item:hover::before { color: var(--vvj-stage-color); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item .vvj-media { grid-column: 3; grid-row: 1 / -1; align-self: center; justify-self: end; width: 100%; max-height: 140px; aspect-ratio: 16 / 10; border-radius: 12px; }
-:where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item) :where(.vvj-media) img { transition: transform .8s var(--vvj-ease-out); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item .vvj-media { grid-column: 3; grid-row: 1 / -1; align-self: center; justify-self: end; width: 100%; max-height: 140px; aspect-ratio: 16 / 10; border-radius: var(--vvj-radius-12, 12px); }
+:where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item) :where(.vvj-media) img { transition: transform var(--vvj-dur-800, 0.8s) var(--vvj-ease-out); }
 :where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item:hover) :where(.vvj-media) img { transform: scale(1.07); }
 :where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item) > :not(.vvj-media, .visually-hidden) { grid-column: 2; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item .vvj-kicker { margin: 0 0 4px; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--vvj-stage-muted); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item .vvj-title { margin: 0 0 6px; font-size: clamp(1.05rem, 1.7vw, 1.35rem); font-weight: 650; line-height: 1.25; }
-.vvj-pattern--vvjb-ledger :where(.vvjb-item) .vvj-summary { color: var(--vvj-stage-muted); font-size: .95rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-:where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item) .vvj-link { margin: 4px 0 0; font-size: .9rem; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item .vvj-kicker { margin: 0 0 var(--vvj-space-4, 4px); font-size: var(--vvj-text-12, 0.75rem); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--vvj-stage-muted); }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item .vvj-title { margin: 0 0 var(--vvj-space-6, 6px); font-size: clamp(1.05rem, 1.7cqi, 1.35rem); font-weight: 650; line-height: 1.25; }
+.vvj-pattern--vvjb-ledger :where(.vvjb-item) .vvj-summary { color: var(--vvj-stage-muted); font-size: var(--vvj-text-15, 0.9375rem); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+:where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item) .vvj-link { margin: var(--vvj-space-4, 4px) 0 0; font-size: var(--vvj-text-14, 0.875rem); }
 .vvj-pattern--vvjb-ledger :where(.vvjb-item, .vvj-link) a { display: inline-flex; align-items: center; min-height: 24px; font-weight: 600; }
-:where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item.active-slide) > * { animation: vvjb-ledger-rise .8s var(--vvj-ease-out) both calc(var(--vvj-i, 0) * 90ms); }
+:where(.vvj-pattern--vvjb-ledger) :where(.vvjb-item.active-slide) > * { animation: vvjb-ledger-rise var(--vvj-dur-800, 0.8s) var(--vvj-ease-out) both calc(var(--vvj-i, 0) * 90ms); }
 @keyframes vvjb-ledger-rise { from { opacity: 0; transform: translateY(28px); filter: blur(6px); } }
 @container vvj-region (max-width: 540px) {
   .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-outer { grid-template-columns: minmax(0, 1fr); }
@@ -39,9 +39,9 @@
   .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls { grid-column: 1; flex-direction: row; }
   .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-progress-wrapper { width: auto; height: 2px; min-height: 0; }
   .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-progress-wrapper .vvjb-progress-bar { transform-origin: left; transform: scaleX(calc(var(--progress, 0%) / 100%)); }
-  .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-page-counter { grid-auto-flow: column; align-items: baseline; gap: 4px; }
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-page-counter { grid-auto-flow: column; align-items: baseline; gap: var(--vvj-space-4, 4px); }
   /* 184px holds kicker, a three-line title and the two-line summary at
      320px; 140px cut the summary through its first line. */
-  .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item { height: 184px; grid-template-columns: auto minmax(0, 1fr) 72px; column-gap: 12px; }
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item { height: 184px; grid-template-columns: auto minmax(0, 1fr) 72px; column-gap: var(--vvj-space-12, 12px); }
   .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-item .vvj-media { aspect-ratio: 1; }
 }

@@ -1,6 +1,10 @@
 label: 'Dockrail'
 description: 'Three portrait cards with editorial captions and a glass dock at the bottom: arrows, page dots, counter and pause.'
 weight: 0
+stage: open
+ground: dark
+placement: inner-padding
+serves: [publication, cultural, creative]
 options:
   orientation: horizontal
   items_small: 1

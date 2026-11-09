@@ -1,6 +1,10 @@
 label: 'Ledger'
 description: 'A vertical list of numbered rows with a thumbnail on the right and a control rail on the left.'
 weight: 1
+stage: open
+ground: dark
+placement: inner-padding
+serves: [government, associations, publication]
 options:
   orientation: vertical
   items_small: 2

@@ -158,7 +158,7 @@
 .vvj-pattern.vvjb .vvjb-carousel-dots {
   display: flex;
   flex-wrap: nowrap;
-  gap: 6px;
+  gap: var(--vvj-space-6, 6px);
   margin: 0;
   padding: 0;
 }

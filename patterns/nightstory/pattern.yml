@@ -1,6 +1,10 @@
 label: 'Nightstory'
 description: 'Two tall photo cards with text on a scrim, story bars over the photos and a headline that rises word by word.'
 weight: 4
+stage: open
+ground: dark
+placement: inner-padding
+serves: [nonprofit, cultural, studio]
 options:
   orientation: horizontal
   items_small: 1

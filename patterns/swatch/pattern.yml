@@ -1,6 +1,10 @@
 label: 'Swatch'
 description: 'Edge-to-edge square tiles that open as circles, big round magnetic arrows, dots and a ring progress.'
 weight: 3
+stage: open
+ground: dark
+placement: neither
+serves: [studio, creative, events]
 options:
   orientation: horizontal
   items_small: 1

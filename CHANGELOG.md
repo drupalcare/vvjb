@@ -10,6 +10,14 @@
 
 ### Fixed
 
+- Patterns: Dockrail opens into a rail above the cards on a wide region, and Swatch's play button is a glass tile at the top of the stage, so each has its own control style and place.
+- Patterns: Swatch and Switchboard cards have a ceiling (800 px and 720 px) in a very wide region, so they no longer grow to the photo's full size; a Views item width still wins.
+- Patterns: spacing, corner radius, type size, shadow and motion read shared `--vvj-*` variables with fallbacks, so a site or theme can adjust them in one place; a few odd values moved to the nearest step, under 10%.
+- Patterns: each Pattern states its stage, ground, placement and the kinds of site it serves best in `pattern.yml`.
+- Patterns: a Nightstory card grows to fit its words and keeps them 12 px below the progress bars; in a narrow column the text no longer runs off the top.
+- Patterns: Swatch keeps Previous on the right on right-to-left pages; the module's reversed arrow row no longer puts it back on the left.
+- Patterns: sizes that followed the screen width (`vw`) now follow the Pattern's own width (`cqi`), so a Pattern in a sidebar or narrow column keeps its proportions.
+- Patterns: the Dockrail and Ledger counters sit at least 12 px from the buttons beside them.
 - Arrows: prev, next and play/pause click again on a carousel without a Pattern. The button reset's `all: unset` made them inherit `pointer-events: none` from the arrow bar once the arrow rule moved into `:where()`.
 - Smoke test: dots are always buttons, so the deep-linking case now expects `<button>` dots.
 - Patterns: the hybrid vertical switch and the small-screen item count now follow the Pattern's own width (a ResizeObserver on the element) instead of the window; the script marks the switch with `vvjb-stacked` and the Pattern CSS stacks on that class instead of viewport media queries. Classic carousels still use the window width.

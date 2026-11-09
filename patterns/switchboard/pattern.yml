@@ -1,6 +1,10 @@
 label: 'Switchboard'
 description: 'Three cards across, list rows below 992 pixels, with a numbered segmented control between chevron buttons; no autoplay.'
 weight: 2
+stage: open
+ground: dark
+placement: inner-padding
+serves: [corporate, healthcare, university]
 options:
   orientation: hybrid
   items_small: 3
