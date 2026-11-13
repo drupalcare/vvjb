@@ -10,6 +10,7 @@
 
 ### Fixed
 
+- Accessibility: the play/pause button is always shown while autoplay runs (the option now decides it only without autoplay); keyboard focus inside holds autoplay until focus leaves, unless Pause was pressed; Space is left to the page when there is no play/pause button; the slide group is named "Slides" instead of pointing at a missing id, and "carousel" is no longer announced twice; inactive slides rely on `inert` alone, so authored tabindex values are kept; a focused dot keeps focus when a resize rebuilds the dots; scrollable dots no longer smooth-scroll under reduced motion; the progress percentage text is dark blue (5.2:1) and dark green at 100% (it was white on the white inner circle).
 - Patterns: Dockrail opens into a rail above the cards on a wide region, and Swatch's play button is a glass tile at the top of the stage, so each has its own control style and place.
 - Patterns: Swatch and Switchboard cards have a ceiling (800 px and 720 px) in a very wide region, so they no longer grow to the photo's full size; a Views item width still wins.
 - Patterns: spacing, corner radius, type size, shadow and motion read shared `--vvj-*` variables with fallbacks, so a site or theme can adjust them in one place; a few odd values moved to the nearest step, under 10%.

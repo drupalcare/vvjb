@@ -3,44 +3,221 @@
  * vvjb Pattern Swatch.
  */
 
-:where(.vvj-pattern--vvjb-swatch) .vvjb-carousel-outer { position: relative; }
-:where(.vvj-pattern--vvjb-swatch) .vvjb-item { position: relative; overflow: hidden; aspect-ratio: 1; clip-path: circle(0% at 50% 50%); }
-:where(.vvj-pattern--vvjb-swatch) .vvjb-item.active-slide { clip-path: circle(72% at 50% 50%); transition: clip-path var(--vvj-dur-1100, 1.1s) var(--vvj-ease-io) calc(var(--vvj-i, 0) * 120ms); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-media { position: absolute; inset: 0; }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) :where(.vvj-media) img { transform: scale(1.18); transition: transform var(--vvj-dur-1400, 1.4s) var(--vvj-ease-out); }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item.active-slide) :where(.vvj-media) img { transform: scale(1); }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item:hover) :where(.vvj-media) img { transform: scale(1.05); }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) > :not(.vvj-media, .visually-hidden) { position: relative; z-index: 1; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item { display: flex; flex-direction: column; justify-content: flex-end; max-width: min(800px, 100%); padding: var(--vvj-space-12, 12px); box-sizing: border-box; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-title { order: 1; margin: 0; padding: var(--vvj-space-10, 10px) var(--vvj-space-12, 12px) var(--vvj-space-2, 2px); border-radius: var(--vvj-radius-12, 12px) var(--vvj-radius-12, 12px) 0 0; background: var(--vvj-stage-scrim); font-size: var(--vvj-text-15, 0.9375rem); font-weight: 650; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-kicker { order: 2; display: grid; grid-template-rows: 0fr; padding: 0 var(--vvj-space-12, 12px) var(--vvj-space-10, 10px); border-radius: 0 0 var(--vvj-radius-12, 12px) var(--vvj-radius-12, 12px); background: var(--vvj-stage-scrim); color: var(--vvj-stage-muted); font-size: var(--vvj-text-13, 0.8125rem); transition: grid-template-rows var(--vvj-dur-400, 0.4s) var(--vvj-ease-out); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item:is(:hover, :focus-within) .vvj-kicker { grid-template-rows: 1fr; }
-.vvj-pattern--vvjb-swatch :where(.vvjb-item) :where(.vvj-kicker) > * { overflow: hidden; }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) :is(.vvj-summary, .vvj-link) { background: var(--vvj-stage-scrim); color: var(--vvj-stage-muted); padding: 0 var(--vvj-space-12, 12px) var(--vvj-space-8, 8px); font-size: var(--vvj-text-13, 0.8125rem); line-height: 1.4; }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) .vvj-summary { order: 3; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) .vvj-link { order: 4; margin: 0; }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) :is(.vvj-summary, .vvj-link):last-child { border-radius: 0 0 var(--vvj-radius-12, 12px) var(--vvj-radius-12, 12px); }
-.vvj-pattern--vvjb-swatch :where(.vvjb-item, .vvj-link) a { display: inline-flex; align-items: center; min-height: 24px; color: var(--vvj-stage-color); font-weight: 600; }
-@media (hover: none) { .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-kicker { grid-template-rows: 1fr; } }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-options { position: absolute; z-index: 2; inset: 0 0 76px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 0 clamp(8px, 2cqi, 24px); pointer-events: none; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button { pointer-events: auto; width: 60px; height: 60px; border-radius: 50%; color: var(--vvjb-btn-color); background: var(--vvjb-btn-bg); font-size: var(--vvj-text-22, 1.375rem); box-shadow: var(--vvj-glass-shadow); transform: translate(var(--vvjb-mx, 0px), var(--vvjb-my, 0px)); transition: transform var(--vvj-dur-250, 0.25s) var(--vvj-ease-out), background-color var(--vvj-dur-200, 0.2s), color var(--vvj-dur-200, 0.2s); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button:hover { color: var(--vvjb-btn-bg); background: var(--vvjb-btn-color); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button:active { transform: translate(var(--vvjb-mx, 0px), var(--vvjb-my, 0px)) scale(.9); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls { display: flex; align-items: center; justify-content: center; gap: var(--vvj-space-14, 14px); padding: var(--vvj-space-16, 16px); min-height: 44px; }
-.vvj-pattern--vvjb-swatch .vvjb-carousel-dots { order: 1; margin: 0 !important; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-carousel-dot { width: 44px; height: 44px; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-carousel-dot::before { content: ""; width: 10px; height: 10px; border-radius: var(--vvj-radius-6, 6px); background: currentColor; opacity: .45; transition: width var(--vvj-dur-350, 0.35s) var(--vvj-ease-out), opacity var(--vvj-dur-300, 0.3s); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-carousel-dot.active-slide::before { width: 26px; opacity: 1; }
-:where(.vvj-pattern--vvjb-swatch) .vvjb-progress-wrapper { order: 2; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-progress-wrapper .vvjb-progress-bar { all: unset; display: block; width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(var(--vvj-stage-color) var(--progress, 0%), var(--vvj-stage-line) 0); -webkit-mask: radial-gradient(closest-side, transparent 74%, var(--vvjb-mask-solid) 77%); mask: radial-gradient(closest-side, transparent 74%, var(--vvjb-mask-solid) 77%); }
-:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-inner.is-paused) .vvjb-progress-wrapper { visibility: hidden; }
-:where(.vvj-pattern--vvjb-swatch) .vvjb-play-pause-wrapper { order: 3; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-play-pause-button { width: 44px; height: 44px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--vvj-stage-color); font-size: var(--vvj-text-15, 0.9375rem); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-play-pause-button:hover { color: var(--vvjb-btn-color); background: var(--vvjb-btn-bg); }
-@container vvj-region (max-width: 540px) { .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button { width: 48px; height: 48px; font-size: var(--vvj-text-18, 1.125rem); } }
+:where(.vvj-pattern--vvjb-swatch) .vvjb-carousel-outer {
+  position: relative;
+}
+:where(.vvj-pattern--vvjb-swatch) .vvjb-item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  clip-path: circle(0% at 50% 50%);
+}
+:where(.vvj-pattern--vvjb-swatch) .vvjb-item.active-slide {
+  clip-path: circle(72% at 50% 50%);
+  transition: clip-path var(--vvj-dur-1100, 1.1s) var(--vvj-ease-io) calc(var(--vvj-i, 0) * 120ms);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-media {
+  position: absolute;
+  inset: 0;
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) :where(.vvj-media) img {
+  transition: transform var(--vvj-dur-1400, 1.4s) var(--vvj-ease-out);
+  transform: scale(1.18);
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item.active-slide) :where(.vvj-media) img {
+  transform: scale(1);
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item:hover) :where(.vvj-media) img {
+  transform: scale(1.05);
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) > :not(.vvj-media, .visually-hidden) {
+  position: relative;
+  z-index: 1;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  max-width: min(800px, 100%);
+  padding: var(--vvj-space-12, 12px);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-title {
+  order: 1;
+  margin: 0;
+  padding: var(--vvj-space-10, 10px) var(--vvj-space-12, 12px) var(--vvj-space-2, 2px);
+  border-radius: var(--vvj-radius-12, 12px) var(--vvj-radius-12, 12px) 0 0;
+  background: var(--vvj-stage-scrim);
+  font-size: var(--vvj-text-15, 0.9375rem);
+  font-weight: 650;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-kicker {
+  display: grid;
+  grid-template-rows: 0fr;
+  order: 2;
+  padding: 0 var(--vvj-space-12, 12px) var(--vvj-space-10, 10px);
+  transition: grid-template-rows var(--vvj-dur-400, 0.4s) var(--vvj-ease-out);
+  color: var(--vvj-stage-muted);
+  border-radius: 0 0 var(--vvj-radius-12, 12px) var(--vvj-radius-12, 12px);
+  background: var(--vvj-stage-scrim);
+  font-size: var(--vvj-text-13, 0.8125rem);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item:is(:hover, :focus-within) .vvj-kicker {
+  grid-template-rows: 1fr;
+}
+.vvj-pattern--vvjb-swatch :where(.vvjb-item) :where(.vvj-kicker) > * {
+  overflow: hidden;
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) :is(.vvj-summary, .vvj-link) {
+  padding: 0 var(--vvj-space-12, 12px) var(--vvj-space-8, 8px);
+  color: var(--vvj-stage-muted);
+  background: var(--vvj-stage-scrim);
+  font-size: var(--vvj-text-13, 0.8125rem);
+  line-height: 1.4;
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) .vvj-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  order: 3;
+  margin: 0;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) .vvj-link {
+  order: 4;
+  margin: 0;
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-item) :is(.vvj-summary, .vvj-link):last-child {
+  border-radius: 0 0 var(--vvj-radius-12, 12px) var(--vvj-radius-12, 12px);
+}
+.vvj-pattern--vvjb-swatch :where(.vvjb-item, .vvj-link) a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--vvj-stage-color);
+  font-weight: 600;
+}
+@media (hover: none) {
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-item .vvj-kicker {
+    grid-template-rows: 1fr;
+  }
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-options {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(8px, 2cqi, 24px);
+  pointer-events: none;
+  inset: 0 0 76px;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button {
+  width: 60px;
+  height: 60px;
+  transition:
+    transform var(--vvj-dur-250, 0.25s) var(--vvj-ease-out),
+    background-color var(--vvj-dur-200, 0.2s),
+    color var(--vvj-dur-200, 0.2s);
+  transform: translate(var(--vvjb-mx, 0), var(--vvjb-my, 0));
+  pointer-events: auto;
+  color: var(--vvjb-btn-color);
+  border-radius: 50%;
+  background: var(--vvjb-btn-bg);
+  box-shadow: var(--vvj-glass-shadow);
+  font-size: var(--vvj-text-22, 1.375rem);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button:hover {
+  color: var(--vvjb-btn-bg);
+  background: var(--vvjb-btn-color);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button:active {
+  transform: translate(var(--vvjb-mx, 0), var(--vvjb-my, 0)) scale(0.9);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--vvj-space-16, 16px);
+  gap: var(--vvj-space-14, 14px);
+}
+.vvj-pattern--vvjb-swatch .vvjb-carousel-dots {
+  order: 1;
+  margin: 0 !important;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-carousel-dot {
+  width: 44px;
+  height: 44px;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-carousel-dot::before {
+  width: 10px;
+  height: 10px;
+  content: "";
+  transition:
+    width var(--vvj-dur-350, 0.35s) var(--vvj-ease-out),
+    opacity var(--vvj-dur-300, 0.3s);
+  opacity: 0.45;
+  border-radius: var(--vvj-radius-6, 6px);
+  background: currentColor;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-carousel-dot.active-slide::before {
+  width: 26px;
+  opacity: 1;
+}
+:where(.vvj-pattern--vvjb-swatch) .vvjb-progress-wrapper {
+  order: 2;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-progress-wrapper .vvjb-progress-bar {
+  all: unset;
+  display: block;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: conic-gradient(var(--vvj-stage-color) var(--progress, 0%), var(--vvj-stage-line) 0);
+  -webkit-mask: radial-gradient(closest-side, transparent 74%, var(--vvjb-mask-solid) 77%);
+  mask: radial-gradient(closest-side, transparent 74%, var(--vvjb-mask-solid) 77%);
+}
+:where(.vvj-pattern--vvjb-swatch) :where(.vvjb-inner.is-paused) .vvjb-progress-wrapper {
+  visibility: hidden;
+}
+:where(.vvj-pattern--vvjb-swatch) .vvjb-play-pause-wrapper {
+  order: 3;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-play-pause-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--vvj-stage-color);
+  font-size: var(--vvj-text-15, 0.9375rem);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-play-pause-button:hover {
+  color: var(--vvjb-btn-color);
+  background: var(--vvjb-btn-bg);
+}
+@container vvj-region (max-width: 540px) {
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-button {
+    width: 48px;
+    height: 48px;
+    font-size: var(--vvj-text-18, 1.125rem);
+  }
+}
 
 /* Own place and style (rule 11): play is a glass tile at the top end of the stage. */
 @container vvj-region (min-width: 769px) {
-  .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-play-pause-wrapper { position: absolute; z-index: 3; inset-block-start: var(--vvj-space-12, 12px); inset-inline-end: clamp(8px, 2cqi, 24px); }
-  .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-play-pause-button { width: 48px; height: 48px; border-radius: var(--vvj-radius-16, 16px); color: var(--vvj-stage-color); background: var(--vvj-glass-bg); box-shadow: inset 0 0 0 1px var(--vvj-glass-line); }
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-play-pause-wrapper {
+    position: absolute;
+    z-index: 3;
+    inset-block-start: var(--vvj-space-12, 12px);
+    inset-inline-end: clamp(8px, 2cqi, 24px);
+  }
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-swatch .vvjb-carousel-controls .vvjb-play-pause-button {
+    width: 48px;
+    height: 48px;
+    color: var(--vvj-stage-color);
+    border-radius: var(--vvj-radius-16, 16px);
+    background: var(--vvj-glass-bg);
+    box-shadow: inset 0 0 0 1px var(--vvj-glass-line);
+  }
 }

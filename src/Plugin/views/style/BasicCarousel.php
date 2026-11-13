@@ -258,7 +258,7 @@ class BasicCarousel extends VvjStylePluginBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Show play/pause button'),
       '#default_value' => $this->options['show_play_pause'],
-      '#description' => $this->t('Display a button to manually control carousel autoplay.'),
+      '#description' => $this->t('Display a button to manually control carousel autoplay. The button is always shown while autoplay is on (autoplay interval above 0), so every visitor can stop the movement; this setting only matters when autoplay is off.'),
     ];
 
     $form['controls_section']['show_progress_bar'] = [

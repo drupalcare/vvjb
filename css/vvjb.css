@@ -12,9 +12,9 @@
   --vvjb-progress-color: #3b82f6; /* Active progress color */
   --vvjb-progress-track: rgb(255, 255, 255, 0.3); /* Background track */
   --vvjb-progress-inner-bg: #fff; /* Inner circle background */
-  --vvjb-progress-text-color: #3b82f6; /* Percentage text color */
+  --vvjb-progress-text-color: #2563eb; /* Percentage text color, 5.2:1 on white */
   --vvjb-progress-complete-color: #22c55e; /* Color at 100% */
-  --vvjb-progress-complete-text: #22c55e; /* Text color at 100% */
+  --vvjb-progress-complete-text: #15803d; /* Text color at 100%, 5.0:1 on white */
   --vvjb-progress-font-size: 0.625rem;
 }
 
@@ -231,7 +231,8 @@
   background: rgb(0, 0, 0, 0.6);
   all: unset;
   /* `all: unset` makes pointer-events inherit `none` from the arrow bar;
-     the buttons must stay clickable. */
+     the buttons must stay clickable. It has to stay after `all`. */
+  /* stylelint-disable-next-line order/properties-order */
   pointer-events: auto;
   backdrop-filter: blur(4px);
 }
@@ -484,7 +485,8 @@
   height: calc(100% - var(--bar-width));
   content: attr(aria-valuenow) "%";
   transition: color 0.3s ease-in-out;
-  color: #007bff;
+  /* 5.2:1 on the white inner circle (WCAG 1.4.3); #007bff was 3.98:1. */
+  color: #0069d9;
   border-radius: 50%;
   background: #fff;
   font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace !important;
@@ -500,7 +502,9 @@
 
 .vvjb .vvjb-progress-bar[aria-valuenow="100"]::after {
   content: "100%";
-  color: #fff;
+  /* The inner circle stays white, so white text vanished; dark green is
+     5.0:1 on it (WCAG 1.4.3). */
+  color: #15803d;
 }
 
 /* Reduced motion support */

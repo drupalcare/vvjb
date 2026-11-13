@@ -124,6 +124,10 @@
       this._features = {};
       this._pageIndex = 0;
       this._isPaused = false;
+      // Rotation holds while keyboard focus or the pointer is inside; these
+      // are not the visitor's Pause (_isPaused), so leaving resumes it.
+      this._focusWithin = false;
+      this._hoverWithin = false;
       this._autoSlideTimer = null;
       this._progressRaf = null;
       this._pageStartTime = null;
@@ -532,15 +536,9 @@
         } else {
           item.setAttribute('inert', '');
         }
-        // Controls only. A `[tabindex]` match turned any element the content
-        // keeps out of the Tab order (tabindex="-1") into a tab stop with
-        // nothing to operate; `inert` already hides the inactive slides.
-        const interactiveElements = item.querySelectorAll(
-          'a[href], button, input, textarea, select',
-        );
-        interactiveElements.forEach((el) => {
-          el.setAttribute('tabindex', isActive ? '0' : '-1');
-        });
+        // No tabindex rewrite: `inert` already keeps every control of an
+        // inactive slide out of the Tab order, and rewriting turned values
+        // the content authored (tabindex="-1", a disabled widget) into 0.
       });
 
       // Patterns only (class `vvj-pattern`): the shared state contract, with
@@ -581,7 +579,11 @@
 
       if (this._features.showProgressBar && !this._isPaused) {
         this._resetProgressBar();
-        this._startProgressBar();
+        // Only while the timer runs: a held carousel (focus or hover inside)
+        // shows no countdown to a slide change that will not come.
+        if (this._autoSlideTimer) {
+          this._startProgressBar();
+        }
       }
     }
 
@@ -790,11 +792,15 @@
           }
 
           if (!handled) {
-            if (e.key === ' ' || e.key === 'Spacebar') {
+            // Space is the carousel's only with a play/pause button to
+            // mirror; otherwise the page keeps it for scrolling.
+            if (
+              (e.key === ' ' || e.key === 'Spacebar') &&
+              this._features.showPlayPause &&
+              this._playPauseButton
+            ) {
               e.preventDefault();
-              if (this._features.showPlayPause) {
-                this._togglePlayPause();
-              }
+              this._togglePlayPause();
               handled = true;
             } else if (e.key === 'Home') {
               e.preventDefault();
@@ -807,7 +813,9 @@
             }
           }
 
-          if (handled && !this._isPaused && this._config.slideTime > 0) {
+          // Restart the interval only when it is running: focus is inside
+          // here, so a held carousel stays held until focus leaves.
+          if (handled && !this._isPaused && this._autoSlideTimer) {
             this._stopAutoSlide();
             this._startAutoSlide();
           }
@@ -831,6 +839,15 @@
         return;
       }
 
+      // A resize (browser zoom included) rebuilds the dots; a keyboard user
+      // on a dot keeps focus on the same position instead of falling to
+      // <body> when the old buttons are removed.
+      const focusedDot = this._dotsContainer.contains(document.activeElement)
+        ? Array.from(this._dotsContainer.children).indexOf(
+            document.activeElement,
+          )
+        : -1;
+
       const fragment = document.createDocumentFragment();
       const itemsVisible = this._getItemsVisible();
       const totalPages = Math.ceil(this._config.totalSlides / itemsVisible);
@@ -848,6 +865,11 @@
 
       this._dotsContainer.innerHTML = '';
       this._dotsContainer.appendChild(fragment);
+      if (focusedDot >= 0 && this._dotsContainer.children.length) {
+        this._dotsContainer.children[
+          Math.min(focusedDot, this._dotsContainer.children.length - 1)
+        ].focus({ preventScroll: true });
+      }
 
       if (this._config.scrollableDotsWidth > 0) {
         this._applyScrollableDotsWidth();
@@ -931,7 +953,10 @@
       const scrollTarget = dotOffsetLeft - containerWidth / 2 + dotWidth / 2;
       const maxScroll = this._dotsContainer.scrollWidth - containerWidth;
       const clampedScroll = Math.max(0, Math.min(scrollTarget, maxScroll));
-      this._dotsContainer.scrollTo({ left: clampedScroll, behavior: 'smooth' });
+      this._dotsContainer.scrollTo({
+        left: clampedScroll,
+        behavior: this.reducedMotion ? 'auto' : 'smooth',
+      });
     }
 
     _updateDotsOverflowIndicators() {
@@ -1007,11 +1032,44 @@
       // autoplay started anyway, and every slide threw "Transition was aborted
       // because of invalid state. Document hidden" (measured 2026-09-27).
       const start = () => {
-        if (!this._isPaused && !document.hidden) {
+        if (
+          !this._isPaused &&
+          !document.hidden &&
+          !this._focusWithin &&
+          !this._hoverWithin
+        ) {
           this._startAutoSlide();
         }
       };
       const stop = () => this._stopAutoSlide();
+
+      // Keyboard focus inside holds rotation (APG carousel); it resumes when
+      // focus leaves, unless the visitor pressed Pause. relatedTarget tells a
+      // move between two controls inside from focus entering or leaving.
+      this.addEventListener(
+        'focusin',
+        (e) => {
+          if (this._focusWithin || this.contains(e.relatedTarget)) {
+            return;
+          }
+          this._focusWithin = true;
+          stop();
+        },
+        { signal: this.signal },
+      );
+      this.addEventListener(
+        'focusout',
+        (e) => {
+          if (this.contains(e.relatedTarget)) {
+            return;
+          }
+          this._focusWithin = false;
+          if (this._isInViewport) {
+            start();
+          }
+        },
+        { signal: this.signal },
+      );
 
       // A visitor action turns announcements back on (timer steps turn them
       // off in _startAutoSlide).
@@ -1028,12 +1086,18 @@
       start();
 
       if (this._features.enablePauseOnHover) {
-        this._wrapper.addEventListener('mouseenter', stop, {
-          signal: this.signal,
-        });
+        this._wrapper.addEventListener(
+          'mouseenter',
+          () => {
+            this._hoverWithin = true;
+            stop();
+          },
+          { signal: this.signal },
+        );
         this._wrapper.addEventListener(
           'mouseleave',
           () => {
+            this._hoverWithin = false;
             if (this._isInViewport && !this._isPaused) {
               start();
             }

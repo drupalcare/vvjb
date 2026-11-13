@@ -3,42 +3,193 @@
  * vvjb Pattern Dockrail.
  */
 
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail { padding: clamp(24px, 5cqi, 64px) clamp(16px, 5cqi, 64px) clamp(24px, 4cqi, 48px); }
-.vvj-pattern--vvjb-dockrail .vvjb-item { transition: opacity var(--vvj-dur-600, 0.6s); }
-:where(.vvj-pattern--vvjb-dockrail) .vvjb-item.non-active-slide { opacity: .42; }
-.vvj-pattern--vvjb-dockrail :where(.vvjb-item) .vvj-media { aspect-ratio: 3 / 4; border-radius: var(--vvj-radius, 18px); clip-path: inset(7% 7% 7% 7% round 36px); transition: clip-path var(--vvj-dur-900, 0.9s) var(--vvj-ease-io) calc(var(--vvj-i, 0) * 110ms); }
-:where(.vvj-pattern--vvjb-dockrail) :where(.vvjb-item) :where(.vvj-media) img { transform: scale(1.14); transition: transform var(--vvj-dur-1200, 1.2s) var(--vvj-ease-out) calc(var(--vvj-i, 0) * 110ms); }
-.vvj-pattern--vvjb-dockrail :where(.vvjb-item.active-slide) .vvj-media { clip-path: inset(0 0 0 0 round var(--vvj-radius, 18px)); }
-:where(.vvj-pattern--vvjb-dockrail) :where(.vvjb-item.active-slide) :where(.vvj-media) img { transform: scale(1); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-kicker { margin: var(--vvj-space-18, 18px) 0 var(--vvj-space-6, 6px); font-size: var(--vvj-text-12, 0.75rem); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--vvj-stage-muted); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-title { margin: 0 0 var(--vvj-space-6, 6px); font: 500 clamp(1.35rem, 2.1cqi, 1.9rem)/1.15 var(--vvj-font-display); letter-spacing: -.01em; }
-.vvj-pattern--vvjb-dockrail :where(.vvjb-item) .vvj-summary { color: var(--vvj-stage-muted); font-size: var(--vvj-text-16, 1rem); line-height: 1.5; max-width: 38ch; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link { margin: var(--vvj-space-10, 10px) 0 0; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat; transition: background-size var(--vvj-dur-450, 0.45s) var(--vvj-ease-io); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link a:hover, .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link a:focus-visible { background-size: 100% 2px; }
-:where(.vvj-pattern--vvjb-dockrail) :where(.vvjb-item.active-slide) :is(.vvj-kicker, .vvj-title, .vvj-summary) { animation: vvjb-dockrail-up var(--vvj-dur-700, 0.7s) var(--vvj-ease-out) both calc(var(--vvj-i, 0) * 110ms + 250ms); }
-@keyframes vvjb-dockrail-up { from { opacity: 0; transform: translateY(14px); } }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls { display: flex; align-items: center; gap: var(--vvj-space-6, 6px); width: max-content; max-width: calc(100% - 8px); margin: clamp(24px, 4cqi, 40px) auto 0; padding: var(--vvj-space-6, 6px); border-radius: var(--vvj-radius-pill, 999px); background: var(--vvj-glass-bg); border: 1px solid var(--vvj-stage-line); box-shadow: var(--vvj-glass-shadow); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-options { display: contents; }
-:where(.vvj-pattern--vvjb-dockrail) .vvjb-prev { order: 1; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-carousel-dots { order: 2; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-page-counter { order: 3; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-play-pause-wrapper { order: 4; } :where(.vvj-pattern--vvjb-dockrail) .vvjb-next { order: 5; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-progress-wrapper { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button, .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button { width: 44px; height: 44px; border-radius: 50%; font-size: var(--vvj-text-18, 1.125rem); color: var(--vvjb-btn-color); background: var(--vvjb-btn-bg); transition: transform var(--vvj-dur-200, 0.2s), background-color var(--vvj-dur-200, 0.2s); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button { font-size: var(--vvj-text-15, 0.9375rem); color: var(--vvj-stage-color); background: radial-gradient(closest-side, var(--vvj-stage-bg) 80%, transparent 82%), conic-gradient(var(--vvj-stage-color) calc(var(--vvj-progress, 0) * 360deg), var(--vvj-stage-line) 0); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button:hover { background: var(--vvjb-btn-bg-hover); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .control-btn:active { transform: scale(.92); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot { width: 44px; height: 44px; border-radius: var(--vvj-radius-12, 12px); opacity: .55; transition: opacity var(--vvj-dur-300, 0.3s), width var(--vvj-dur-450, 0.45s) var(--vvj-ease-io); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot:hover { opacity: .85; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot.active-slide { width: 68px; opacity: 1; }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot.active-slide::before { width: 28px; border-radius: var(--vvj-radius-6, 6px); }
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-page-counter { min-width: 66px; padding-inline: var(--vvj-space-6, 6px); text-align: center; font-size: var(--vvj-text-14, 0.875rem); font-weight: 600; }
-.vvj-pattern--vvjb-dockrail .vvjb-counter-separator { margin: 0 var(--vvj-space-4, 4px); color: var(--vvj-stage-muted); }
-@container vvj-region (max-width: 440px) { .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-dots { display: none; } }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail {
+  padding: clamp(24px, 5cqi, 64px) clamp(16px, 5cqi, 64px) clamp(24px, 4cqi, 48px);
+}
+.vvj-pattern--vvjb-dockrail .vvjb-item {
+  transition: opacity var(--vvj-dur-600, 0.6s);
+}
+:where(.vvj-pattern--vvjb-dockrail) .vvjb-item.non-active-slide {
+  opacity: 0.42;
+}
+.vvj-pattern--vvjb-dockrail :where(.vvjb-item) .vvj-media {
+  transition: clip-path var(--vvj-dur-900, 0.9s) var(--vvj-ease-io) calc(var(--vvj-i, 0) * 110ms);
+  border-radius: var(--vvj-radius, 18px);
+  aspect-ratio: 3 / 4;
+  clip-path: inset(7% 7% 7% 7% round 36px);
+}
+:where(.vvj-pattern--vvjb-dockrail) :where(.vvjb-item) :where(.vvj-media) img {
+  transition: transform var(--vvj-dur-1200, 1.2s) var(--vvj-ease-out) calc(var(--vvj-i, 0) * 110ms);
+  transform: scale(1.14);
+}
+.vvj-pattern--vvjb-dockrail :where(.vvjb-item.active-slide) .vvj-media {
+  clip-path: inset(0 0 0 0 round var(--vvj-radius, 18px));
+}
+:where(.vvj-pattern--vvjb-dockrail) :where(.vvjb-item.active-slide) :where(.vvj-media) img {
+  transform: scale(1);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-kicker {
+  margin: var(--vvj-space-18, 18px) 0 var(--vvj-space-6, 6px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vvj-stage-muted);
+  font-size: var(--vvj-text-12, 0.75rem);
+  font-weight: 700;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-title {
+  margin: 0 0 var(--vvj-space-6, 6px);
+  letter-spacing: -0.01em;
+  font: 500 clamp(1.35rem, 2.1cqi, 1.9rem) / 1.15 var(--vvj-font-display);
+}
+.vvj-pattern--vvjb-dockrail :where(.vvjb-item) .vvj-summary {
+  max-width: 38ch;
+  color: var(--vvj-stage-muted);
+  font-size: var(--vvj-text-16, 1rem);
+  line-height: 1.5;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link {
+  margin: var(--vvj-space-10, 10px) 0 0;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link a {
+  transition: background-size var(--vvj-dur-450, 0.45s) var(--vvj-ease-io);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link a:hover,
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-item .vvj-link a:focus-visible {
+  background-size: 100% 2px;
+}
+:where(.vvj-pattern--vvjb-dockrail) :where(.vvjb-item.active-slide) :is(.vvj-kicker, .vvj-title, .vvj-summary) {
+  animation: vvjb-dockrail-up var(--vvj-dur-700, 0.7s) var(--vvj-ease-out) both calc(var(--vvj-i, 0) * 110ms + 250ms);
+}
+@keyframes vvjb-dockrail-up {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  max-width: calc(100% - 8px);
+  margin: clamp(24px, 4cqi, 40px) auto 0;
+  padding: var(--vvj-space-6, 6px);
+  border: 1px solid var(--vvj-stage-line);
+  border-radius: var(--vvj-radius-pill, 999px);
+  background: var(--vvj-glass-bg);
+  box-shadow: var(--vvj-glass-shadow);
+  gap: var(--vvj-space-6, 6px);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-options {
+  display: contents;
+}
+:where(.vvj-pattern--vvjb-dockrail) .vvjb-prev {
+  order: 1;
+}
+:where(.vvj-pattern--vvjb-dockrail) .vvjb-carousel-dots {
+  order: 2;
+}
+:where(.vvj-pattern--vvjb-dockrail) .vvjb-page-counter {
+  order: 3;
+}
+:where(.vvj-pattern--vvjb-dockrail) .vvjb-play-pause-wrapper {
+  order: 4;
+}
+:where(.vvj-pattern--vvjb-dockrail) .vvjb-next {
+  order: 5;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-progress-wrapper {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button,
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button {
+  width: 44px;
+  height: 44px;
+  transition:
+    transform var(--vvj-dur-200, 0.2s),
+    background-color var(--vvj-dur-200, 0.2s);
+  color: var(--vvjb-btn-color);
+  border-radius: 50%;
+  background: var(--vvjb-btn-bg);
+  font-size: var(--vvj-text-18, 1.125rem);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button {
+  color: var(--vvj-stage-color);
+  background: radial-gradient(closest-side, var(--vvj-stage-bg) 80%, transparent 82%), conic-gradient(var(--vvj-stage-color) calc(var(--vvj-progress, 0) * 360deg), var(--vvj-stage-line) 0);
+  font-size: var(--vvj-text-15, 0.9375rem);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-button:hover {
+  background: var(--vvjb-btn-bg-hover);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .control-btn:active {
+  transform: scale(0.92);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot {
+  width: 44px;
+  height: 44px;
+  transition:
+    opacity var(--vvj-dur-300, 0.3s),
+    width var(--vvj-dur-450, 0.45s) var(--vvj-ease-io);
+  opacity: 0.55;
+  border-radius: var(--vvj-radius-12, 12px);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot::before {
+  width: 10px;
+  height: 10px;
+  content: "";
+  border-radius: 50%;
+  background: currentColor;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot:hover {
+  opacity: 0.85;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot.active-slide {
+  width: 68px;
+  opacity: 1;
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-carousel-dot.active-slide::before {
+  width: 28px;
+  border-radius: var(--vvj-radius-6, 6px);
+}
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-page-counter {
+  min-width: 66px;
+  padding-inline: var(--vvj-space-6, 6px);
+  text-align: center;
+  font-size: var(--vvj-text-14, 0.875rem);
+  font-weight: 600;
+}
+.vvj-pattern--vvjb-dockrail .vvjb-counter-separator {
+  margin: 0 var(--vvj-space-4, 4px);
+  color: var(--vvj-stage-muted);
+}
+@container vvj-region (max-width: 440px) {
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-dots {
+    display: none;
+  }
+}
 
 /* Own place (rule 11): on a wide region the dock opens into a rail above the cards. */
-.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button { width: 52px; height: 52px; }
+.vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls .vvjb-play-pause-button {
+  width: 52px;
+  height: 52px;
+}
 @container vvj-region (min-width: 60rem) {
-  .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-outer { display: flex; flex-direction: column; }
-  .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls { order: -1; width: clamp(56rem, 46cqi, 69rem); margin: 0 auto clamp(24px, 4cqi, 40px); }
-  .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-dots { flex: 1; justify-content: space-between; }
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-outer {
+    display: flex;
+    flex-direction: column;
+  }
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls {
+    order: -1;
+    width: clamp(56rem, 46cqi, 69rem);
+    margin: 0 auto clamp(24px, 4cqi, 40px);
+  }
+  .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-dots {
+    flex: 1;
+    justify-content: space-between;
+  }
 }
