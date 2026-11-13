@@ -33,14 +33,16 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-button {
   width: 44px;
   height: 44px;
+  border-radius: var(--vvj-radius-12, 12px);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1px solid var(--vvj-stage-line);
+  background: var(--vvj-glass-bg);
+  font-size: var(--vvj-text-20, 1.25rem);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   transition:
     background-color var(--vvj-dur-200, 0.2s),
     color var(--vvj-dur-200, 0.2s),
     transform var(--vvj-dur-150, 0.15s);
-  border: 1px solid var(--vvj-stage-line);
-  border-radius: var(--vvj-radius-12, 12px);
-  background: var(--vvj-glass-bg);
-  font-size: var(--vvj-text-20, 1.25rem);
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-carousel-controls .vvjb-button:not([aria-disabled="true"]):hover {
   color: var(--vvjb-btn-color);
@@ -81,16 +83,18 @@
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item {
   position: relative;
+  box-sizing: border-box;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  gap: var(--vvj-space-8, 8px);
   max-width: min(720px, 100%);
   padding: var(--vvj-space-10, 10px) var(--vvj-space-10, 10px) var(--vvj-space-18, 18px);
-  border: 0;
   border-radius: var(--vvj-radius-18, 18px);
   background: var(--vvj-glass-bg);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 0;
   box-shadow: inset 0 0 0 1px var(--vvj-stage-line);
-  gap: var(--vvj-space-8, 8px);
 }
 /* The edge is an inset shadow and the focus ring sits inside: vvjb.css clips
    the slide wrapper (overflow hidden) at a fractional width, which cut the
@@ -113,11 +117,13 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-kicker {
   align-self: flex-start;
   padding: var(--vvj-space-4, 4px) var(--vvj-space-10, 10px);
-  letter-spacing: 0.04em;
-  border: 1px solid var(--vvj-stage-line);
   border-radius: var(--vvj-radius-pill, 999px);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1px solid var(--vvj-stage-line);
   font-size: var(--vvj-text-12, 0.75rem);
   font-weight: 700;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  letter-spacing: 0.04em;
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-switchboard .vvjb-item .vvj-title {
   margin: 0;

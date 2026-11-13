@@ -81,16 +81,18 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-link a {
   display: inline-flex;
   align-items: center;
+  gap: var(--vvj-space-10, 10px);
   min-height: 44px;
   padding: 0 var(--vvj-space-18, 18px);
+  border-radius: var(--vvj-radius-pill, 999px);
+  font-weight: 600;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  text-decoration: none;
+  border: 1.5px solid var(--vvj-stage-muted);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   transition:
     background-color var(--vvj-dur-250, 0.25s),
     color var(--vvj-dur-250, 0.25s);
-  text-decoration: none;
-  border: 1.5px solid var(--vvj-stage-muted);
-  border-radius: var(--vvj-radius-pill, 999px);
-  font-weight: 600;
-  gap: var(--vvj-space-10, 10px);
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-item .vvj-link a::after {
   content: "\2192";
@@ -184,9 +186,11 @@
   background: var(--vvjb-dot-track);
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-controls .vvjb-carousel-dot::after {
-  transform: scaleX(0);
-  transform-origin: left;
   background: var(--vvjb-dot-fill);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  transform-origin: left;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  transform: scaleX(0);
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-nightstory .vvjb-carousel-controls .vvjb-carousel-dot:has(~ .vvjb-carousel-dot.active-slide)::after {
   transform: scaleX(1);

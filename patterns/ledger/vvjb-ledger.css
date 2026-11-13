@@ -47,14 +47,16 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-play-pause-button {
   width: 48px;
   height: 48px;
+  border-radius: var(--vvj-radius-14, 14px);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1px solid var(--vvj-stage-line);
+  font-size: var(--vvj-text-18, 1.125rem);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   transition:
     background-color var(--vvj-dur-200, 0.2s),
     color var(--vvj-dur-200, 0.2s),
     transform var(--vvj-dur-200, 0.2s),
     border-radius var(--vvj-dur-300, 0.3s);
-  border: 1px solid var(--vvj-stage-line);
-  border-radius: var(--vvj-radius-14, 14px);
-  font-size: var(--vvj-text-18, 1.125rem);
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-button:not([aria-disabled="true"]):hover,
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-carousel-controls .vvjb-play-pause-button:hover {
@@ -75,12 +77,14 @@
   background: var(--vvj-stage-line);
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-progress-wrapper .vvjb-progress-bar {
-  position: absolute;
-  transform: scaleY(calc(var(--progress, 0%) / 100%));
-  transform-origin: top;
-  background: var(--vvj-stage-color);
   all: unset;
+  position: absolute;
   inset: 0;
+  background: var(--vvj-stage-color);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  transform-origin: top;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  transform: scaleY(calc(var(--progress, 0%) / 100%));
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-page-counter {
   display: grid;
@@ -212,8 +216,9 @@
     min-height: 0;
   }
   .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-progress-wrapper .vvjb-progress-bar {
-    transform: scaleX(calc(var(--progress, 0%) / 100%));
     transform-origin: left;
+    /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+    transform: scaleX(calc(var(--progress, 0%) / 100%));
   }
   .vvj-pattern.vvjb.vvj-pattern--vvjb-ledger .vvjb-page-counter {
     grid-auto-flow: column;

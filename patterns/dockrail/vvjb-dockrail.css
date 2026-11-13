@@ -71,15 +71,16 @@
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-controls {
   display: flex;
   align-items: center;
+  gap: var(--vvj-space-6, 6px);
   width: max-content;
   max-width: calc(100% - 8px);
   margin: clamp(24px, 4cqi, 40px) auto 0;
   padding: var(--vvj-space-6, 6px);
-  border: 1px solid var(--vvj-stage-line);
   border-radius: var(--vvj-radius-pill, 999px);
   background: var(--vvj-glass-bg);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1px solid var(--vvj-stage-line);
   box-shadow: var(--vvj-glass-shadow);
-  gap: var(--vvj-space-6, 6px);
 }
 .vvj-pattern.vvjb.vvj-pattern--vvjb-dockrail .vvjb-carousel-options {
   display: contents;
