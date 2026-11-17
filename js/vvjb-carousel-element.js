@@ -640,7 +640,11 @@
         // Past the last page: wrap to the start when looping, else stay put.
         this._pageIndex = this._config.looping ? 0 : totalPages - 1;
       }
-      this.withTransition(() => this._updateLayout());
+      // No View Transition on slide moves (#3638891): the track already
+      // slides with a CSS transition, and a whole-page View Transition faded
+      // a snapshot of the old slide over it, so iOS showed the current image
+      // again before the next one, and the dots flickered. 1.x had none.
+      this._updateLayout();
       this._updateDeepLinkHash();
     }
 
@@ -653,20 +657,20 @@
         // Before the first page: wrap to the end when looping, else stay put.
         this._pageIndex = this._config.looping ? maxPage : 0;
       }
-      this.withTransition(() => this._updateLayout());
+      this._updateLayout();
       this._updateDeepLinkHash();
     }
 
     _goToFirstPage() {
       this._pageIndex = 0;
-      this.withTransition(() => this._updateLayout());
+      this._updateLayout();
       this._updateDeepLinkHash();
     }
 
     _goToLastPage() {
       const itemsVisible = this._getItemsVisible();
       this._pageIndex = Math.ceil(this._config.totalSlides / itemsVisible) - 1;
-      this.withTransition(() => this._updateLayout());
+      this._updateLayout();
       this._updateDeepLinkHash();
     }
 
@@ -860,6 +864,11 @@
         const label = Drupal.t('Go to slide group @num', { '@num': i + 1 });
         dot.setAttribute('aria-label', label);
         dot.dataset.slideGroup = String(i);
+        // Marked here too, so a new set of dots (first build, or a rebuild
+        // after a resize) shows the current page at once (#3638891).
+        const isActive = i === this._pageIndex;
+        dot.classList.toggle('active-slide', isActive);
+        dot.setAttribute('aria-current', isActive ? 'true' : 'false');
         fragment.appendChild(dot);
       }
 
@@ -898,7 +907,7 @@
                 return;
               }
               this._pageIndex = groupIndex;
-              this.withTransition(() => this._updateLayout());
+              this._updateLayout();
               this._updateDeepLinkHash();
             },
             { signal: this.signal },
@@ -1330,7 +1339,7 @@
         return false;
       }
       this._pageIndex = pageIndex;
-      this.withTransition(() => this._updateLayout());
+      this._updateLayout();
       this._updateDeepLinkHash();
       return true;
     }

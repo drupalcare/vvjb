@@ -10,6 +10,7 @@
 
 ### Fixed
 
+- iPhone (#3638891): a slide move no longer replays the current image before the next one, and the dots and autoplay no longer flicker; slide moves dropped the whole-page View Transition that faded over the track's own slide. The current dot is marked as soon as the dots are built, also after a resize rebuilds them.
 - Accessibility: the play/pause button is always shown while autoplay runs (the option now decides it only without autoplay); keyboard focus inside holds autoplay until focus leaves, unless Pause was pressed; Space is left to the page when there is no play/pause button; the slide group is named "Slides" instead of pointing at a missing id, and "carousel" is no longer announced twice; inactive slides rely on `inert` alone, so authored tabindex values are kept; a focused dot keeps focus when a resize rebuilds the dots; scrollable dots no longer smooth-scroll under reduced motion; the progress percentage text is dark blue (5.2:1) and dark green at 100% (it was white on the white inner circle).
 - Patterns: Dockrail opens into a rail above the cards on a wide region, and Swatch's play button is a glass tile at the top of the stage, so each has its own control style and place.
 - Patterns: Swatch and Switchboard cards have a ceiling (800 px and 720 px) in a very wide region, so they no longer grow to the photo's full size; a Views item width still wins.
